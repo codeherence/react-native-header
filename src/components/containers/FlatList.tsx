@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, FlatList, FlatListProps, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, {
   useAnimatedRef,
   useScrollViewOffset,
   AnimateProps,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import FadingView from '../containers/FadingView';
-import type { SharedScrollContainerProps } from './types';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
+import type { SharedScrollContainerProps } from './types';
 
 type AnimatedFlatListType<ItemT = any> = React.ComponentClass<
   AnimateProps<FlatListProps<ItemT>>,
@@ -21,13 +22,16 @@ type AnimatedFlatListProps<ItemT> = AnimatedFlatListBaseProps<ItemT> & {
 const AnimatedFlatList: AnimatedFlatListType = Animated.createAnimatedComponent(FlatList);
 
 const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
-  data,
-  renderItem,
   largeHeaderShown,
   containerStyle,
   LargeHeaderComponent,
   largeHeaderContainerStyle,
   HeaderComponent,
+  onLargeHeaderLayout,
+  onScrollBeginDrag,
+  onScrollEndDrag,
+  onMomentumScrollBegin,
+  onMomentumScrollEnd,
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
   ...rest
@@ -58,18 +62,31 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
       <AnimatedFlatList
         ref={scrollRef}
         scrollEventThrottle={16}
-        overScrollMode={'auto'}
+        overScrollMode="auto"
         automaticallyAdjustContentInsets={false}
-        onScrollBeginDrag={debouncedFixScroll.cancel}
-        onScrollEndDrag={debouncedFixScroll}
-        onMomentumScrollBegin={debouncedFixScroll.cancel}
-        onMomentumScrollEnd={debouncedFixScroll}
-        showsVerticalScrollIndicator={true}
+        onScrollBeginDrag={(e) => {
+          debouncedFixScroll.cancel();
+          if (onScrollBeginDrag) onScrollBeginDrag(e);
+        }}
+        onScrollEndDrag={(e) => {
+          debouncedFixScroll();
+          if (onScrollEndDrag) onScrollEndDrag(e);
+        }}
+        onMomentumScrollBegin={(e) => {
+          debouncedFixScroll.cancel();
+          if (onMomentumScrollBegin) onMomentumScrollBegin(e);
+        }}
+        onMomentumScrollEnd={(e) => {
+          debouncedFixScroll();
+          if (onMomentumScrollEnd) onMomentumScrollEnd(e);
+        }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
             <View
               onLayout={(e) => {
                 largeHeaderHeight.value = e.nativeEvent.layout.height;
+
+                if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
               }}
             >
               <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
@@ -78,8 +95,6 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
             </View>
           ) : undefined
         }
-        data={data}
-        renderItem={renderItem}
         {...rest}
       />
     </View>

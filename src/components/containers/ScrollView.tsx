@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Animated, { useAnimatedRef, useScrollViewOffset } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Animated, { useAnimatedRef, useScrollViewOffset } from 'react-native-reanimated';
 
 import FadingView from './FadingView';
-import type { SharedScrollContainerProps } from './types';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
+import type { SharedScrollContainerProps } from './types';
 
 type AnimatedScrollViewProps = React.ComponentProps<typeof Animated.ScrollView> & {
   children?: React.ReactNode;
@@ -22,6 +22,10 @@ const AnimatedScrollViewWithHeaders: React.FC<
   onLargeHeaderLayout,
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
+  onScrollBeginDrag,
+  onScrollEndDrag,
+  onMomentumScrollBegin,
+  onMomentumScrollEnd,
   children,
   ...rest
 }) => {
@@ -50,13 +54,24 @@ const AnimatedScrollViewWithHeaders: React.FC<
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
-        overScrollMode={'auto'}
+        overScrollMode="auto"
         automaticallyAdjustContentInsets={false}
-        onScrollBeginDrag={debouncedFixScroll.cancel}
-        onScrollEndDrag={debouncedFixScroll}
-        onMomentumScrollBegin={debouncedFixScroll.cancel}
-        onMomentumScrollEnd={debouncedFixScroll}
-        showsVerticalScrollIndicator={true}
+        onScrollBeginDrag={(e) => {
+          debouncedFixScroll.cancel();
+          if (onScrollBeginDrag) onScrollBeginDrag(e);
+        }}
+        onScrollEndDrag={(e) => {
+          debouncedFixScroll();
+          if (onScrollEndDrag) onScrollEndDrag(e);
+        }}
+        onMomentumScrollBegin={(e) => {
+          debouncedFixScroll.cancel();
+          if (onMomentumScrollBegin) onMomentumScrollBegin(e);
+        }}
+        onMomentumScrollEnd={(e) => {
+          debouncedFixScroll();
+          if (onMomentumScrollEnd) onMomentumScrollEnd(e);
+        }}
         {...rest}
       >
         {LargeHeaderComponent ? (

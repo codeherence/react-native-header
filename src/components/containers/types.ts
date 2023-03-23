@@ -1,4 +1,10 @@
-import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
+import type {
+  LayoutRectangle,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import type Animated from 'react-native-reanimated';
 
 /**
@@ -84,4 +90,28 @@ export type SharedScrollContainerProps = {
    * mode on iOS where devices have a notch/status bar on the right side.
    */
   ignoreRightSafeArea?: boolean;
+  /**
+   * Fires if a user initiates a scroll gesture.
+   *
+   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
+   */
+  onScrollBeginDrag?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /**
+   * Fires when a user has finished scrolling.
+   *
+   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
+   */
+  onScrollEndDrag?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /**
+   * Fires when scroll view has begun moving.
+   *
+   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
+   */
+  onMomentumScrollBegin?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /**
+   * Fires when scroll view has finished moving.
+   *
+   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
+   */
+  onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 };
