@@ -1,4 +1,4 @@
-[<img src="https://user-images.githubusercontent.com/28550574/226236177-4d946b20-e4c2-4843-83d2-cb93ed74225d.png" width="100%" alt="React Native Header by Codeherence">](https://codeherence.com)
+[<img src="https://user-images.githubusercontent.com/128341688/227227781-ffabe93e-4ed5-439d-b789-5a9dc6eaea99.png" width="100%" alt="React Native Header by Codeherence">](https://codeherence.com)
 
 # React Native Header
 
