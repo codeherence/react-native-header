@@ -26,6 +26,7 @@ const AnimatedScrollViewWithHeaders: React.FC<
   onScrollEndDrag,
   onMomentumScrollBegin,
   onMomentumScrollEnd,
+  disableAutoFixScroll,
   children,
   ...rest
 }) => {
@@ -38,6 +39,7 @@ const AnimatedScrollViewWithHeaders: React.FC<
       scrollRef,
       scrollY,
       largeHeaderShown,
+      disableAutoFixScroll,
       largeHeaderExists: !!LargeHeaderComponent,
     });
 

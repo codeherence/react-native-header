@@ -34,6 +34,7 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
   onMomentumScrollEnd,
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
+  disableAutoFixScroll,
   ...rest
 }: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps) => {
   const insets = useSafeAreaInsets();
@@ -46,6 +47,7 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
       scrollRef,
       scrollY,
       largeHeaderShown,
+      disableAutoFixScroll,
       largeHeaderExists: !!LargeHeaderComponent,
     });
 

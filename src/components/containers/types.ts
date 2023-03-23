@@ -62,56 +62,55 @@ export type SharedScrollContainerProps = {
   HeaderComponent: (props: ScrollHeaderProps) => React.ReactNode;
   /**
    * This is executed when the onLayout event is fired on the large header container component.
-   *
-   * @param {LayoutRectangle} rect
    */
   onLargeHeaderLayout?: (rect: LayoutRectangle) => void;
   /**
    * The large header's container style.
    *
    * @default undefined
-   * @type {StyleProp<ViewStyle>}
    */
   largeHeaderContainerStyle?: StyleProp<ViewStyle>;
   /**
    * The style of the root container of the scoll container.
    *
    * @default undefined
-   * @type {StyleProp<ViewStyle>}
    */
   containerStyle?: StyleProp<ViewStyle>;
   /**
    * Whether the scroll container should ignore the left safe area. This is useful for landscape
    * mode on iOS where devices have a notch/status bar on the left side.
+   *
+   * @default false
    */
   ignoreLeftSafeArea?: boolean;
   /**
    * Whether the scroll container should ignore the right safe area. This is useful for landscape
    * mode on iOS where devices have a notch/status bar on the right side.
+   *
+   * @default false
    */
   ignoreRightSafeArea?: boolean;
   /**
-   * Fires if a user initiates a scroll gesture.
+   * Disables the auto fix scroll mechanism. This is useful if you want to disable the auto scroll
+   * when the large header is partially visible.
    *
-   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
+   * @default false
+   */
+  disableAutoFixScroll?: boolean;
+  /**
+   * Fires if a user initiates a scroll gesture.
    */
   onScrollBeginDrag?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /**
    * Fires when a user has finished scrolling.
-   *
-   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
    */
   onScrollEndDrag?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /**
    * Fires when scroll view has begun moving.
-   *
-   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
    */
   onMomentumScrollBegin?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /**
    * Fires when scroll view has finished moving.
-   *
-   * @param {NativeSyntheticEvent<NativeScrollEvent>} event
    */
   onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 };

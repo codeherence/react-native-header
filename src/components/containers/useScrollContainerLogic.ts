@@ -39,8 +39,17 @@ interface UseScrollContainerLogicArgs {
    * @type {SharedScrollContainerProps['largeHeaderShown']}
    */
   largeHeaderShown: SharedScrollContainerProps['largeHeaderShown'];
-
+  /**
+   * Whether or not the large header exists.
+   */
   largeHeaderExists: boolean;
+  /**
+   * Disables the auto fix scroll mechanism. This is useful if you want to disable the auto scroll
+   * when the large header is partially visible.
+   *
+   * @default false
+   */
+  disableAutoFixScroll?: boolean;
 }
 
 /**
@@ -54,6 +63,7 @@ export const useScrollContainerLogic = ({
   scrollY,
   largeHeaderShown,
   largeHeaderExists,
+  disableAutoFixScroll = false,
   adjustmentOffset = 4,
 }: UseScrollContainerLogicArgs) => {
   const largeHeaderHeight = useSharedValue(0);
@@ -82,6 +92,8 @@ export const useScrollContainerLogic = ({
   });
 
   const debouncedFixScroll = useDebouncedCallback(() => {
+    if (disableAutoFixScroll) return;
+
     if (largeHeaderHeight.value !== 0 && scrollRef && scrollRef.current) {
       if (scrollY.value >= largeHeaderHeight.value / 2 && scrollY.value < largeHeaderHeight.value) {
         // Scroll to end of large header
