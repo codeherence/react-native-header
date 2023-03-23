@@ -61,11 +61,7 @@ export const useScrollContainerLogic = ({
   const showNavBar = useDerivedValue(() => {
     if (!largeHeaderExists) return withTiming(scrollY.value <= 0 ? 0 : 1, { duration: 250 });
 
-    if (largeHeaderHeight.value === 0) return 1;
-
-    if (largeHeaderHeight.value < adjustmentOffset) {
-      return 0;
-    }
+    if (largeHeaderHeight.value < adjustmentOffset) return 0;
 
     if (largeHeaderShown) {
       largeHeaderShown.value = withTiming(
