@@ -1,5 +1,12 @@
 
 
+## [0.5.2](https://github.com/codeherence/react-native-header/compare/v0.5.1...v0.5.2) (2023-03-23)
+
+
+### Bug Fixes
+
+* api and allow for onScrollBeginDrag, onScrollEndDrag and more to be supplied ([6e98e70](https://github.com/codeherence/react-native-header/commit/6e98e70256703ebf429db185644662e48cb62c88))
+
 ## [0.5.1](https://github.com/codeherence/react-native-header/compare/v0.5.0...v0.5.1) (2023-03-23)
 
 ## 0.5.0 (2023-03-23)
