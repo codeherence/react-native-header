@@ -1,5 +1,12 @@
 
 
+## [0.5.3](https://github.com/codeherence/react-native-header/compare/v0.5.2...v0.5.3) (2023-03-23)
+
+
+### Bug Fixes
+
+* header center flash when views are mounted ([b119350](https://github.com/codeherence/react-native-header/commit/b119350ae091e65c63641d24628ae024b14a787c))
+
 ## [0.5.2](https://github.com/codeherence/react-native-header/compare/v0.5.1...v0.5.2) (2023-03-23)
 
 
