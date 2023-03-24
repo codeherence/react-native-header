@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     overflow: 'hidden',
-    gap: 4,
   },
   centerContainer: {
     flex: 1,
@@ -153,7 +152,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingHorizontal: 8,
     overflow: 'hidden',
-    gap: 4,
   },
   noFlex: { display: 'none' },
 });
