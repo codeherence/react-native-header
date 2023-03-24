@@ -1,5 +1,13 @@
 
 
+## [0.6.0](https://github.com/codeherence/react-native-header/compare/v0.5.3...v0.6.0) (2023-03-24)
+
+
+### Features
+
+* add prop disableAutoFixScroll to disable/enable auto scroll adjustment ([e5f96be](https://github.com/codeherence/react-native-header/commit/e5f96be22357a8f404eb1c4db1a03967f14624a2))
+* added SectionList support ([#2](https://github.com/codeherence/react-native-header/issues/2)) ([004ce4e](https://github.com/codeherence/react-native-header/commit/004ce4e6f7c4cad11bf63281a19e0bf8d6f10f18))
+
 ## [0.5.3](https://github.com/codeherence/react-native-header/compare/v0.5.2...v0.5.3) (2023-03-23)
 
 
