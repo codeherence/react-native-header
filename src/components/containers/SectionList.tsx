@@ -19,7 +19,6 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList) as Rea
 >;
 
 const AnimatedSectionListWithHeaders = <ItemT = any, SectionT = DefaultSectionT>({
-  sections,
   largeHeaderShown,
   containerStyle,
   LargeHeaderComponent,
@@ -64,7 +63,6 @@ const AnimatedSectionListWithHeaders = <ItemT = any, SectionT = DefaultSectionT>
         scrollEventThrottle={16}
         overScrollMode="auto"
         automaticallyAdjustContentInsets={false}
-        sections={sections}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();
           if (onScrollBeginDrag) onScrollBeginDrag(e);
