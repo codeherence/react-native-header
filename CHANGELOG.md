@@ -1,5 +1,7 @@
 
 
+## [0.7.0](https://github.com/codeherence/react-native-header/compare/v0.7.0-rc.0...v0.7.0) (2023-03-24)
+
 ## [0.7.0-rc.0](https://github.com/codeherence/react-native-header/compare/v0.6.0...v0.7.0-rc.0) (2023-03-24)
 
 
