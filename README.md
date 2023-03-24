@@ -21,6 +21,7 @@ React Native Header is a high-performance, cross-platform animated header compon
 | This library | react-native | react-native-reanimated | react-native-safe-area-context | 
 | -- | -- | -- | -- |
 | 0.6.x | >= 0.65 | >= 2.11.0 | >= 4.1.0 |
+| 0.7.x | >= 0.65 | >= 2.0.0 | >= 4.1.0 |
 
 ## Prerequisites
 

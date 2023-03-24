@@ -1,5 +1,12 @@
 
 
+## [0.7.0-rc.0](https://github.com/codeherence/react-native-header/compare/v0.6.0...v0.7.0-rc.0) (2023-03-24)
+
+
+### Bug Fixes
+
+* remove useScrollViewOffset offset in favor of useAnimatedScrollHandler ([#3](https://github.com/codeherence/react-native-header/issues/3)) ([7f704bb](https://github.com/codeherence/react-native-header/commit/7f704bb42f4776279a29e038dc7397241fb2142a))
+
 ## [0.6.0](https://github.com/codeherence/react-native-header/compare/v0.5.3...v0.6.0) (2023-03-24)
 
 
