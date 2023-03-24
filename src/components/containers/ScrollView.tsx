@@ -5,33 +5,34 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
 import FadingView from './FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
-import type { DisallowedScrollContainerProps, SharedScrollContainerProps } from './types';
+import type { SharedScrollContainerProps } from './types';
 
 type AnimatedScrollViewProps = React.ComponentProps<typeof Animated.ScrollView> & {
   children?: React.ReactNode;
 };
 
-const AnimatedScrollViewWithHeaders: React.FC<
-  Omit<AnimatedScrollViewProps, DisallowedScrollContainerProps> & SharedScrollContainerProps
-> = ({
-  largeHeaderShown,
-  containerStyle,
-  LargeHeaderComponent,
-  largeHeaderContainerStyle,
-  HeaderComponent,
-  onLargeHeaderLayout,
-  ignoreLeftSafeArea,
-  ignoreRightSafeArea,
-  onScrollBeginDrag,
-  onScrollEndDrag,
-  onMomentumScrollBegin,
-  onMomentumScrollEnd,
-  disableAutoFixScroll,
-  children,
-  // @ts-ignore - onScroll is not allowed, but we need to remove it from the props
-  onScroll: _unusedOnScroll,
-  ...rest
-}) => {
+const ScrollViewWithHeadersInputComp = (
+  {
+    largeHeaderShown,
+    containerStyle,
+    LargeHeaderComponent,
+    largeHeaderContainerStyle,
+    HeaderComponent,
+    onLargeHeaderLayout,
+    ignoreLeftSafeArea,
+    ignoreRightSafeArea,
+    onScrollBeginDrag,
+    onScrollEndDrag,
+    onMomentumScrollBegin,
+    onMomentumScrollEnd,
+    disableAutoFixScroll,
+    children,
+    /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
+    onScroll: _unusedOnScroll,
+    ...rest
+  }: AnimatedScrollViewProps & SharedScrollContainerProps,
+  ref: React.Ref<Animated.ScrollView>
+) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
@@ -60,7 +61,12 @@ const AnimatedScrollViewWithHeaders: React.FC<
     >
       {HeaderComponent({ showNavBar })}
       <Animated.ScrollView
-        ref={scrollRef}
+        ref={(_ref) => {
+          // @ts-ignore
+          scrollRef.current = _ref;
+          // @ts-ignore
+          if (ref) ref.current = _ref;
+        }}
         scrollEventThrottle={16}
         overScrollMode="auto"
         onScroll={scrollHandler}
@@ -102,6 +108,11 @@ const AnimatedScrollViewWithHeaders: React.FC<
   );
 };
 
-export default AnimatedScrollViewWithHeaders;
+const ScrollViewWithHeaders = React.forwardRef<
+  Animated.ScrollView,
+  AnimatedScrollViewProps & SharedScrollContainerProps
+>(ScrollViewWithHeadersInputComp);
+
+export default ScrollViewWithHeaders;
 
 const styles = StyleSheet.create({ container: { flex: 1 } });

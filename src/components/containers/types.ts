@@ -7,8 +7,6 @@ import type {
 } from 'react-native';
 import type Animated from 'react-native-reanimated';
 
-export type DisallowedScrollContainerProps = 'onScroll';
-
 /**
  * The props supplied to the large header component of this scroll container.
  */
@@ -115,4 +113,9 @@ export type SharedScrollContainerProps = {
    * Fires when scroll view has finished moving.
    */
   onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /**
+   * This property is not supported at the moment. If you would like to listen to
+   * scroll events, use the useScrollViewOffset hook with a ref.
+   */
+  onScroll?: React.ComponentProps<typeof Animated.ScrollView>['onScroll'];
 };
