@@ -28,6 +28,11 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     route: 'FlatListUsageScreen',
     description: "A simple example of the library's FlatList.",
   },
+  {
+    name: 'SectionList Example',
+    route: 'SectionListUsageScreen',
+    description: "A simple example of the library's SectionList.",
+  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {

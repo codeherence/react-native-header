@@ -1,4 +1,10 @@
-export { ScrollViewWithHeaders, FlatListWithHeaders, ScalingView, FadingView } from './containers';
+export {
+  FadingView,
+  ScalingView,
+  ScrollViewWithHeaders,
+  FlatListWithHeaders,
+  SectionListWithHeaders,
+} from './containers';
 export type {
   ScrollHeaderProps,
   ScrollLargeHeaderProps,
