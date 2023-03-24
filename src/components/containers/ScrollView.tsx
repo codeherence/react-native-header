@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { useAnimatedRef, useScrollViewOffset } from 'react-native-reanimated';
+import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
 import FadingView from './FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
@@ -11,37 +11,44 @@ type AnimatedScrollViewProps = React.ComponentProps<typeof Animated.ScrollView> 
   children?: React.ReactNode;
 };
 
-const AnimatedScrollViewWithHeaders: React.FC<
-  AnimatedScrollViewProps & SharedScrollContainerProps
-> = ({
-  largeHeaderShown,
-  containerStyle,
-  LargeHeaderComponent,
-  largeHeaderContainerStyle,
-  HeaderComponent,
-  onLargeHeaderLayout,
-  ignoreLeftSafeArea,
-  ignoreRightSafeArea,
-  onScrollBeginDrag,
-  onScrollEndDrag,
-  onMomentumScrollBegin,
-  onMomentumScrollEnd,
-  disableAutoFixScroll,
-  children,
-  ...rest
-}) => {
+const ScrollViewWithHeadersInputComp = (
+  {
+    largeHeaderShown,
+    containerStyle,
+    LargeHeaderComponent,
+    largeHeaderContainerStyle,
+    HeaderComponent,
+    onLargeHeaderLayout,
+    ignoreLeftSafeArea,
+    ignoreRightSafeArea,
+    onScrollBeginDrag,
+    onScrollEndDrag,
+    onMomentumScrollBegin,
+    onMomentumScrollEnd,
+    disableAutoFixScroll,
+    children,
+    /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
+    onScroll: _unusedOnScroll,
+    ...rest
+  }: AnimatedScrollViewProps & SharedScrollContainerProps,
+  ref: React.Ref<Animated.ScrollView>
+) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
-  const scrollY = useScrollViewOffset(scrollRef);
 
-  const { showNavBar, largeHeaderHeight, largeHeaderOpacity, debouncedFixScroll } =
-    useScrollContainerLogic({
-      scrollRef,
-      scrollY,
-      largeHeaderShown,
-      disableAutoFixScroll,
-      largeHeaderExists: !!LargeHeaderComponent,
-    });
+  const {
+    scrollY,
+    showNavBar,
+    largeHeaderHeight,
+    largeHeaderOpacity,
+    scrollHandler,
+    debouncedFixScroll,
+  } = useScrollContainerLogic({
+    scrollRef,
+    largeHeaderShown,
+    disableAutoFixScroll,
+    largeHeaderExists: !!LargeHeaderComponent,
+  });
 
   return (
     <View
@@ -54,9 +61,15 @@ const AnimatedScrollViewWithHeaders: React.FC<
     >
       {HeaderComponent({ showNavBar })}
       <Animated.ScrollView
-        ref={scrollRef}
+        ref={(_ref) => {
+          // @ts-ignore
+          scrollRef.current = _ref;
+          // @ts-ignore
+          if (ref) ref.current = _ref;
+        }}
         scrollEventThrottle={16}
         overScrollMode="auto"
+        onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();
@@ -95,6 +108,11 @@ const AnimatedScrollViewWithHeaders: React.FC<
   );
 };
 
-export default AnimatedScrollViewWithHeaders;
+const ScrollViewWithHeaders = React.forwardRef<
+  Animated.ScrollView,
+  AnimatedScrollViewProps & SharedScrollContainerProps
+>(ScrollViewWithHeadersInputComp);
+
+export default ScrollViewWithHeaders;
 
 const styles = StyleSheet.create({ container: { flex: 1 } });

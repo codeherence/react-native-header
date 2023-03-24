@@ -113,4 +113,9 @@ export type SharedScrollContainerProps = {
    * Fires when scroll view has finished moving.
    */
   onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  /**
+   * This property is not supported at the moment. If you would like to listen to
+   * scroll events, use the useScrollViewOffset hook with a ref.
+   */
+  onScroll?: React.ComponentProps<typeof Animated.ScrollView>['onScroll'];
 };
