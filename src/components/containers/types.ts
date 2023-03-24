@@ -7,6 +7,8 @@ import type {
 } from 'react-native';
 import type Animated from 'react-native-reanimated';
 
+export type DisallowedScrollContainerProps = 'onScroll';
+
 /**
  * The props supplied to the large header component of this scroll container.
  */

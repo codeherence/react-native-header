@@ -1,18 +1,18 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { useAnimatedRef, useScrollViewOffset } from 'react-native-reanimated';
+import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
 import FadingView from './FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
-import type { SharedScrollContainerProps } from './types';
+import type { DisallowedScrollContainerProps, SharedScrollContainerProps } from './types';
 
 type AnimatedScrollViewProps = React.ComponentProps<typeof Animated.ScrollView> & {
   children?: React.ReactNode;
 };
 
 const AnimatedScrollViewWithHeaders: React.FC<
-  AnimatedScrollViewProps & SharedScrollContainerProps
+  Omit<AnimatedScrollViewProps, DisallowedScrollContainerProps> & SharedScrollContainerProps
 > = ({
   largeHeaderShown,
   containerStyle,
@@ -28,20 +28,26 @@ const AnimatedScrollViewWithHeaders: React.FC<
   onMomentumScrollEnd,
   disableAutoFixScroll,
   children,
+  // @ts-ignore - onScroll is not allowed, but we need to remove it from the props
+  onScroll: _unusedOnScroll,
   ...rest
 }) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
-  const scrollY = useScrollViewOffset(scrollRef);
 
-  const { showNavBar, largeHeaderHeight, largeHeaderOpacity, debouncedFixScroll } =
-    useScrollContainerLogic({
-      scrollRef,
-      scrollY,
-      largeHeaderShown,
-      disableAutoFixScroll,
-      largeHeaderExists: !!LargeHeaderComponent,
-    });
+  const {
+    scrollY,
+    showNavBar,
+    largeHeaderHeight,
+    largeHeaderOpacity,
+    scrollHandler,
+    debouncedFixScroll,
+  } = useScrollContainerLogic({
+    scrollRef,
+    largeHeaderShown,
+    disableAutoFixScroll,
+    largeHeaderExists: !!LargeHeaderComponent,
+  });
 
   return (
     <View
@@ -57,6 +63,7 @@ const AnimatedScrollViewWithHeaders: React.FC<
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
+        onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();

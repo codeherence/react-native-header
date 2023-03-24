@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, SectionList, StyleSheet, SectionListProps } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { useAnimatedRef, useScrollViewOffset } from 'react-native-reanimated';
+import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
 import FadingView from '../containers/FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
-import type { SharedScrollContainerProps } from './types';
+import type { DisallowedScrollContainerProps, SharedScrollContainerProps } from './types';
 import type { DefaultSectionT } from 'react-native';
 
 type AnimatedSectionListType<ItemT, SectionT = DefaultSectionT> = React.ComponentProps<
@@ -32,21 +32,26 @@ const AnimatedSectionListWithHeaders = <ItemT = any, SectionT = DefaultSectionT>
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
   disableAutoFixScroll,
+  // @ts-ignore - onScroll is not allowed, but we need to remove it from the props
+  onScroll: _unusedOnScroll,
   ...rest
-}: AnimatedSectionListType<ItemT, SectionT>) => {
+}: Omit<AnimatedSectionListType<ItemT, SectionT>, DisallowedScrollContainerProps>) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<any>();
-  // Need to use `any` here because useScrollViewOffset is not typed for Animated.SectionList
-  const scrollY = useScrollViewOffset(scrollRef as any);
 
-  const { showNavBar, largeHeaderHeight, largeHeaderOpacity, debouncedFixScroll } =
-    useScrollContainerLogic({
-      scrollRef,
-      scrollY,
-      largeHeaderShown,
-      disableAutoFixScroll,
-      largeHeaderExists: !!LargeHeaderComponent,
-    });
+  const {
+    scrollY,
+    showNavBar,
+    largeHeaderHeight,
+    largeHeaderOpacity,
+    scrollHandler,
+    debouncedFixScroll,
+  } = useScrollContainerLogic({
+    scrollRef,
+    largeHeaderShown,
+    disableAutoFixScroll,
+    largeHeaderExists: !!LargeHeaderComponent,
+  });
 
   return (
     <View
@@ -62,6 +67,7 @@ const AnimatedSectionListWithHeaders = <ItemT = any, SectionT = DefaultSectionT>
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
+        onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();

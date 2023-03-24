@@ -5,6 +5,7 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
   withTiming,
+  useAnimatedScrollHandler,
 } from 'react-native-reanimated';
 import { useDebouncedCallback } from 'use-debounce';
 import type { SharedScrollContainerProps } from './types';
@@ -19,12 +20,6 @@ interface UseScrollContainerLogicArgs {
    * @type {React.RefObject<Animated.ScrollView | Animated.FlatList<any>>}
    */
   scrollRef: React.RefObject<Animated.ScrollView | Animated.FlatList<any>>;
-  /**
-   * The scroll position of the scroll container.
-   *
-   * @type {Animated.SharedValue<number>}
-   */
-  scrollY: Animated.SharedValue<number>;
   /**
    * This is a hack to ensure that the larger repositions itself correctly.
    *
@@ -60,13 +55,17 @@ interface UseScrollContainerLogicArgs {
  */
 export const useScrollContainerLogic = ({
   scrollRef,
-  scrollY,
   largeHeaderShown,
   largeHeaderExists,
   disableAutoFixScroll = false,
   adjustmentOffset = 4,
 }: UseScrollContainerLogicArgs) => {
+  const scrollY = useSharedValue(0);
   const largeHeaderHeight = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
 
   const showNavBar = useDerivedValue(() => {
     if (!largeHeaderExists) return withTiming(scrollY.value <= 0 ? 0 : 1, { duration: 250 });
@@ -111,5 +110,12 @@ export const useScrollContainerLogic = ({
     }
   }, 50);
 
-  return { showNavBar, largeHeaderHeight, largeHeaderOpacity, debouncedFixScroll };
+  return {
+    scrollY,
+    showNavBar,
+    largeHeaderHeight,
+    largeHeaderOpacity,
+    scrollHandler,
+    debouncedFixScroll,
+  };
 };

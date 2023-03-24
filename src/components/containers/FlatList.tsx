@@ -1,15 +1,11 @@
 import React from 'react';
 import { View, FlatList, FlatListProps, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, {
-  useAnimatedRef,
-  useScrollViewOffset,
-  AnimateProps,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedRef, AnimateProps } from 'react-native-reanimated';
 
 import FadingView from '../containers/FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
-import type { SharedScrollContainerProps } from './types';
+import type { DisallowedScrollContainerProps, SharedScrollContainerProps } from './types';
 
 type AnimatedFlatListType<ItemT = any> = React.ComponentClass<
   AnimateProps<FlatListProps<ItemT>>,
@@ -35,21 +31,28 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
   ignoreLeftSafeArea,
   ignoreRightSafeArea,
   disableAutoFixScroll,
+  // @ts-ignore - onScroll is not allowed, but we need to remove it from the props
+  onScroll: _unusedOnScroll,
   ...rest
-}: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps) => {
+}: Omit<AnimatedFlatListProps<ItemT>, DisallowedScrollContainerProps> &
+  SharedScrollContainerProps) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.FlatList<ItemT>>();
   // Need to use `any` here because useScrollViewOffset is not typed for Animated.FlatList
-  const scrollY = useScrollViewOffset(scrollRef as any);
 
-  const { showNavBar, largeHeaderHeight, largeHeaderOpacity, debouncedFixScroll } =
-    useScrollContainerLogic({
-      scrollRef,
-      scrollY,
-      largeHeaderShown,
-      disableAutoFixScroll,
-      largeHeaderExists: !!LargeHeaderComponent,
-    });
+  const {
+    scrollY,
+    showNavBar,
+    largeHeaderHeight,
+    largeHeaderOpacity,
+    scrollHandler,
+    debouncedFixScroll,
+  } = useScrollContainerLogic({
+    scrollRef,
+    largeHeaderShown,
+    disableAutoFixScroll,
+    largeHeaderExists: !!LargeHeaderComponent,
+  });
 
   return (
     <View
@@ -65,6 +68,7 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
+        onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();
