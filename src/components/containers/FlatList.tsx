@@ -1,11 +1,7 @@
 import React from 'react';
-import { View, FlatList, FlatListProps, StyleSheet } from 'react-native';
+import { View, FlatListProps, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, {
-  useAnimatedRef,
-  useScrollViewOffset,
-  AnimateProps,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedRef, AnimateProps } from 'react-native-reanimated';
 
 import FadingView from '../containers/FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
@@ -16,40 +12,45 @@ type AnimatedFlatListType<ItemT = any> = React.ComponentClass<
   ItemT
 >;
 type AnimatedFlatListBaseProps<ItemT> = React.ComponentProps<AnimatedFlatListType<ItemT>>;
-type AnimatedFlatListProps<ItemT> = AnimatedFlatListBaseProps<ItemT> & {
-  children?: React.ReactNode;
-};
-const AnimatedFlatList: AnimatedFlatListType = Animated.createAnimatedComponent(FlatList);
+type AnimatedFlatListProps<ItemT> = AnimatedFlatListBaseProps<ItemT>;
 
-const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
-  largeHeaderShown,
-  containerStyle,
-  LargeHeaderComponent,
-  largeHeaderContainerStyle,
-  HeaderComponent,
-  onLargeHeaderLayout,
-  onScrollBeginDrag,
-  onScrollEndDrag,
-  onMomentumScrollBegin,
-  onMomentumScrollEnd,
-  ignoreLeftSafeArea,
-  ignoreRightSafeArea,
-  disableAutoFixScroll,
-  ...rest
-}: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps) => {
+const FlatListWithHeadersInputComp = <ItemT extends unknown>(
+  {
+    largeHeaderShown,
+    containerStyle,
+    LargeHeaderComponent,
+    largeHeaderContainerStyle,
+    HeaderComponent,
+    onLargeHeaderLayout,
+    onScrollBeginDrag,
+    onScrollEndDrag,
+    onMomentumScrollBegin,
+    onMomentumScrollEnd,
+    ignoreLeftSafeArea,
+    ignoreRightSafeArea,
+    disableAutoFixScroll,
+    /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
+    onScroll: _unusedOnScroll,
+    ...rest
+  }: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps,
+  ref: React.Ref<AnimatedFlatListType<ItemT>>
+) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.FlatList<ItemT>>();
-  // Need to use `any` here because useScrollViewOffset is not typed for Animated.FlatList
-  const scrollY = useScrollViewOffset(scrollRef as any);
 
-  const { showNavBar, largeHeaderHeight, largeHeaderOpacity, debouncedFixScroll } =
-    useScrollContainerLogic({
-      scrollRef,
-      scrollY,
-      largeHeaderShown,
-      disableAutoFixScroll,
-      largeHeaderExists: !!LargeHeaderComponent,
-    });
+  const {
+    scrollY,
+    showNavBar,
+    largeHeaderHeight,
+    largeHeaderOpacity,
+    scrollHandler,
+    debouncedFixScroll,
+  } = useScrollContainerLogic({
+    scrollRef,
+    largeHeaderShown,
+    disableAutoFixScroll,
+    largeHeaderExists: !!LargeHeaderComponent,
+  });
 
   return (
     <View
@@ -61,10 +62,16 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
       ]}
     >
       {HeaderComponent({ showNavBar })}
-      <AnimatedFlatList
-        ref={scrollRef}
+      <Animated.FlatList
+        ref={(_ref) => {
+          // @ts-ignore
+          scrollRef.current = _ref;
+          // @ts-ignore
+          if (ref) ref.current = _ref;
+        }}
         scrollEventThrottle={16}
         overScrollMode="auto"
+        onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();
@@ -103,6 +110,12 @@ const AnimatedFlatListWithHeaders = <ItemT extends unknown>({
   );
 };
 
-export default AnimatedFlatListWithHeaders;
+// The typecast is needed to make the component generic.
+const FlatListWithHeaders = React.forwardRef(FlatListWithHeadersInputComp) as <ItemT = any>(
+  props: AnimatedFlatListProps<ItemT> &
+    SharedScrollContainerProps & { ref?: React.Ref<Animated.FlatList<ItemT>> }
+) => React.ReactElement;
+
+export default FlatListWithHeaders;
 
 const styles = StyleSheet.create({ container: { flex: 1 } });

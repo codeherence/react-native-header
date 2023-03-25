@@ -12,15 +12,22 @@ React Native Header is a high-performance, cross-platform animated header compon
 
 - Maintains a similar experience between **iOS** and **Android**.
 - Uses Reanimated for better animation performance
-- Works with [ScrollView](https://reactnative.dev/docs/scrollview) and [FlatList](https://reactnative.dev/docs/flatlist)
-- Compatible with [Expo Go](https://docs.expo.dev/) and [React Native CLI](https://github.com/react-native-community/cli) projects
+- Works with [ScrollView](https://reactnative.dev/docs/scrollview), [FlatList](https://reactnative.dev/docs/flatlist), and [SectionList](https://reactnative.dev/docs/sectionlist)
+- Compatible with [Expo Go](https://docs.expo.dev/) and bare [React Native](https://github.com/react-native-community/cli) projects
 - Written in TypeScript
+
+## Supported dependency versions
+
+| This library | react-native | react-native-reanimated | react-native-safe-area-context | 
+| -- | -- | -- | -- |
+| 0.6.x | >= 0.65 | >= 2.11.0 | >= 4.1.0 |
+| 0.7.x | >= 0.65 | >= 2.0.0 | >= 4.1.0 |
 
 ## Prerequisites
 
 Before you can use `react-native-header`, you need to have the following libraries set up in your React Native project:
 
-- [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated)  v2 or v3. **v1 is not supported.**
+- [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated)
 - [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context)
 
 If you haven't installed these libraries yet, please follow the installation instructions on their respective documentation pages.
