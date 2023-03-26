@@ -1,4 +1,4 @@
-name: Main Push Actions
+name: Update documentation website
 run-name: ${{ github.actor }} is running CI/CD actions
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
         with:
           credentials_json: "${{ secrets.GCP_SA_KEY }}"
 
-      - name: "Install docs dependencies"
+      - name: "Install dependencies"
         run: yarn install --frozen-lockfile
 
       - name: "Build application"
