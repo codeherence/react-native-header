@@ -42,4 +42,4 @@ jobs:
         run: "gcloud config set project react-native-header"
 
       - name: "Deploy"
-        run: "yarn deploy --service-account ${{ env.GCP_SA_EMAIL }}"
+        run: "yarn deploy --service-account ${{ vars.GCP_SA_EMAIL }}"
