@@ -1,0 +1,83 @@
+---
+title: ScrollViewWithHeaders
+hide_table_of_contents: false
+slug: /components/scroll-view-with-headers
+---
+
+Component that extends the [ScrollView](https://reactnative.dev/docs/scrollview) to add support for
+headers exported from this library.
+
+The implementation of this component relies on the [HeaderComponent](/docs/components/scroll-view-with-headers#headercomponent) 
+and [LargeHeaderComponent](/docs/components/scroll-view-with-headers#largeheadercomponent) props.
+The [HeaderComponent](/docs/components/scroll-view-with-headers#headercomponent) is rendered above 
+the ScrollView and the [LargeHeaderComponent](/docs/components/scroll-view-with-headers#largeheadercomponent) 
+is rendered as the first child of the ScrollView. Using these two props will allow for animations/built-in 
+features in this library to work properly.
+
+## Props
+
+This component uses the `Animated.ScrollView` under the hood, which inherits [all of the props 
+from the ScrollView](https://reactnative.dev/docs/scrollview) component. 
+
+### HeaderComponent
+
+The component to render above the ScrollView. This accepts a function that returns a React Element
+to display as the header. The function will be called with the following arguments:
+
+- `showNavBar`: An animated value that will be 0 when the header's subcomponents should be hidden
+  and 1 when they should be shown. This is useful for animating the header's subcomponents. The 
+  [Header](/docs/components/header) component uses this value to animate its left, center, and 
+  right children.
+
+### LargeHeaderComponent
+
+An optional component to render as the first child of the ScrollView. This accepts a function that
+returns a React Element to display as the large header. The function will be called with the
+following arguments:
+
+- `scrollY`: An animated value that keeps track of the current scroll position of the ScrollView.
+  This prop is useful for creating custom animations on the large header. In our [example](/docs/example), 
+  we use the [ScalingView](/docs/components/scaling-view) component to scale the large header 
+  when the user pulls down on the ScrollView (to mimic native iOS behaviour).
+  
+- `showNavBar`: An animated value that keeps track of whether or not the small header is hidden.
+  This prop is useful if you want to create your own custom animations based on whether or not the
+  small header is hidden.
+
+### ignoreLeftSafeArea
+
+An optional boolean that determines whether or not to ignore the left safe area. Defaults to 
+`false`. The safe area adjustments are used to make sure that the scroll container does not 
+overlap with the notch/headers on different phones - leave this prop as false if you want to 
+respect those safe areas.
+
+### ignoreRightSafeArea
+
+An optional boolean that determines whether or not to ignore the right safe area. Defaults to
+`false`. The safe area adjustments are used to make sure that the scroll container does not
+overlap with the notch/headers on different phones - leave this prop as `false` if you want to
+respect those safe areas.
+
+### disableAutoFixScroll
+
+An optional to disable the auto fix scroll mechanism. This is useful if you want to disable the 
+auto scroll when the large header is partially visible. Defaults to `false`.
+
+### containerStyle
+
+An optional style object that will be applied to the parent container of the scroll container.
+
+### largeHeaderContainerStyle
+
+An optional style object that will be applied to the large header container.
+
+### largeHeaderShown
+
+An optional animated [Shared Value](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/shared-values/) 
+that will be mutated by the library when the large header is shown or hidden. This is useful if you 
+would like to track when the large header is shown or hidden.
+
+### onLargeHeaderLayout
+
+An optional callback that will be called when the large header is laid out. This is useful if you
+want to access the layout of the large header to calculate the height of the large header.

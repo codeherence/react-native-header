@@ -1,0 +1,31 @@
+env: standard
+runtime: nodejs16
+service: default
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: automatic
+  min_pending_latency: automatic
+  max_pending_latency: automatic
+  min_instances: 1
+inbound_services:
+  - warmup
+
+handlers:
+  - url: /(.*\..+)$
+    static_files: build/\1
+    upload: build/(.*\..+)$
+
+  # index page
+  - url: /
+    static_files: build/index.html
+    upload: build/index.html
+
+  # anything that ends with a slash (e.g. /docs/)
+  - url: /(.*)/$
+    static_files: build/\1/index.html
+    upload: build/(.*)
+
+  # anything else (e.g. /docs)
+  - url: /(.*)
+    static_files: build/\1/index.html
+    upload: build/(.*)
