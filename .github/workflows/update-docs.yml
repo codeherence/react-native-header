@@ -28,7 +28,6 @@ jobs:
         uses: "google-github-actions/auth@v1"
         with:
           credentials_json: "${{ secrets.GCP_SA_KEY }}"
-          service_account: "${{ env.GCP_SA_EMAIL }}"
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
@@ -43,4 +42,4 @@ jobs:
         run: "gcloud config set project react-native-header"
 
       - name: "Deploy"
-        run: "yarn deploy"
+        run: "yarn deploy --service-account ${{ env.GCP_SA_EMAIL }}"
