@@ -72,9 +72,10 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/codeherence/react-native-header',
-            label: 'GitHub',
-            position: 'right',
+            'href': 'https://github.com/codeherence/react-native-header',
+            'position': 'right',
+            'className': 'header-github-link',
+            'aria-label': 'GitHub repository',
           },
         ],
       },
