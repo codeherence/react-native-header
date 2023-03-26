@@ -1,5 +1,12 @@
 
 
+## [0.7.1](https://github.com/codeherence/react-native-header/compare/v0.7.0...v0.7.1) (2023-03-26)
+
+
+### Bug Fixes
+
+* introduce documentation website ([36a0a53](https://github.com/codeherence/react-native-header/commit/36a0a53aa20e1ada40cd89240801ae0053d907a2))
+
 ## [0.7.0](https://github.com/codeherence/react-native-header/compare/v0.7.0-rc.0...v0.7.0) (2023-03-24)
 
 ## [0.7.0-rc.0](https://github.com/codeherence/react-native-header/compare/v0.6.0...v0.7.0-rc.0) (2023-03-24)
