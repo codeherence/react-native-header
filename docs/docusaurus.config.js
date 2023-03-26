@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'React Native Header',
   tagline: 'A simple, yet powerful, React Native Header component library.',
-  favicon: 'img/favicon.ico',
+  favicon: 'favicon.ico',
 
   // Set the production url of your site here
   url: 'https://react-native-header.codeherence.com',
@@ -20,6 +20,41 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'codeherence', // Usually your GitHub org/user name.
   projectName: 'react-native-header', // Usually your repo name.
+
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: { rel: 'shortcut icon', href: '/favicon.ico' },
+    },
+    {
+      tagName: 'link',
+      attributes: { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    },
+    {
+      tagName: 'link',
+      attributes: { rel: 'icon', type: 'image/x-icon', href: '/favicon-16x16.ico', sizes: '16x16' },
+    },
+    {
+      tagName: 'link',
+      attributes: { rel: 'icon', type: 'image/x-icon', href: '/favicon-32x32.ico', sizes: '32x32' },
+    },
+    {
+      tagName: 'link',
+      attributes: { rel: 'icon', type: 'image/x-icon', href: '/favicon-96x96.ico', sizes: '96x96' },
+    },
+    {
+      tagName: 'link',
+      attributes: { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+    },
+    {
+      tagName: 'link',
+      attributes: { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#5bbad5' },
+    },
+    {
+      tagName: 'link',
+      attributes: { rel: 'manifest', href: '/site.webmanifest' },
+    },
+  ],
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -53,6 +88,10 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/react-native-header-social-card.png',
+      metadata: [
+        { name: 'author', content: 'Codeherence Inc.' },
+        { name: 'keywords', content: 'React Native Header, Codeherence, documentation, docs' },
+      ],
       navbar: {
         title: 'React Native Header',
         logo: {
