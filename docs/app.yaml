@@ -7,7 +7,6 @@ automatic_scaling:
   min_pending_latency: automatic
   max_pending_latency: automatic
   min_instances: 1
-  max_instances: 20
 inbound_services:
   - warmup
 
