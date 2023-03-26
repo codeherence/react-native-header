@@ -1,0 +1,42 @@
+name: Update documentation website
+run-name: ${{ github.actor }} is running CI/CD actions
+on:
+  push:
+    branches: [main]
+    paths:
+    - 'docs/**'
+jobs:
+  deploy-web-gcp:
+    name: Deploy web app to GCP
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    permissions:
+      contents: "read"
+      id-token: "write"
+    steps:
+      - id: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: yarn
+          cache-dependency-path: ./docs/yarn.lock
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+
+      - name: "Install dependencies"
+        run: yarn install --frozen-lockfile
+
+      - name: "Build application"
+        run: "yarn build"
+
+      - name: "Set project ID"
+        run: "gcloud config set project react-native-header"
+
+      - name: "Deploy"
+        run: "yarn deploy"

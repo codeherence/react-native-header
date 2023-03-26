@@ -1,0 +1,35 @@
+---
+title: FadingView
+hide_table_of_contents: false
+slug: /components/fading-view
+description: A simple view that fades its children in/out.
+---
+
+This is a convenience component to control the opacity of its children with the supplied 
+[opacity](/docs/components/fading-view#opacity) property. In addition to controling the opacity
+of its children, it will not allow for pointer events (i.e. touch events) to pass through to
+the children when the opacity is below the [opacityThresholdToEnablePointerEvents](/docs/components/fading-view#opacitythresholdtoenablepointerevents)
+property.
+
+## Props
+
+Since this component uses an `Animated.View` (from Reanimated) under the hood, it supports all of 
+the props that `Animated.View` supports.
+
+### opacity
+
+The opacity of the children of this component. This is an animated [Shared Value](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/shared-values/) 
+between 0 and 1.
+
+### opacityThresholdToEnablePointerEvents
+
+An optional number that represents the opacity threshold at which to enable pointer events (i.e. 
+touch events) on the children. Defaults to `1` and should be a number between 0 and 1.
+
+### style
+
+An optional style object to apply to the animated container view.
+
+### children
+
+The children to be rendered inside the animated container view.

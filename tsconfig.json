@@ -24,5 +24,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext"
-  }
+  },
+  "include": ["src", "babel.config.js"],
+  "exclude": ["node_modules", "lib", "docs", "example"]
 }

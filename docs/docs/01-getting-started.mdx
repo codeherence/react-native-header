@@ -1,0 +1,67 @@
+---
+title: Getting Started
+hide_table_of_contents: false
+slug: /getting-started
+description: Getting started with React Native Header.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+What follows within the Fundamentals section of this documentation is a tour of the most important aspects of React Native Header. It should cover enough for you to know how to begin building.
+
+## Compatibility
+
+Before using this package, please make sure that you install the correct version of this library for your project. Here is the dependency matrix:
+
+<br />
+
+| react-native-header | react-native | react-native-reanimated | react-native-safe-area-context |
+| ------------------- | ------------ | ----------------------- | ------------------------------ |
+| 0.6.x               | >= 0.65      | >= 2.11.0               | >= 4.1.0                       |
+| 0.7.x               | >= 0.65      | >= 2.0.0                | >= 4.1.0                       |
+
+## Pre-requisites
+
+Before you can use `react-native-header`, you need to have the following libraries set up in your project:
+
+- [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated)
+- [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context)
+
+If you haven't installed these libraries yet, please follow the installation instructions on their respective documentation pages.
+
+## Installation
+
+Once you have [react-native-reanimated](https://github.com/software-mansion/react-native-reanimated) and [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context) set up in your project, you can install `react-native-header`:
+
+<Tabs
+  groupId="env"
+  defaultValue="expo"
+  values={[
+    {label: 'Expo', value: 'expo'},
+    {label: 'React Native', value: 'rn'},
+  ]}>
+<TabItem value="rn">
+
+```bash
+yarn add @codeherence/react-native-header
+```
+
+or 
+
+```bash
+npm install @codeherence/react-native-header
+```
+
+</TabItem>
+<TabItem value="expo">
+
+```bash
+expo install @codeherence/react-native-header
+```
+</TabItem>
+</Tabs>
+
+<br />
+
+and that's it! You are now ready to use `react-native-header` in your project.

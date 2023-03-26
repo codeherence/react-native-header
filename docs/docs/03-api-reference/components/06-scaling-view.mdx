@@ -1,0 +1,46 @@
+---
+title: ScalingView
+hide_table_of_contents: false
+slug: /components/scaling-view
+description: A simple view that animates the scaling and translation of its children.
+---
+
+This is a convenience container to scale a component based on the [scrollY](/docs/components/scaling-view#scrolly)
+value. It is useful for creating a large header that will zoom when the user pulls one of the scroll 
+containers down.
+
+## Props
+
+### scrollY
+
+The scroll position of the scroll container. This is an animated [Shared Value](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/shared-values/).
+
+### startRange
+
+An optional number that represents the starting scroll position for scaling and translating the 
+children. The transformations will clamp to this value. Defaults to `0`.
+
+### endRange
+
+An optional number that represents the ending scroll position for scaling and translating the
+children. The transformations will clamp to this value. Defaults to `Dimensions.get('window').height * 0.1` 
+(10% of the height of the screen window).
+
+### startScale
+
+An optional number that represents the starting scale value for the children. Defaults to `1`.
+
+### endScale
+
+An optional number that represents the ending scale value for the children. Defaults to `1.05`.
+
+### translationDirection
+
+An optional string that represents the direction the children will translate as the component 
+scales. It can be either `right` or `none` and defaults to `right`. If `right` is specified, the
+children will translate to the right as the component scales. If `none` is specified, the children
+will not translate.
+
+### children
+
+The children to be scaled and translated.

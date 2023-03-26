@@ -1,0 +1,80 @@
+---
+title: Example
+slug: /example
+description: A simple example using React Native Header.
+---
+
+Let's begin by implementing our first example. This is what the end result will look like:
+
+<p align="center">
+<img src="/img/simple-example-image.png" width="300px" />
+</p>
+
+<br />
+
+First, we import the libraries needed for this example:
+
+```jsx
+import {
+  Header,
+  LargeHeader,
+  ScalingView,
+  ScrollViewWithHeaders,
+} from '@codeherence/react-native-header';
+
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+```
+
+<br />
+
+Next, we will create our (small) Header component:
+
+```jsx
+const HeaderComponent = ({ showNavBar }) => (
+  <Header
+    showNavBar={showNavBar}
+    headerCenter={<Text style={{ fontSize: 16, fontWeight: 'bold' }}>react-native-header</Text>}
+  />
+);
+```
+
+<br />
+
+and our large header component:
+
+```jsx
+const LargeHeaderComponent = ({ scrollY }) => (
+  <LargeHeader>
+    <ScalingView scrollY={scrollY}>
+      <Text style={{ fontSize: 14 }}>Welcome!</Text>
+      <Text style={{ fontSize: 32, fontWeight: 'bold' }}>react-native-header</Text>
+      <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#8E8E93' }}>
+        This project displays some header examples using the package.
+      </Text>
+    </ScalingView>
+  </LargeHeader>
+);
+```
+
+<br />
+
+and finally, use them in a `ScrollViewWithHeaders` component like so:
+
+```jsx
+const Example = () => {
+  const { bottom } = useSafeAreaInsets();
+
+  return (
+    <ScrollViewWithHeaders
+      HeaderComponent={HeaderComponent}
+      LargeHeaderComponent={LargeHeaderComponent}
+      contentContainerStyle={{ paddingBottom: bottom }}
+    >
+      <View style={{ padding: 16 }}>
+        <Text>Some body text...</Text>
+        <Text>Some body text...</Text>
+      </View>
+    </ScrollViewWithHeaders>
+  );
+};
+```

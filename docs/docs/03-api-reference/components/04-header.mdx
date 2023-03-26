@@ -1,0 +1,79 @@
+---
+title: Header
+hide_table_of_contents: false
+slug: /components/header
+description: A header navigation component exported from React Native Header.
+---
+
+Headers are navigation components that display information and actions relating to the current 
+screen. This component is exported in this library and works well with the other scroll 
+containers this library provides.
+
+## Props
+
+### showNavBar
+
+An animated value between 0 and 1 that indicates whether the header's children should be visible.
+
+### headerStyle
+
+An optional style object to apply to the header's root container.
+
+### headerLeft
+
+An optional React element to display on the left side of the header.
+
+### headerRight
+
+An optional React element to display on the right side of the header.
+
+### headerCenter
+
+An optional React element to display in the center of the header.
+
+### headerLeftStyle
+
+An optional style object to apply to the header's left container.
+
+### headerRightStyle
+
+An optional style object to apply to the header's right container.
+
+### headerCenterStyle
+
+An optional style object to apply to the header's center container.
+
+### headerLeftFadesIn
+
+An optional boolean to indicate whether the header's left container should fade in when the
+[showNavBar](/docs/components/header#shownavbar) is 1.
+
+### headerRightFadesIn
+
+An optional boolean to indicate whether the header's right container should fade in when the
+[showNavBar](/docs/components/header#shownavbar) is 1.
+
+### headerCenterFadesIn
+
+An optional boolean to indicate whether the header's center container should fade in when the
+[showNavBar](/docs/components/header#shownavbar) is 1.
+
+### ignoreTopSafeArea
+
+An optional boolean to indicate whether the header should ignore the top safe area. This is useful
+when you want to display the header behind the status bar. Defaults to `false`. If you are 
+rendering this header in an iOS [modal](https://reactnavigation.org/docs/native-stack-navigator/#presentation), 
+you should set this to `true`.
+
+### noBottomBorder
+
+An optional boolean to indicate whether the header should not have a bottom border. Defaults to
+`false`.
+
+### borderColor
+
+An optional color to use for the header's bottom border. Defaults to `#E5E5E5`.
+
+### borderWidth
+
+An optional width to use for the header's bottom border. Defaults to [StyleSheet.hairlineWidth](https://reactnative.dev/docs/stylesheet#hairlinewidth).
