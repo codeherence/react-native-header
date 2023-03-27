@@ -179,6 +179,15 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
+      algolia: {
+        appId: 'ZDJCB729YA',
+        apiKey: '236e9347eae6f053a9ce35a93d67d5c6',
+        indexName: 'react-native-header-codeherence',
+        contextualSearch: true,
+        externalUrlRegex: 'external\\.com|domain\\.com',
+        searchParameters: {},
+        searchPagePath: 'search',
+      },
     }),
 };
 
