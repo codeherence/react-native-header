@@ -105,7 +105,6 @@ const SectionList: React.FC<SectionListUsageScreenNavigationProps> = () => {
       getItemLayout={(_, index) => ({ index, length: ITEM_HEIGHT, offset: index * ITEM_HEIGHT })}
       initialNumToRender={50}
       maxToRenderPerBatch={100}
-      disableAutoFixScroll
       keyExtractor={(_, i) => `text-row-${i}`}
     />
   );

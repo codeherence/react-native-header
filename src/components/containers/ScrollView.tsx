@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useImperativeHandle } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
@@ -25,16 +25,17 @@ const ScrollViewWithHeadersInputComp = (
     onScrollEndDrag,
     onMomentumScrollBegin,
     onMomentumScrollEnd,
-    disableAutoFixScroll,
+    disableAutoFixScroll = false,
     children,
     /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
     onScroll: _unusedOnScroll,
     ...rest
   }: AnimatedScrollViewProps & SharedScrollContainerProps,
-  ref: React.Ref<Animated.ScrollView>
+  ref: React.Ref<Animated.ScrollView | null>
 ) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  useImperativeHandle(ref, () => scrollRef.current);
 
   const {
     scrollY,
@@ -61,12 +62,7 @@ const ScrollViewWithHeadersInputComp = (
     >
       {HeaderComponent({ showNavBar })}
       <Animated.ScrollView
-        ref={(_ref) => {
-          // @ts-ignore
-          scrollRef.current = _ref;
-          // @ts-ignore
-          if (ref) ref.current = _ref;
-        }}
+        ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
         onScroll={scrollHandler}

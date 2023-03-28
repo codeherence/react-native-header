@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useImperativeHandle } from 'react';
 import { View, SectionList, StyleSheet, SectionListProps } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
@@ -32,7 +32,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     onMomentumScrollEnd,
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
-    disableAutoFixScroll,
+    disableAutoFixScroll = false,
     /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
     onScroll: _unusedOnScroll,
     ...rest
@@ -41,6 +41,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
 ) => {
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<any>();
+  useImperativeHandle(ref, () => scrollRef.current);
 
   const {
     scrollY,
@@ -67,12 +68,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     >
       {HeaderComponent({ showNavBar })}
       <AnimatedSectionList
-        ref={(_ref) => {
-          // @ts-ignore
-          scrollRef.current = _ref;
-          // @ts-ignore
-          if (ref) ref.current = _ref;
-        }}
+        ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
         onScroll={scrollHandler}
