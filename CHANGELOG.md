@@ -1,5 +1,12 @@
 
 
+## [0.7.2](https://github.com/codeherence/react-native-header/compare/v0.7.1...v0.7.2) (2023-03-28)
+
+
+### Bug Fixes
+
+* auto scroll fix ([92e47cf](https://github.com/codeherence/react-native-header/commit/92e47cf5aac70a4dc5f9eef20f7291d475f8bb69))
+
 ## [0.7.1](https://github.com/codeherence/react-native-header/compare/v0.7.0...v0.7.1) (2023-03-26)
 
 
