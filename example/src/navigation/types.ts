@@ -7,6 +7,7 @@ export type RootStackParamList = {
   SimpleUsageScreen: undefined;
   FlatListUsageScreen: undefined;
   SectionListUsageScreen: undefined;
+  BackgroundInterpolateUsageScreen: undefined;
 };
 
 // Overrides the typing for useNavigation in @react-navigation/native to support the internal
@@ -34,4 +35,9 @@ export type FlatListUsageScreenNavigationProps = NativeStackScreenProps<
 export type SectionListUsageScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
   'SectionListUsageScreen'
+>;
+
+export type BackgroundInterpolateUsageScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  'BackgroundInterpolateUsageScreen'
 >;

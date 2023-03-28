@@ -33,6 +33,11 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     route: 'SectionListUsageScreen',
     description: "A simple example of the library's SectionList.",
   },
+  {
+    name: 'Background Interpolation Example',
+    route: 'BackgroundInterpolateUsageScreen',
+    description: 'An example of the library using the ScrollView with background interpolation.',
+  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {

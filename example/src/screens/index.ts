@@ -5,3 +5,4 @@ export { default as ProfileScreen } from './Profile';
 export { default as SimpleUsageScreen } from './usage/Simple';
 export { default as FlatListUsageScreen } from './usage/FlatList';
 export { default as SectionListUsageScreen } from './usage/SectionList';
+export { default as BackgroundInterpolateUsageScreen } from './usage/BackgroundInterpolate';
