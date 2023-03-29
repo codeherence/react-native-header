@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FadingView } from '../containers';
 import { HeaderBottomBorder } from '../line';
-import { MIN_HEADER_HEIGHT } from '../../constants';
 import type { HeaderProps } from './types';
 
 const MIN_CENTER_WIDTH_PRC = 0.4;
@@ -40,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({
   const noHeaderLeftRight = !headerLeft && !headerRight;
 
   return (
-    <View style={!ignoreTopSafeArea && { paddingTop: top }}>
-      <View style={[styles.container, headerStyle]}>
+    <View>
+      <View style={[styles.container, headerStyle, !ignoreTopSafeArea && { paddingTop: top }]}>
         {headerLeftFadesIn ? (
           <FadingView
             opacity={showNavBar}
@@ -122,35 +121,32 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    minHeight: MIN_HEADER_HEIGHT,
-    maxHeight: MIN_HEADER_HEIGHT,
   },
   leftContainer: {
-    height: '100%',
+    flexDirection: 'row',
     paddingHorizontal: 8,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    paddingVertical: 4,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     overflow: 'hidden',
   },
   centerContainer: {
     flex: 1,
     flexDirection: 'row',
-    height: '100%',
     paddingHorizontal: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
   rightContainer: {
-    height: '100%',
     flexDirection: 'row-reverse',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 8,
     overflow: 'hidden',
   },
   noFlex: { display: 'none' },

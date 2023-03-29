@@ -12,17 +12,25 @@ const modules = Object.keys({
 
 const defaultConfig = getDefaultConfig(__dirname);
 
+const { transformer: defaultTransformer, resolver: defaultResolver } = defaultConfig;
+
 module.exports = {
   ...defaultConfig,
 
   projectRoot: __dirname,
   watchFolders: [root],
 
+  transformer: {
+    ...defaultTransformer,
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
+  },
+
   // We need to make sure that only one version is loaded for peerDependencies
   // So we block them at the root, and alias them to the versions in example's node_modules
   resolver: {
-    ...defaultConfig.resolver,
-
+    ...defaultResolver,
+    assetExts: defaultResolver.assetExts.filter((ext) => ext !== 'svg'),
+    sourceExts: [...defaultResolver.sourceExts, 'svg'],
     blacklistRE: exclusionList(
       modules.map((m) => new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`))
     ),

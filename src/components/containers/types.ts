@@ -34,6 +34,12 @@ export interface ScrollHeaderProps {
    * @type {Animated.SharedValue<number>}
    */
   showNavBar: Animated.SharedValue<number>;
+  /**
+   * The scroll position of the scroll view.
+   *
+   * @type {Animated.SharedValue<number>}
+   */
+  scrollY: Animated.SharedValue<number>;
 }
 
 /**

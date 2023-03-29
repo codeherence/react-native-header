@@ -62,7 +62,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
         !ignoreRightSafeArea && { paddingRight: insets.right },
       ]}
     >
-      {HeaderComponent({ showNavBar })}
+      {HeaderComponent({ showNavBar, scrollY })}
       <Animated.FlatList
         ref={scrollRef}
         scrollEventThrottle={16}

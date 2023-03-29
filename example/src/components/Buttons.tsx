@@ -3,12 +3,16 @@ import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 
-interface BackButtonProps {
-  style?: 'chevron' | 'close';
+type BackButtonProps = {
+  style?: 'chevron' | 'close' | 'arrow';
   onPress?: () => void;
-}
+} & Omit<React.ComponentProps<typeof Feather>, 'name' | 'size' | 'style'>;
 
-export const BackButton: React.FC<BackButtonProps> = ({ style = 'chevron', onPress }) => {
+export const BackButton: React.FC<BackButtonProps> = ({
+  style = 'chevron',
+  onPress,
+  ...iconProps
+}) => {
   const navigation = useNavigation();
 
   const onBack = () => navigation.canGoBack() && navigation.goBack();
@@ -16,9 +20,10 @@ export const BackButton: React.FC<BackButtonProps> = ({ style = 'chevron', onPre
   return (
     <TouchableOpacity onPress={onPress ?? onBack}>
       <Feather
-        name={style === 'chevron' ? 'chevron-left' : 'x'}
-        size={style === 'chevron' ? 32 : 24}
         color="black"
+        {...iconProps}
+        name={style === 'chevron' ? 'chevron-left' : style === 'close' ? 'x' : 'arrow-left'}
+        size={style === 'chevron' ? 32 : 24}
       />
     </TouchableOpacity>
   );

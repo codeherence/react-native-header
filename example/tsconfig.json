@@ -3,5 +3,5 @@
   "compilerOptions": {
     // Avoid expo-cli auto-generating a tsconfig
   },
-  "include": ["./src/**/*", "App.tsx", ".eslintrc.js"],
+  "include": ["./src/**/*", "App.tsx", ".eslintrc.js", "declarations.d.ts"],
 }

@@ -66,7 +66,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
         !ignoreRightSafeArea && { paddingRight: insets.right },
       ]}
     >
-      {HeaderComponent({ showNavBar })}
+      {HeaderComponent({ showNavBar, scrollY })}
       <AnimatedSectionList
         ref={scrollRef}
         scrollEventThrottle={16}

@@ -60,7 +60,7 @@ const ScrollViewWithHeadersInputComp = (
         !ignoreRightSafeArea && { paddingRight: insets.right },
       ]}
     >
-      {HeaderComponent({ showNavBar })}
+      {HeaderComponent({ showNavBar, scrollY })}
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
