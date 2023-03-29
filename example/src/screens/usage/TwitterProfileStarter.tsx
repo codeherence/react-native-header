@@ -35,6 +35,7 @@ import { Avatar, AVATAR_SIZE_MAP, BackButton } from '../../components';
 import { BlurView } from '@react-native-community/blur';
 import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
 import type { TwitterProfileStarterScreenNavigationProps } from '../../navigation';
+import { Platform } from 'react-native';
 
 // From reading comments online, the BlurView does not work properly for Android <= 11.
 // We will have a boolean to check if we can use the BlurView.
