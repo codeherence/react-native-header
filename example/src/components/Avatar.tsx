@@ -18,6 +18,8 @@ const SIZE_MAP: Record<AvatarSize, number> = {
   xl: 128,
 };
 
+export const AVATAR_SIZE_MAP = { ...SIZE_MAP };
+
 export const Avatar: React.FC<AvatarProps> = ({ style, size = 'sm', ...imageProps }) => {
   const [{ loading, failed }, dispatch] = useReducer<AvatarReducer>(
     (state, action) => {

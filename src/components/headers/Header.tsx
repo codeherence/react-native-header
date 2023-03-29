@@ -127,10 +127,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   leftContainer: {
+    flexDirection: 'row',
     paddingHorizontal: 8,
     paddingVertical: 4,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     overflow: 'hidden',
   },
   centerContainer: {

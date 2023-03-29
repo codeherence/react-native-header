@@ -34,9 +34,14 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     description: "A simple example of the library's SectionList.",
   },
   {
-    name: 'Background Interpolation Example',
-    route: 'BackgroundInterpolateUsageScreen',
-    description: 'An example of the library using the ScrollView with background interpolation.',
+    name: 'Twitter Profile',
+    route: 'TwitterProfileScreen',
+    description: 'Rebuilding the Twitter profile header with this library.',
+  },
+  {
+    name: 'Twitter Profile Starter',
+    route: 'TwitterProfileStarterScreen',
+    description: 'Start from scratch and follow my blog post for this implementation.',
   },
 ];
 

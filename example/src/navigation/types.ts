@@ -7,7 +7,8 @@ export type RootStackParamList = {
   SimpleUsageScreen: undefined;
   FlatListUsageScreen: undefined;
   SectionListUsageScreen: undefined;
-  BackgroundInterpolateUsageScreen: undefined;
+  TwitterProfileScreen: undefined;
+  TwitterProfileStarterScreen: undefined;
 };
 
 // Overrides the typing for useNavigation in @react-navigation/native to support the internal
@@ -37,7 +38,12 @@ export type SectionListUsageScreenNavigationProps = NativeStackScreenProps<
   'SectionListUsageScreen'
 >;
 
-export type BackgroundInterpolateUsageScreenNavigationProps = NativeStackScreenProps<
+export type TwitterProfileScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
-  'BackgroundInterpolateUsageScreen'
+  'TwitterProfileScreen'
+>;
+
+export type TwitterProfileStarterScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  'TwitterProfileStarterScreen'
 >;
