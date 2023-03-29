@@ -1,4 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// Remove this line to enable type checking
+// @ts-nocheck
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   Image,
