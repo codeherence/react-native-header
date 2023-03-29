@@ -36,6 +36,12 @@ import { BlurView } from '@react-native-community/blur';
 import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
 import type { TwitterProfileStarterScreenNavigationProps } from '../../navigation';
 
+// From reading comments online, the BlurView does not work properly for Android <= 11.
+// We will have a boolean to check if we can use the BlurView.
+// Note that Android 12 begins at SDK version 31
+const canUseBlurView =
+  Platform.OS === 'ios' || (Platform.OS === 'android' && Number(Platform.Version) >= 31);
+
 const ROOT_HORIZONTAL_PADDING = 12;
 const TWITTER_PRIMARY_COLOR = '#1d9bf0';
 const DISABLED_COLOR = 'rgba(255, 255, 255, 0.6)';
