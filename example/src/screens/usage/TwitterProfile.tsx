@@ -31,6 +31,13 @@ import { Avatar, AVATAR_SIZE_MAP } from '../../components';
 import { BlurView } from '@react-native-community/blur';
 import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
 import type { TwitterProfileScreenNavigationProps } from '../../navigation';
+import { Platform } from 'react-native';
+
+// From reading comments online, the BlurView does not work properly for Android <= 11.
+// We will have a boolean to check if we can use the BlurView.
+// Note that Android 12 begins at SDK version 31
+const canUseBlurView =
+  Platform.OS === 'ios' || (Platform.OS === 'android' && Number(Platform.Version) >= 31);
 
 const ROOT_HORIZONTAL_PADDING = 12;
 const TWITTER_PRIMARY_COLOR = '#1d9bf0';
@@ -55,11 +62,11 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
     return { opacity: blurOpacity.value };
   });
 
-  const paddingBottom = useDerivedValue(() => {
+  const bannerTranslation = useDerivedValue(() => {
     return interpolate(
       scrollY.value,
       [0, AVATAR_SIZE_VALUE],
-      [AVATAR_SIZE_VALUE, 0],
+      [0, -AVATAR_SIZE_VALUE],
       Extrapolate.CLAMP
     );
   }, [scrollY]);
@@ -67,8 +74,8 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   // We use a "paddingBottom" adjustment to increase the banner's size.
   // Using height is causing crashes on iOS at the moment...
   // https://github.com/software-mansion/react-native-reanimated/issues/2285
-  const paddingBottomStyle = useAnimatedStyle(() => {
-    return { paddingBottom: paddingBottom.value };
+  const bannerTranslationStyle = useAnimatedStyle(() => {
+    return { transform: [{ translateY: bannerTranslation.value }] };
   });
 
   const profileContainerTranslationY = useDerivedValue(() => {
@@ -120,8 +127,8 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   });
 
   return (
-    <Animated.View style={[styles.smallHeaderContainer, paddingBottomStyle]}>
-      <Animated.View style={StyleSheet.absoluteFill}>
+    <View style={styles.smallHeaderContainer}>
+      <Animated.View style={[StyleSheet.absoluteFill, bannerTranslationStyle]}>
         <ScalingView
           scrollY={scrollY}
           translationDirection="none"
@@ -131,17 +138,35 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
           endScale={6}
           endRange={height * 0.43}
         >
-          <AnimatedBlurView
-            style={[StyleSheet.absoluteFill, styles.blurView, blurStyle]}
-            blurType="dark"
-            reducedTransparencyFallbackColor="black"
-          />
+          <View style={{ marginBottom: -AVATAR_SIZE_VALUE }}>
+            {canUseBlurView ? (
+              <AnimatedBlurView
+                style={[StyleSheet.absoluteFill, styles.blurView, blurStyle]}
+                blurType="dark"
+                reducedTransparencyFallbackColor="white"
+                blurAmount={5}
+                // @ts-ignore
+                // https://github.com/Kureev/react-native-blur/issues/414
+                // Fixes Android issue where the blur view will take up the whole screen.
+                overlayColor="transparent"
+              />
+            ) : (
+              <Animated.View
+                style={[
+                  StyleSheet.absoluteFill,
+                  styles.blurView,
+                  styles.androidBlurViewBg,
+                  blurStyle,
+                ]}
+              />
+            )}
 
-          <AnimatedImage
-            source={require('../../../assets/planets.jpeg')}
-            resizeMode="cover"
-            style={[styles.imageStyle, { width }]}
-          />
+            <AnimatedImage
+              source={require('../../../assets/planets.jpeg')}
+              resizeMode="cover"
+              style={[styles.imageStyle, { width }]}
+            />
+          </View>
         </ScalingView>
       </Animated.View>
 
@@ -207,7 +232,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
           </TouchableOpacity>
         </Animated.View>
       </Animated.View>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -230,7 +255,7 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = ({ scrollY }) => 
     return interpolate(
       scrollY.value,
       [0, AVATAR_SIZE_VALUE],
-      [0, AVATAR_SIZE_VALUE / 2 + 24],
+      [AVATAR_SIZE_VALUE, AVATAR_SIZE_VALUE / 2 + 24],
       Extrapolate.CLAMP
     );
   }, [scrollY]);
@@ -449,4 +474,5 @@ const styles = StyleSheet.create({
   },
   locationAndWebContainer: { flexDirection: 'row', gap: 12, alignItems: 'center' },
   dataRow: { flexDirection: 'row', gap: 4, alignItems: 'center' },
+  androidBlurViewBg: { backgroundColor: 'rgba(0,0,0,0.4)' },
 });
