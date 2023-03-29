@@ -474,5 +474,5 @@ const styles = StyleSheet.create({
   },
   locationAndWebContainer: { flexDirection: 'row', gap: 12, alignItems: 'center' },
   dataRow: { flexDirection: 'row', gap: 4, alignItems: 'center' },
-  androidBlurViewBg: { backgroundColor: 'rgba(0,0,0,0.4)' },
+  androidBlurViewBg: { backgroundColor: 'rgba(0,0,0,0.5)' },
 });
