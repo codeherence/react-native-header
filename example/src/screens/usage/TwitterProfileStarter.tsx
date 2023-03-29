@@ -96,6 +96,9 @@ const TwitterProfileStarter: React.FC<TwitterProfileStarterScreenNavigationProps
         HeaderComponent={HeaderComponent}
         LargeHeaderComponent={LargeHeaderComponent}
         sections={data}
+        // Disabling auto fix scroll since the header is quite large and we want to
+        // allow the user to scroll it partially to view content.
+        disableAutoFixScroll
         // We ignore safe areas since we want the banner to apply the safe area more granularly
         // to each header. This will allow the banner to maintain a full width, while adjusting
         // other relevant components to respect the safe area.
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
   followText: { fontSize: 12, fontWeight: '600' },
   pillButton: {
     paddingVertical: 6,
-    paddingHorizontal: 24,
+    paddingHorizontal: 32,
     backgroundColor: '#fff',
     borderRadius: 200,
   },

@@ -356,9 +356,8 @@ const TwitterProfile: React.FC<TwitterProfileScreenNavigationProps> = () => {
         HeaderComponent={HeaderComponent}
         LargeHeaderComponent={LargeHeaderComponent}
         sections={data}
-        // auto fix scroll is causing janky behaviour with the section header when a user
-        // taps the status bar to scroll to top, then instantly begins scrolling down.
-        // Disabling for now and will revisit later.
+        // Disabling auto fix scroll since the header is quite large and we want to
+        // allow the user to scroll it partially to view content.
         disableAutoFixScroll
         // We ignore safe areas since we want the banner to apply the safe area more granularly
         // to each header. This will allow the banner to maintain a full width, while adjusting
@@ -426,7 +425,7 @@ const styles = StyleSheet.create({
   followText: { fontSize: 12, fontWeight: '600' },
   pillButton: {
     paddingVertical: 6,
-    paddingHorizontal: 24,
+    paddingHorizontal: 32,
     backgroundColor: '#fff',
     borderRadius: 200,
   },
