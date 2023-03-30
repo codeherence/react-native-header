@@ -8,7 +8,6 @@ import {
   SectionListUsageScreen,
   SimpleUsageScreen,
   TwitterProfileScreen,
-  TwitterProfileStarterScreen,
 } from '../screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -25,6 +24,5 @@ export default () => (
     <Stack.Screen name="FlatListUsageScreen" component={FlatListUsageScreen} />
     <Stack.Screen name="SectionListUsageScreen" component={SectionListUsageScreen} />
     <Stack.Screen name="TwitterProfileScreen" component={TwitterProfileScreen} />
-    <Stack.Screen name="TwitterProfileStarterScreen" component={TwitterProfileStarterScreen} />
   </Stack.Navigator>
 );

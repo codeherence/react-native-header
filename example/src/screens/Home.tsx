@@ -38,11 +38,6 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     route: 'TwitterProfileScreen',
     description: 'Rebuilding the Twitter profile header with this library.',
   },
-  {
-    name: 'Twitter Profile Starter',
-    route: 'TwitterProfileStarterScreen',
-    description: 'Start from scratch and follow my blog post for this implementation.',
-  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
