@@ -67,8 +67,8 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   const bannerTranslation = useDerivedValue(() => {
     return interpolate(
       scrollY.value,
-      [0, AVATAR_SIZE_VALUE],
-      [0, -AVATAR_SIZE_VALUE],
+      [0, BANNER_BOTTOM_HEIGHT_ADDITION],
+      [0, -BANNER_BOTTOM_HEIGHT_ADDITION],
       Extrapolate.CLAMP
     );
   });
@@ -78,13 +78,13 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   });
 
   const profileContainerTranslationY = useDerivedValue(() => {
-    return -scrollY.value + AVATAR_SIZE_VALUE / 2;
+    return -scrollY.value + BANNER_BOTTOM_HEIGHT_ADDITION / 2;
   });
 
   const profileImageScale = useDerivedValue(() => {
     return interpolate(
       scrollY.value,
-      [0, AVATAR_SIZE_VALUE],
+      [0, BANNER_BOTTOM_HEIGHT_ADDITION],
       [AVATAR_START_SCALE, AVATAR_END_SCALE],
       Extrapolate.CLAMP
     );
