@@ -39,6 +39,7 @@ import { Platform } from 'react-native';
 const canUseBlurView =
   Platform.OS === 'ios' || (Platform.OS === 'android' && Number(Platform.Version) >= 31);
 
+const VERTICAL_SPACING = 12;
 const ROOT_HORIZONTAL_PADDING = 12;
 const TWITTER_PRIMARY_COLOR = '#1d9bf0';
 const DISABLED_COLOR = 'rgba(255, 255, 255, 0.6)';
@@ -46,6 +47,7 @@ const AVATAR_SIZE = 'md';
 const AVATAR_START_SCALE = 1;
 const AVATAR_END_SCALE = 0.5;
 const AVATAR_SIZE_VALUE = AVATAR_SIZE_MAP[AVATAR_SIZE];
+const BANNER_BOTTOM_HEIGHT_ADDITION = AVATAR_SIZE_VALUE;
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
@@ -138,7 +140,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
           endScale={6}
           endRange={height * 0.43}
         >
-          <View style={{ marginBottom: -AVATAR_SIZE_VALUE }}>
+          <View style={{ marginBottom: -BANNER_BOTTOM_HEIGHT_ADDITION }}>
             {canUseBlurView ? (
               <AnimatedBlurView
                 style={[StyleSheet.absoluteFill, styles.blurView, blurStyle]}
@@ -236,7 +238,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   );
 };
 
-const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = ({ scrollY }) => {
+const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
   const { left, right } = useSafeAreaInsets();
 
   const onPressLink = useCallback(async () => {
@@ -251,105 +253,88 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = ({ scrollY }) => 
     }
   }, []);
 
-  const marginTop = useDerivedValue(() => {
-    return interpolate(
-      scrollY.value,
-      [0, AVATAR_SIZE_VALUE],
-      [AVATAR_SIZE_VALUE, AVATAR_SIZE_VALUE / 2 + 24],
-      Extrapolate.CLAMP
-    );
-  }, [scrollY]);
-
-  const marginTopStyle = useAnimatedStyle(() => {
-    return { marginTop: marginTop.value };
-  });
-
   return (
-    <>
-      <Animated.View style={marginTopStyle}>
-        <LargeHeader
-          headerStyle={[
-            // mt 36 due to computations from header
-            styles.largeHeaderStyle,
-            {
-              paddingLeft: Math.max(left, ROOT_HORIZONTAL_PADDING),
-              paddingRight: Math.max(right, ROOT_HORIZONTAL_PADDING),
-            },
-          ]}
-        >
-          <View style={styles.profileHandleContainer}>
-            <View style={styles.profileHeaderRow}>
-              <Text style={styles.title}>Evan Younan</Text>
-              <TwitterVerifiedSvg height={18} width={18} />
-            </View>
+    <LargeHeader
+      headerStyle={[
+        // mt 36 due to computations from header
+        styles.largeHeaderStyle,
+        {
+          paddingLeft: Math.max(left, ROOT_HORIZONTAL_PADDING),
+          paddingRight: Math.max(right, ROOT_HORIZONTAL_PADDING),
+        },
+      ]}
+    >
+      <View style={styles.profileHandleContainer}>
+        <View style={styles.profileHeaderRow}>
+          <Text style={styles.title}>Evan Younan</Text>
+          <TwitterVerifiedSvg height={18} width={18} />
+        </View>
 
-            <Text style={styles.disabledText}>@e_younan</Text>
-          </View>
+        <Text style={styles.disabledText}>@e_younan</Text>
+      </View>
 
-          <Text style={styles.text}>
-            Founder of <Text style={styles.primaryText}>@codeherence</Text> • Helping companies
-            develop and enhance their React Native apps
+      <Text style={styles.text}>
+        Founder of <Text style={styles.primaryText}>@codeherence</Text> • Helping companies develop
+        and enhance their React Native apps
+      </Text>
+
+      <View style={styles.dataRow}>
+        <Feather name="calendar" color={DISABLED_COLOR} size={12} />
+        <Text style={styles.disabledText}>Joined March 2023</Text>
+      </View>
+
+      <View style={styles.locationAndWebContainer}>
+        <View style={styles.dataRow}>
+          <Feather name="map-pin" color={DISABLED_COLOR} size={12} />
+          <Text style={styles.disabledText}>Toronto, Ontario</Text>
+        </View>
+
+        <View style={styles.dataRow}>
+          <Feather name="link" color={DISABLED_COLOR} size={12} />
+          <Text onPress={onPressLink} style={styles.primaryText}>
+            codeherence.com
           </Text>
+        </View>
+      </View>
 
-          <View style={styles.dataRow}>
-            <Feather name="calendar" color={DISABLED_COLOR} size={12} />
-            <Text style={styles.disabledText}>Joined March 2023</Text>
-          </View>
+      <View style={styles.statsContainer}>
+        <TouchableOpacity style={styles.dataRow}>
+          <Text style={styles.mediumText}>186</Text>
+          <Text style={styles.disabledText}>Following</Text>
+        </TouchableOpacity>
 
-          <View style={styles.locationAndWebContainer}>
-            <View style={styles.dataRow}>
-              <Feather name="map-pin" color={DISABLED_COLOR} size={12} />
-              <Text style={styles.disabledText}>Toronto, Ontario</Text>
-            </View>
+        <TouchableOpacity style={styles.dataRow}>
+          <Text style={styles.mediumText}>132.8M</Text>
+          <Text style={styles.disabledText}>Followers</Text>
+        </TouchableOpacity>
+      </View>
 
-            <View style={styles.dataRow}>
-              <Feather name="link" color={DISABLED_COLOR} size={12} />
-              <Text onPress={onPressLink} style={styles.primaryText}>
-                codeherence.com
-              </Text>
-            </View>
-          </View>
+      <View style={styles.whoFollowsThemContainer}>
+        <View style={styles.followerPreviewContainer}>
+          {[4, 5, 2].map((num, index) => {
+            return (
+              <Avatar
+                key={`avatar-${num}`}
+                size="sm"
+                source={{ uri: `https://i.pravatar.cc/128?img=${num}` }}
+                // eslint-disable-next-line react-native/no-inline-styles
+                style={{
+                  top: 0,
+                  zIndex: 3 - index,
+                  position: index !== 0 ? 'absolute' : undefined,
+                  left: (AVATAR_SIZE_MAP.sm / 1.5) * index,
+                  borderWidth: 1,
+                }}
+              />
+            );
+          })}
+        </View>
 
-          <View style={styles.statsContainer}>
-            <TouchableOpacity style={styles.dataRow}>
-              <Text style={styles.mediumText}>186</Text>
-              <Text style={styles.disabledText}>Following</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.dataRow}>
-              <Text style={styles.mediumText}>132.8M</Text>
-              <Text style={styles.disabledText}>Followers</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.whoFollowsThemContainer}>
-            <View style={styles.followerPreviewContainer}>
-              {[4, 5, 2].map((num, index) => {
-                return (
-                  <Avatar
-                    key={`avatar-${num}`}
-                    size="sm"
-                    source={{ uri: `https://i.pravatar.cc/128?img=${num}` }}
-                    // eslint-disable-next-line react-native/no-inline-styles
-                    style={{
-                      top: 0,
-                      zIndex: 3 - index,
-                      position: index !== 0 ? 'absolute' : undefined,
-                      left: (AVATAR_SIZE_MAP.sm / 1.5) * index,
-                      borderWidth: 1,
-                    }}
-                  />
-                );
-              })}
-            </View>
-
-            <Text style={[styles.disabledText, styles.followerText]}>
-              Followed by Jane, John Wick, Miley Cyrus, and 23 others
-            </Text>
-          </View>
-        </LargeHeader>
-      </Animated.View>
-    </>
+        <Text style={[styles.disabledText, styles.followerText]}>
+          Followed by Jane, John Wick, Miley Cyrus, and 23 others
+        </Text>
+      </View>
+    </LargeHeader>
   );
 };
 
@@ -419,7 +404,11 @@ const styles = StyleSheet.create({
   children: { marginTop: 16, paddingHorizontal: 16 },
   title: { fontSize: 24, fontWeight: 'bold', color: 'white' },
   navBarTitle: { fontSize: 16, fontWeight: 'bold', color: 'white' },
-  largeHeaderStyle: { flexDirection: 'column', gap: 12, marginTop: 36 },
+  largeHeaderStyle: {
+    flexDirection: 'column',
+    gap: 12,
+    marginTop: AVATAR_SIZE_VALUE / 2 + VERTICAL_SPACING + BANNER_BOTTOM_HEIGHT_ADDITION,
+  },
   backButtonContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     borderRadius: 100,
