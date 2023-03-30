@@ -58,7 +58,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
 
   const blurOpacity = useDerivedValue(() => {
     return interpolate(Math.abs(scrollY.value), [0, 40], [0, 1], Extrapolate.CLAMP);
-  }, [height]);
+  });
 
   const blurStyle = useAnimatedStyle(() => {
     return { opacity: blurOpacity.value };
@@ -71,11 +71,8 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
       [0, -AVATAR_SIZE_VALUE],
       Extrapolate.CLAMP
     );
-  }, [scrollY]);
+  });
 
-  // We use a "paddingBottom" adjustment to increase the banner's size.
-  // Using height is causing crashes on iOS at the moment...
-  // https://github.com/software-mansion/react-native-reanimated/issues/2285
   const bannerTranslationStyle = useAnimatedStyle(() => {
     return { transform: [{ translateY: bannerTranslation.value }] };
   });
@@ -93,8 +90,6 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
     );
   });
 
-  // Slow down the avatar's translation to allow it to scale down and
-  // still stay at its position.
   const profileImageTranslationY = useDerivedValue(() => {
     return interpolate(
       profileImageScale.value,
@@ -119,6 +114,8 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
     };
   });
 
+  // Slow down the avatar's translation to allow it to scale down and
+  // still stay at its position.
   const profileImageScaleStyle = useAnimatedStyle(() => {
     return {
       transform: [
