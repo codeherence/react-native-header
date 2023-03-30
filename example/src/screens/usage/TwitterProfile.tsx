@@ -256,7 +256,6 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
   return (
     <LargeHeader
       headerStyle={[
-        // mt 36 due to computations from header
         styles.largeHeaderStyle,
         {
           paddingLeft: Math.max(left, ROOT_HORIZONTAL_PADDING),
