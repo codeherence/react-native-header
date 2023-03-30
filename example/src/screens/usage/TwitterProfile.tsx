@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
+  Platform,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -15,7 +16,6 @@ import {
   FadingView,
   Header,
   LargeHeader,
-  ScalingView,
   SectionListWithHeaders,
 } from '@codeherence/react-native-header';
 import type { ScrollHeaderProps, ScrollLargeHeaderProps } from '@codeherence/react-native-header';
@@ -26,12 +26,12 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
+  useSharedValue,
 } from 'react-native-reanimated';
-import { Avatar, AVATAR_SIZE_MAP } from '../../components';
 import { BlurView } from '@react-native-community/blur';
+import { Avatar, AVATAR_SIZE_MAP } from '../../components';
 import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
 import type { TwitterProfileScreenNavigationProps } from '../../navigation';
-import { Platform } from 'react-native';
 
 // From reading comments online, the BlurView does not work properly for Android <= 11.
 // We will have a boolean to check if we can use the BlurView.
@@ -55,30 +55,12 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   const navigation = useNavigation();
   const { left, right } = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
-
-  const blurOpacity = useDerivedValue(() => {
-    return interpolate(Math.abs(scrollY.value), [0, 40], [0, 1], Extrapolate.CLAMP);
-  });
+  const bannerHeight = useSharedValue(48 + BANNER_BOTTOM_HEIGHT_ADDITION);
 
   const blurStyle = useAnimatedStyle(() => {
-    return { opacity: blurOpacity.value };
-  });
+    const blurOpacity = interpolate(Math.abs(scrollY.value), [0, 40], [0, 1], Extrapolate.CLAMP);
 
-  const bannerTranslation = useDerivedValue(() => {
-    return interpolate(
-      scrollY.value,
-      [0, BANNER_BOTTOM_HEIGHT_ADDITION],
-      [0, -BANNER_BOTTOM_HEIGHT_ADDITION],
-      Extrapolate.CLAMP
-    );
-  });
-
-  const bannerTranslationStyle = useAnimatedStyle(() => {
-    return { transform: [{ translateY: bannerTranslation.value }] };
-  });
-
-  const profileContainerTranslationY = useDerivedValue(() => {
-    return -scrollY.value + BANNER_BOTTOM_HEIGHT_ADDITION / 2;
+    return { opacity: blurOpacity };
   });
 
   const profileImageScale = useDerivedValue(() => {
@@ -90,52 +72,66 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
     );
   });
 
-  const profileImageTranslationY = useDerivedValue(() => {
-    return interpolate(
-      profileImageScale.value,
-      [AVATAR_START_SCALE, AVATAR_END_SCALE],
-      [0, AVATAR_SIZE_VALUE / 2],
+  const bannerTranslationStyle = useAnimatedStyle(() => {
+    const bannerTranslation = interpolate(
+      scrollY.value,
+      [0, BANNER_BOTTOM_HEIGHT_ADDITION],
+      [0, -BANNER_BOTTOM_HEIGHT_ADDITION],
       Extrapolate.CLAMP
     );
+
+    return { transform: [{ translateY: bannerTranslation }] };
   });
 
   // This allows the profile container to translate as the user scrolls.
   const profileContainerTranslationStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: profileContainerTranslationY.value }],
-    };
+    const translateY = -scrollY.value + BANNER_BOTTOM_HEIGHT_ADDITION / 2;
+
+    return { transform: [{ translateY }] };
   });
 
   // Once the profile image has been scaled down, we allow the profile container to be
   // hidden behind the banner. This is done by setting the zIndex to -1.
   const rootProfileRowZIndexStyle = useAnimatedStyle(() => {
-    return {
-      zIndex: profileImageScale.value <= AVATAR_END_SCALE ? -1 : 1,
-    };
+    return { zIndex: profileImageScale.value <= AVATAR_END_SCALE ? -1 : 1 };
   });
 
   // Slow down the avatar's translation to allow it to scale down and
   // still stay at its position.
   const profileImageScaleStyle = useAnimatedStyle(() => {
+    const profileImageTranslationY = interpolate(
+      profileImageScale.value,
+      [AVATAR_START_SCALE, AVATAR_END_SCALE],
+      [0, AVATAR_SIZE_VALUE / 2],
+      Extrapolate.CLAMP
+    );
+
     return {
-      transform: [
-        { scale: profileImageScale.value },
-        { translateY: profileImageTranslationY.value },
-      ],
+      transform: [{ scale: profileImageScale.value }, { translateY: profileImageTranslationY }],
     };
   });
+
+  const animatedScaleStyle = useAnimatedStyle(() => {
+    const bannerHeightRatio = height / bannerHeight.value;
+
+    const scaleY = interpolate(
+      scrollY.value,
+      [0, -(height + bannerHeight.value)],
+      [1, bannerHeightRatio],
+      Extrapolate.CLAMP
+    );
+
+    return {
+      transform: [{ scaleY }, { scaleX: scaleY }],
+    };
+  }, [height]);
 
   return (
     <View style={styles.smallHeaderContainer}>
       <Animated.View style={[StyleSheet.absoluteFill, bannerTranslationStyle]}>
-        <ScalingView
-          scrollY={scrollY}
-          translationDirection="none"
-          // These two values were arbitrarily chosen.
-          // Will need to adjust scaling view to allow for scale translations to separate
-          // x, y and z.
-          endScale={6}
-          endRange={height * 0.43}
+        <Animated.View
+          onLayout={(e) => (bannerHeight.value = e.nativeEvent.layout.height)}
+          style={animatedScaleStyle}
         >
           <View style={{ marginBottom: -BANNER_BOTTOM_HEIGHT_ADDITION }}>
             {canUseBlurView ? (
@@ -166,7 +162,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
               style={[styles.imageStyle, { width }]}
             />
           </View>
-        </ScalingView>
+        </Animated.View>
       </Animated.View>
 
       <Header
