@@ -70,92 +70,18 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
   );
 };
 
-const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
-  const { left, right } = useSafeAreaInsets();
-
-  const onPressLink = useCallback(async () => {
-    try {
-      const supported = await Linking.canOpenURL('https://codeherence.com');
-
-      if (supported) {
-        await Linking.openURL('https://codeherence.com');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
+const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = ({ scrollY }) => {
   return (
-    <LargeHeader headerStyle={[styles.largeHeaderStyle]}>
-      <View style={styles.profileHandleContainer}>
-        <View style={styles.profileHeaderRow}>
-          <Text style={styles.title}>Evan Younan</Text>
-          <TwitterVerifiedSvg height={18} width={18} />
-        </View>
-
-        <Text style={styles.disabledText}>@e_younan</Text>
-      </View>
-
-      <Text style={styles.text}>
-        Founder of <Text style={styles.primaryText}>@codeherence</Text> • Helping companies develop
-        and enhance their React Native apps
-      </Text>
-
-      <View style={styles.dataRow}>
-        <Feather name="calendar" color={DISABLED_COLOR} size={12} />
-        <Text style={styles.disabledText}>Joined March 2023</Text>
-      </View>
-
-      <View style={styles.locationAndWebContainer}>
-        <View style={styles.dataRow}>
-          <Feather name="map-pin" color={DISABLED_COLOR} size={12} />
-          <Text style={styles.disabledText}>Toronto, Ontario</Text>
-        </View>
-
-        <View style={styles.dataRow}>
-          <Feather name="link" color={DISABLED_COLOR} size={12} />
-          <Text onPress={onPressLink} style={styles.primaryText}>
-            codeherence.com
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.statsContainer}>
-        <TouchableOpacity style={styles.dataRow}>
-          <Text style={styles.mediumText}>186</Text>
-          <Text style={styles.disabledText}>Following</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.dataRow}>
-          <Text style={styles.mediumText}>132.8M</Text>
-          <Text style={styles.disabledText}>Followers</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.whoFollowsThemContainer}>
-        <View style={styles.followerPreviewContainer}>
-          {[4, 5, 2].map((num, index) => {
-            return (
-              <Avatar
-                key={`avatar-${num}`}
-                size="sm"
-                source={{ uri: `https://i.pravatar.cc/128?img=${num}` }}
-                style={{
-                  top: 0,
-                  zIndex: 3 - index,
-                  position: index !== 0 ? 'absolute' : undefined,
-                  left: (AVATAR_SIZE_MAP.sm / 1.5) * index,
-                  borderWidth: 1,
-                }}
-              />
-            );
-          })}
-        </View>
-
-        <Text style={[styles.disabledText, styles.followerText]}>
-          Followed by Jane, John Wick, Miley Cyrus, and 23 others
+    <LargeHeader>
+      <ScalingView scrollY={scrollY}>
+        <Text style={{ color: 'white', fontSize: 14 }}>Welcome</Text>
+        <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>
+          Twitter Profile Starter
         </Text>
-      </View>
+        <Text style={{ fontSize: 12, fontWeight: 'normal', color: '#8E8E93' }}>
+          Let's begin building the Twitter profile header!
+        </Text>
+      </ScalingView>
     </LargeHeader>
   );
 };
