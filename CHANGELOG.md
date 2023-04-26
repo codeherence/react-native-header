@@ -1,5 +1,14 @@
 
 
+## [0.7.3](https://github.com/codeherence/react-native-header/compare/v0.7.2...v0.7.3) (2023-04-26)
+
+
+### Bug Fixes
+
+* increase android blur opacity slightly ([d5decae](https://github.com/codeherence/react-native-header/commit/d5decaed33f6bec5049555bcfddd10d17ba4b41d))
+* missing import in tutorial ([b7aa031](https://github.com/codeherence/react-native-header/commit/b7aa031831505024db0a71707fe3c9ef7c87ce82))
+* twitter example for android & improve performance ([#7](https://github.com/codeherence/react-native-header/issues/7)) ([4ccc6d6](https://github.com/codeherence/react-native-header/commit/4ccc6d64a6a4d95faf3f788cee3ecc037bc003ff))
+
 ## [0.7.2](https://github.com/codeherence/react-native-header/compare/v0.7.1...v0.7.2) (2023-03-28)
 
 
