@@ -7,6 +7,7 @@ import {
   ProfileScreen,
   SectionListUsageScreen,
   SimpleUsageScreen,
+  SurfaceComponentUsageScreen,
   TwitterProfileScreen,
 } from '../screens';
 
@@ -23,6 +24,10 @@ export default () => (
     <Stack.Screen name="SimpleUsageScreen" component={SimpleUsageScreen} />
     <Stack.Screen name="FlatListUsageScreen" component={FlatListUsageScreen} />
     <Stack.Screen name="SectionListUsageScreen" component={SectionListUsageScreen} />
+    <Stack.Screen
+      name="HeaderSurfaceComponentUsageScreen"
+      component={SurfaceComponentUsageScreen}
+    />
     <Stack.Screen name="TwitterProfileScreen" component={TwitterProfileScreen} />
   </Stack.Navigator>
 );

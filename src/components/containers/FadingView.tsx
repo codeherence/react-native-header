@@ -31,7 +31,7 @@ type FadingViewProps = {
   /**
    * The children to be rendered inside the FadingView.
    */
-  children: React.ReactNode;
+  children?: React.ReactNode;
 } & React.ComponentProps<typeof Animated.View>;
 
 const FadingView = forwardRef<Animated.View, FadingViewProps>(

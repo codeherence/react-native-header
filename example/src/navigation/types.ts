@@ -8,6 +8,7 @@ export type RootStackParamList = {
   FlatListUsageScreen: undefined;
   SectionListUsageScreen: undefined;
   TwitterProfileScreen: undefined;
+  HeaderSurfaceComponentUsageScreen: undefined;
 };
 
 // Overrides the typing for useNavigation in @react-navigation/native to support the internal
@@ -35,6 +36,11 @@ export type FlatListUsageScreenNavigationProps = NativeStackScreenProps<
 export type SectionListUsageScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
   'SectionListUsageScreen'
+>;
+
+export type SurfaceComponentUsageScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  'HeaderSurfaceComponentUsageScreen'
 >;
 
 export type TwitterProfileScreenNavigationProps = NativeStackScreenProps<

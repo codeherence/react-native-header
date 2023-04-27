@@ -24,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({
   ignoreTopSafeArea = false,
   borderColor,
   borderWidth,
+  SurfaceComponent,
 }) => {
   const { top } = useSafeAreaInsets();
   const dimensions = useWindowDimensions();
@@ -40,6 +41,8 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <View>
+      {SurfaceComponent && SurfaceComponent({ showNavBar })}
+
       <View style={[styles.container, headerStyle, !ignoreTopSafeArea && { paddingTop: top }]}>
         {headerLeftFadesIn ? (
           <FadingView

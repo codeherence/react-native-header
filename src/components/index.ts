@@ -11,4 +11,4 @@ export type {
   SharedScrollContainerProps,
 } from './containers';
 export { Header, LargeHeader } from './headers';
-export type { HeaderProps, LargeHeaderProps } from './headers/types';
+export type { HeaderProps, LargeHeaderProps, SurfaceComponentProps } from './headers/types';
