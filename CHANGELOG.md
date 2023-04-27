@@ -1,5 +1,17 @@
 
 
+## [0.8.0](https://github.com/codeherence/react-native-header/compare/v0.7.3...v0.8.0) (2023-04-27)
+
+
+### Features
+
+* add SurfaceComponent prop to header ([d3a82d2](https://github.com/codeherence/react-native-header/commit/d3a82d26a7be9af416dff5eb7120d23dddb035d7))
+
+
+### Bug Fixes
+
+* remove transparent bgs on header styles ([c0fb706](https://github.com/codeherence/react-native-header/commit/c0fb70633940bc519799b1d5edc577c6b91bad5f))
+
 ## [0.7.3](https://github.com/codeherence/react-native-header/compare/v0.7.2...v0.7.3) (2023-04-26)
 
 
