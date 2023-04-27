@@ -5,8 +5,8 @@ slug: /components/header
 description: A header navigation component exported from React Native Header.
 ---
 
-Headers are navigation components that display information and actions relating to the current 
-screen. This component is exported in this library and works well with the other scroll 
+Headers are navigation components that display information and actions relating to the current
+screen. This component is exported in this library and works well with the other scroll
 containers this library provides.
 
 ## Props
@@ -61,8 +61,8 @@ An optional boolean to indicate whether the header's center container should fad
 ### ignoreTopSafeArea
 
 An optional boolean to indicate whether the header should ignore the top safe area. This is useful
-when you want to display the header behind the status bar. Defaults to `false`. If you are 
-rendering this header in an iOS [modal](https://reactnavigation.org/docs/native-stack-navigator/#presentation), 
+when you want to display the header behind the status bar. Defaults to `false`. If you are
+rendering this header in an iOS [modal](https://reactnavigation.org/docs/native-stack-navigator/#presentation),
 you should set this to `true`.
 
 ### noBottomBorder
@@ -77,3 +77,38 @@ An optional color to use for the header's bottom border. Defaults to `#E5E5E5`.
 ### borderWidth
 
 An optional width to use for the header's bottom border. Defaults to [StyleSheet.hairlineWidth](https://reactnative.dev/docs/stylesheet#hairlinewidth).
+
+### SurfaceComponent
+
+An optional component that can act as the surface of the header. Please ensure that the styling applied to the component includes `StyleSheet.absoluteFill` or `StyleSheet.absoluteFillObject` to ensure that the surface component fills the header.
+
+#### Example
+
+The following example will make the header have a **cyan** background when the user scrolls the scroll container up:
+
+```jsx
+const SURFACE_BG_COLOR = 'cyan';
+
+const HeaderSurface: React.FC<SurfaceComponentProps> = ({ showNavBar }) => (
+  <FadingView
+    opacity={showNavBar}
+    // StyleSheet.absoluteFill is needed to ensure that the component fills up the header.
+    style={[StyleSheet.absoluteFill, { backgroundColor: SURFACE_BG_COLOR }]}
+  />
+);
+
+const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
+  const navigation = useNavigation();
+  const onPressProfile = () => navigation.navigate('Profile');
+
+  return (
+    <Header
+      showNavBar={showNavBar}
+      // ...
+      SurfaceComponent={HeaderSurface} // <- usage
+    />
+  );
+};
+```
+
+See the example application's _Header SurfaceComponent Interpolation_ screen in for a working example.
