@@ -1,6 +1,16 @@
 import type { StyleProp, ViewStyle } from 'react-native';
 import type Animated from 'react-native-reanimated';
 
+export interface SurfaceComponentProps {
+  /**
+   * Animated value between 0 and 1 that indicates whether the small header's content should be
+   * visible. This is used to animate the header's content in and out.
+   *
+   * @type {Animated.SharedValue<number>}
+   */
+  showNavBar: Animated.SharedValue<number>;
+}
+
 /**
  * The props for the navigation bar component.
  */
@@ -111,6 +121,14 @@ export interface HeaderProps {
    * @type {number}
    */
   borderWidth?: number;
+  /**
+   * A custom component to be rendered as the header's surface. This is useful if you want to
+   * customize the header's surface with a background/blur.
+   *
+   * @param {SurfaceComponentProps} props
+   * @returns {React.ReactNode}
+   */
+  SurfaceComponent?: (props: SurfaceComponentProps) => React.ReactNode;
 }
 
 /**

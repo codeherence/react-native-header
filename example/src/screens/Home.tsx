@@ -34,6 +34,12 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     description: "A simple example of the library's SectionList.",
   },
   {
+    name: 'Header SurfaceComponent Interpolation',
+    route: 'HeaderSurfaceComponentUsageScreen',
+    description:
+      'A simple example of the library using the SurfaceComponent prop for its header to animate the background color of the header.',
+  },
+  {
     name: 'Twitter Profile',
     route: 'TwitterProfileScreen',
     description: 'Rebuilding the Twitter profile header with this library.',
