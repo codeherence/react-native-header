@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: 'transparent',
   },
   leftContainer: {
     flexDirection: 'row',
@@ -137,7 +136,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     overflow: 'hidden',
-    backgroundColor: 'transparent',
   },
   centerContainer: {
     flex: 1,
@@ -145,7 +143,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'transparent',
   },
   rightContainer: {
     flexDirection: 'row-reverse',
@@ -154,7 +151,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     overflow: 'hidden',
-    backgroundColor: 'transparent',
   },
   noFlex: { display: 'none' },
 });
