@@ -63,7 +63,7 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = ({ scrollY }) => 
   );
 };
 
-// Used for FlatList optimization
+// Used for FlashList optimization
 const ITEM_HEIGHT = 60;
 
 const FlashListExample: React.FC<FlashListUsageScreenNavigationProps> = () => {
