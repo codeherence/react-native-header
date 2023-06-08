@@ -29,6 +29,11 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     description: "A simple example of the library's FlatList.",
   },
   {
+    name: 'FlashList Example',
+    route: 'FlashListUsageScreen',
+    description: "A simple example with Shopify's FlashList.",
+  },
+  {
     name: 'SectionList Example',
     route: 'SectionListUsageScreen',
     description: "A simple example of the library's SectionList.",

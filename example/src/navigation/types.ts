@@ -6,6 +6,7 @@ export type RootStackParamList = {
   Profile: undefined;
   SimpleUsageScreen: undefined;
   FlatListUsageScreen: undefined;
+  FlashListUsageScreen: undefined;
   SectionListUsageScreen: undefined;
   TwitterProfileScreen: undefined;
   HeaderSurfaceComponentUsageScreen: undefined;
@@ -31,6 +32,11 @@ export type SimpleUsageScreenNavigationProps = NativeStackScreenProps<
 export type FlatListUsageScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
   'FlatListUsageScreen'
+>;
+
+export type FlashListUsageScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  'FlashListUsageScreen'
 >;
 
 export type SectionListUsageScreenNavigationProps = NativeStackScreenProps<

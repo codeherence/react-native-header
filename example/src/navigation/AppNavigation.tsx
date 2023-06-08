@@ -2,6 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './types';
 import {
+  FlashListUsageScreen,
   FlatListUsageScreen,
   HomeScreen,
   ProfileScreen,
@@ -23,6 +24,7 @@ export default () => (
     />
     <Stack.Screen name="SimpleUsageScreen" component={SimpleUsageScreen} />
     <Stack.Screen name="FlatListUsageScreen" component={FlatListUsageScreen} />
+    <Stack.Screen name="FlashListUsageScreen" component={FlashListUsageScreen} />
     <Stack.Screen name="SectionListUsageScreen" component={SectionListUsageScreen} />
     <Stack.Screen
       name="HeaderSurfaceComponentUsageScreen"
