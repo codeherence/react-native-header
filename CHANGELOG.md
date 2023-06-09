@@ -1,5 +1,18 @@
 
 
+## [0.9.0 beta-0](https://github.com/codeherence/react-native-header/compare/v0.8.0...0.9.0-beta.0) (2023-06-09)
+
+
+### Features
+
+* introduce Shopify's FlashList component ([#13](https://github.com/codeherence/react-native-header/issues/13)) ([1dac45f](https://github.com/codeherence/react-native-header/commit/1dac45f1a745641baf7633ad99cd4a2dc28dab22))
+
+
+### Bug Fixes
+
+* release version inconsistency ([8ce4999](https://github.com/codeherence/react-native-header/commit/8ce4999def7aa779c567a2e3859102fd7194ba0b))
+* release version inconsistency ([c16293e](https://github.com/codeherence/react-native-header/commit/c16293ea8c940c6248bd1a811346deb500825f6b))
+
 ## [0.8.0](https://github.com/codeherence/react-native-header/compare/v0.7.3...v0.8.0) (2023-04-27)
 
 This is a fairly small feature release that introduces the [SurfaceComponent](https://react-native-header.codeherence.com/docs/components/header#surfacecomponent) prop to the Header component.
