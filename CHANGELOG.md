@@ -1,4 +1,10 @@
+## [0.8.0](https://github.com/codeherence/react-native-header/compare/v0.7.3...v0.8.0) (2023-04-27)
 
+This is a fairly small feature release that introduces the [SurfaceComponent](https://react-native-header.codeherence.com/docs/components/header#surfacecomponent) prop to the Header component.
+
+### Features
+
+* add SurfaceComponent prop to header ([d3a82d2](https://github.com/codeherence/react-native-header/commit/d3a82d26a7be9af416dff5eb7120d23dddb035d7))
 
 ## [0.7.3](https://github.com/codeherence/react-native-header/compare/v0.7.2...v0.7.3) (2023-04-26)
 
