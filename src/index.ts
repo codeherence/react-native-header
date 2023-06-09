@@ -6,6 +6,7 @@ export {
   ScrollViewWithHeaders,
   FlatListWithHeaders,
   SectionListWithHeaders,
+  FlashListWithHeaders,
 } from './components';
 
 export type {

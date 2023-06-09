@@ -1,19 +1,24 @@
 import React, { useImperativeHandle } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
+import { FlashList, FlashListProps } from '@shopify/flash-list';
 
+import type { SharedScrollContainerProps } from '.';
 import FadingView from './FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
-import type { SharedScrollContainerProps } from './types';
 
-const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
+type AnimatedFlashListType<ItemT> = React.ComponentProps<
+  React.ComponentClass<Animated.AnimateProps<FlashListProps<ItemT>>, any>
+> &
+  SharedScrollContainerProps;
 
-type AnimatedScrollViewProps = React.ComponentProps<typeof Animated.ScrollView> & {
-  children?: React.ReactNode;
-};
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as React.ComponentClass<
+  Animated.AnimateProps<FlashListProps<any>>,
+  unknown
+>;
 
-const ScrollViewWithHeadersInputComp = (
+const FlashListWithHeadersInputComp = <ItemT extends any = any>(
   {
     largeHeaderShown,
     containerStyle,
@@ -21,22 +26,21 @@ const ScrollViewWithHeadersInputComp = (
     largeHeaderContainerStyle,
     HeaderComponent,
     onLargeHeaderLayout,
-    ignoreLeftSafeArea,
-    ignoreRightSafeArea,
     onScrollBeginDrag,
     onScrollEndDrag,
     onMomentumScrollBegin,
     onMomentumScrollEnd,
+    ignoreLeftSafeArea,
+    ignoreRightSafeArea,
     disableAutoFixScroll = false,
-    children,
     /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
     onScroll: _unusedOnScroll,
     ...rest
-  }: AnimatedScrollViewProps & SharedScrollContainerProps,
-  ref: React.Ref<Animated.ScrollView | null>
+  }: AnimatedFlashListType<ItemT>,
+  ref: React.Ref<FlashList<ItemT>>
 ) => {
   const insets = useSafeAreaInsets();
-  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollRef = useAnimatedRef<any>();
   useImperativeHandle(ref, () => scrollRef.current);
 
   const {
@@ -63,7 +67,7 @@ const ScrollViewWithHeadersInputComp = (
       ]}
     >
       {HeaderComponent({ showNavBar, scrollY })}
-      <AnimatedScrollView
+      <AnimatedFlashList
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
@@ -85,32 +89,32 @@ const ScrollViewWithHeadersInputComp = (
           debouncedFixScroll();
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
-        {...rest}
-      >
-        {LargeHeaderComponent ? (
-          <View
-            onLayout={(e) => {
-              largeHeaderHeight.value = e.nativeEvent.layout.height;
+        ListHeaderComponent={
+          LargeHeaderComponent ? (
+            <View
+              onLayout={(e) => {
+                largeHeaderHeight.value = e.nativeEvent.layout.height;
 
-              if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
-            }}
-          >
-            <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-              {LargeHeaderComponent({ scrollY, showNavBar })}
-            </FadingView>
-          </View>
-        ) : null}
-        {children}
-      </AnimatedScrollView>
+                if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
+              }}
+            >
+              <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                {LargeHeaderComponent({ scrollY, showNavBar })}
+              </FadingView>
+            </View>
+          ) : undefined
+        }
+        {...rest}
+      />
     </View>
   );
 };
 
-const ScrollViewWithHeaders = React.forwardRef<
-  Animated.ScrollView,
-  AnimatedScrollViewProps & SharedScrollContainerProps
->(ScrollViewWithHeadersInputComp);
+// The typecast is needed to make the component generic.
+const FlashListWithHeaders = React.forwardRef(FlashListWithHeadersInputComp) as <ItemT = any>(
+  props: AnimatedFlashListType<ItemT> & { ref?: React.Ref<FlashList<ItemT>> }
+) => React.ReactElement;
 
-export default ScrollViewWithHeaders;
+export default FlashListWithHeaders;
 
 const styles = StyleSheet.create({ container: { flex: 1 } });

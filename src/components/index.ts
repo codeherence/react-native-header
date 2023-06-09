@@ -4,6 +4,7 @@ export {
   ScrollViewWithHeaders,
   FlatListWithHeaders,
   SectionListWithHeaders,
+  FlashListWithHeaders,
 } from './containers';
 export type {
   ScrollHeaderProps,
