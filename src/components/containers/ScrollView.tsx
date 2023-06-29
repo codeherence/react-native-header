@@ -9,7 +9,7 @@ import type { SharedScrollContainerProps } from './types';
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
-type AnimatedScrollViewProps = React.ComponentProps<typeof Animated.ScrollView> & {
+type AnimatedScrollViewProps = React.ComponentProps<typeof AnimatedScrollView> & {
   children?: React.ReactNode;
 };
 
@@ -36,6 +36,7 @@ const ScrollViewWithHeadersInputComp = (
     contentContainerStyle,
     automaticallyAdjustsScrollIndicatorInsets,
     headerFadeInThreshold = 1,
+    scrollIndicatorInsets = {},
     disableLargeHeaderFadeAnim = false,
     ...rest
   }: AnimatedScrollViewProps & SharedScrollContainerProps,
@@ -97,6 +98,8 @@ const ScrollViewWithHeadersInputComp = (
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
         contentContainerStyle={[
+          // @ts-ignore
+          // Reanimated typings are causing this error - will fix in the future.
           contentContainerStyle,
           absoluteHeader ? { paddingTop: absoluteHeaderHeight } : undefined,
         ]}
@@ -105,7 +108,10 @@ const ScrollViewWithHeadersInputComp = (
             ? automaticallyAdjustsScrollIndicatorInsets
             : !absoluteHeader
         }
-        scrollIndicatorInsets={{ top: absoluteHeader ? absoluteHeaderHeight : 0 }}
+        scrollIndicatorInsets={{
+          top: absoluteHeader ? absoluteHeaderHeight : 0,
+          ...scrollIndicatorInsets,
+        }}
         {...rest}
       >
         {LargeHeaderComponent ? (
