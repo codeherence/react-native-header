@@ -1,5 +1,12 @@
 
 
+## [0.10.0](https://github.com/codeherence/react-native-header/compare/v0.9.0...v0.10.0) (2023-06-29)
+
+
+### Features
+
+* introduce header fade-in threshold ([#17](https://github.com/codeherence/react-native-header/issues/17)) ([9017593](https://github.com/codeherence/react-native-header/commit/9017593d3fcdcc1c7138dcdee7a853177e1a565e))
+
 ## [0.9.0](https://github.com/codeherence/react-native-header/compare/v0.9.0-beta.0...v0.9.0) (2023-06-29)
 
 
