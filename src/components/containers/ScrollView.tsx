@@ -31,6 +31,10 @@ const ScrollViewWithHeadersInputComp = (
     children,
     /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
     onScroll: _unusedOnScroll,
+    absoluteHeader = false,
+    initialAbsoluteHeaderHeight = 0,
+    contentContainerStyle,
+    automaticallyAdjustsScrollIndicatorInsets,
     ...rest
   }: AnimatedScrollViewProps & SharedScrollContainerProps,
   ref: React.Ref<Animated.ScrollView | null>
@@ -46,11 +50,15 @@ const ScrollViewWithHeadersInputComp = (
     largeHeaderOpacity,
     scrollHandler,
     debouncedFixScroll,
+    absoluteHeaderHeight,
+    onAbsoluteHeaderLayout,
   } = useScrollContainerLogic({
     scrollRef,
     largeHeaderShown,
     disableAutoFixScroll,
     largeHeaderExists: !!LargeHeaderComponent,
+    absoluteHeader,
+    initialAbsoluteHeaderHeight,
   });
 
   return (
@@ -62,7 +70,7 @@ const ScrollViewWithHeadersInputComp = (
         !ignoreRightSafeArea && { paddingRight: insets.right },
       ]}
     >
-      {HeaderComponent({ showNavBar, scrollY })}
+      {!absoluteHeader && HeaderComponent({ showNavBar, scrollY })}
       <AnimatedScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -85,6 +93,16 @@ const ScrollViewWithHeadersInputComp = (
           debouncedFixScroll();
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
+        contentContainerStyle={[
+          contentContainerStyle,
+          absoluteHeader ? { paddingTop: absoluteHeaderHeight } : undefined,
+        ]}
+        automaticallyAdjustsScrollIndicatorInsets={
+          automaticallyAdjustsScrollIndicatorInsets !== undefined
+            ? automaticallyAdjustsScrollIndicatorInsets
+            : !absoluteHeader
+        }
+        scrollIndicatorInsets={{ top: absoluteHeader ? absoluteHeaderHeight : 0 }}
         {...rest}
       >
         {LargeHeaderComponent ? (
@@ -102,6 +120,12 @@ const ScrollViewWithHeadersInputComp = (
         ) : null}
         {children}
       </AnimatedScrollView>
+
+      {absoluteHeader && (
+        <View style={styles.absoluteHeader} onLayout={onAbsoluteHeaderLayout}>
+          {HeaderComponent({ showNavBar, scrollY })}
+        </View>
+      )}
     </View>
   );
 };
@@ -113,4 +137,12 @@ const ScrollViewWithHeaders = React.forwardRef<
 
 export default ScrollViewWithHeaders;
 
-const styles = StyleSheet.create({ container: { flex: 1 } });
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  absoluteHeader: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+  },
+});

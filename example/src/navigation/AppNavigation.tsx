@@ -10,6 +10,7 @@ import {
   SimpleUsageScreen,
   SurfaceComponentUsageScreen,
   TwitterProfileScreen,
+  AbsoluteHeaderBlurSurface,
 } from '../screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -31,5 +32,9 @@ export default () => (
       component={SurfaceComponentUsageScreen}
     />
     <Stack.Screen name="TwitterProfileScreen" component={TwitterProfileScreen} />
+    <Stack.Screen
+      name="AbsoluteHeaderBlurSurfaceUsageScreen"
+      component={AbsoluteHeaderBlurSurface}
+    />
   </Stack.Navigator>
 );
