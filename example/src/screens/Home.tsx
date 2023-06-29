@@ -39,6 +39,11 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     description: "A simple example of the library's SectionList.",
   },
   {
+    name: 'Inverted Example',
+    route: 'InvertedUsageScreen',
+    description: "A simple example of the library's Inverted FlatList.",
+  },
+  {
     name: 'Header SurfaceComponent Interpolation',
     route: 'HeaderSurfaceComponentUsageScreen',
     description:

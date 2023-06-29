@@ -42,6 +42,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
     scrollIndicatorInsets = {},
+    inverted,
     ...rest
   }: AnimatedFlashListType<ItemT>,
   ref: React.Ref<FlashList<ItemT>>
@@ -57,8 +58,8 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     largeHeaderOpacity,
     scrollHandler,
     debouncedFixScroll,
-    absoluteHeaderHeight,
     onAbsoluteHeaderLayout,
+    scrollViewAdjustments,
   } = useScrollContainerLogic({
     scrollRef,
     largeHeaderShown,
@@ -67,6 +68,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     absoluteHeader,
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
+    inverted: !!inverted,
   });
 
   return (
@@ -101,12 +103,11 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
           debouncedFixScroll();
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
-        // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{
           // The reason why we do this is because FlashList does not support an array of
           // styles (will throw a warning when you supply one).
+          ...scrollViewAdjustments.contentContainerStyle,
           ...contentContainerStyle,
-          paddingTop: absoluteHeader ? absoluteHeaderHeight : 0,
         }}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
@@ -114,7 +115,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
             : !absoluteHeader
         }
         scrollIndicatorInsets={{
-          top: absoluteHeader ? absoluteHeaderHeight : 0,
+          ...scrollViewAdjustments.scrollIndicatorInsets,
           ...scrollIndicatorInsets,
         }}
         ListHeaderComponent={
@@ -138,6 +139,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
             </View>
           ) : undefined
         }
+        inverted={inverted}
         {...rest}
       />
 

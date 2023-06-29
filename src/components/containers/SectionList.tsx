@@ -42,6 +42,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
     scrollIndicatorInsets = {},
+    inverted,
     ...rest
   }: AnimatedSectionListType<ItemT, SectionT>,
   ref: React.Ref<Animated.ScrollView>
@@ -57,8 +58,8 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     largeHeaderOpacity,
     scrollHandler,
     debouncedFixScroll,
-    absoluteHeaderHeight,
     onAbsoluteHeaderLayout,
+    scrollViewAdjustments,
   } = useScrollContainerLogic({
     scrollRef,
     largeHeaderShown,
@@ -67,6 +68,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     absoluteHeader,
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
+    inverted: !!inverted,
   });
 
   return (
@@ -102,10 +104,10 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
         contentContainerStyle={[
+          scrollViewAdjustments.contentContainerStyle,
           // @ts-ignore
           // Unfortunately there are issues with Reanimated typings, so will ignore for now.
           contentContainerStyle,
-          absoluteHeader ? { paddingTop: absoluteHeaderHeight } : undefined,
         ]}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
@@ -113,7 +115,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
             : !absoluteHeader
         }
         scrollIndicatorInsets={{
-          top: absoluteHeader ? absoluteHeaderHeight : 0,
+          ...scrollViewAdjustments.scrollIndicatorInsets,
           ...scrollIndicatorInsets,
         }}
         ListHeaderComponent={
@@ -137,6 +139,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
             </View>
           ) : undefined
         }
+        inverted={inverted}
         {...rest}
       />
 

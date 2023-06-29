@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { LayoutChangeEvent } from 'react-native';
 import Animated, {
   interpolate,
@@ -66,6 +66,10 @@ interface UseScrollContainerLogicArgs {
    * @default 1
    */
   headerFadeInThreshold?: number;
+  /**
+   * Whether or not the scroll container is inverted.
+   */
+  inverted?: boolean;
 }
 
 /**
@@ -83,6 +87,7 @@ export const useScrollContainerLogic = ({
   absoluteHeader = false,
   initialAbsoluteHeaderHeight = 0,
   headerFadeInThreshold = 1,
+  inverted,
 }: UseScrollContainerLogicArgs) => {
   const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState(initialAbsoluteHeaderHeight);
   const scrollY = useSharedValue(0);
@@ -100,17 +105,13 @@ export const useScrollContainerLogic = ({
     if (largeHeaderShown) {
       largeHeaderShown.value = withTiming(
         scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
-        {
-          duration: 250,
-        }
+        { duration: 250 }
       );
     }
 
     return withTiming(
       scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
-      {
-        duration: 250,
-      }
+      { duration: 250 }
     );
   }, [largeHeaderExists]);
 
@@ -147,6 +148,19 @@ export const useScrollContainerLogic = ({
     [absoluteHeader]
   );
 
+  const scrollViewAdjustments = useMemo(() => {
+    return {
+      scrollIndicatorInsets: {
+        top: absoluteHeader && !inverted ? absoluteHeaderHeight : 0,
+        bottom: absoluteHeader && inverted ? absoluteHeaderHeight : 0,
+      },
+      contentContainerStyle: {
+        paddingTop: absoluteHeader && !inverted ? absoluteHeaderHeight : 0,
+        paddingBottom: absoluteHeader && inverted ? absoluteHeaderHeight : 0,
+      },
+    };
+  }, [inverted, absoluteHeaderHeight, absoluteHeader]);
+
   return {
     scrollY,
     showNavBar,
@@ -156,5 +170,6 @@ export const useScrollContainerLogic = ({
     debouncedFixScroll,
     absoluteHeaderHeight,
     onAbsoluteHeaderLayout,
+    scrollViewAdjustments,
   };
 };

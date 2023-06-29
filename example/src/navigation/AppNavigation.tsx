@@ -12,6 +12,7 @@ import {
   TwitterProfileScreen,
   AbsoluteHeaderBlurSurfaceUsageScreen,
   ArbitraryYTransitionHeaderUsageScreen,
+  InvertedUsageScreen,
 } from '../screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -28,6 +29,7 @@ export default () => (
     <Stack.Screen name="FlatListUsageScreen" component={FlatListUsageScreen} />
     <Stack.Screen name="FlashListUsageScreen" component={FlashListUsageScreen} />
     <Stack.Screen name="SectionListUsageScreen" component={SectionListUsageScreen} />
+    <Stack.Screen name="InvertedUsageScreen" component={InvertedUsageScreen} />
     <Stack.Screen
       name="HeaderSurfaceComponentUsageScreen"
       component={SurfaceComponentUsageScreen}
