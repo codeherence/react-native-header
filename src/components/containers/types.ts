@@ -135,4 +135,18 @@ export type SharedScrollContainerProps = {
    * to set the initial height of the header so that it doesn't jump when it is initially rendered.
    */
   initialAbsoluteHeaderHeight?: number;
+  /**
+   * A number between 0 and 1 representing at what point the header should fade in,
+   * based on the percentage of the LargeHeader's height. For example, if this is set to 0.5,
+   * the header will fade in when the scroll position is at 50% of the LargeHeader's height.
+   *
+   * @default 1
+   */
+  headerFadeInThreshold?: number;
+  /**
+   * Whether or not the LargeHeaderComponent should fade in and out.
+   *
+   * @default {false}
+   * */
+  disableLargeHeaderFadeAnim?: boolean;
 };

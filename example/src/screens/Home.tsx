@@ -54,6 +54,12 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     route: 'AbsoluteHeaderBlurSurfaceUsageScreen',
     description: 'An example of an absolutely-positioned header with a BlurView surface.',
   },
+  {
+    name: 'Arbitrary Y Transition Header',
+    route: 'ArbitraryYTransitionHeaderUsageScreen',
+    description:
+      'An example of a header that transitions based on the scroll position of the ScrollView, instead of passing the height of the large header before animating.',
+  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {

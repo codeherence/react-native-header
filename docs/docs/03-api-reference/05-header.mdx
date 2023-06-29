@@ -19,7 +19,7 @@ An animated value between 0 and 1 that indicates whether the header's children s
 
 An optional style object to apply to the header's root container.
 
-NOTE: Do not apply an `absolute` position to this container. Instead, use the `absoluteHeader` prop
+**Note**: Do not apply an `absolute` position to this container. Instead, use the `absoluteHeader` prop
 on any of the scroll containers to absolutely position the header.
 
 ### headerLeft
@@ -84,6 +84,8 @@ An optional width to use for the header's bottom border. Defaults to [StyleSheet
 ### SurfaceComponent
 
 An optional component that can act as the surface of the header. Please ensure that the styling applied to the component includes `StyleSheet.absoluteFill` or `StyleSheet.absoluteFillObject` to ensure that the surface component fills the header.
+
+**Note**: If you want to use a [BlurView](https://github.com/Kureev/react-native-blur#blurview) as the surface and want the content below to be seen under the surface, make sure you set [absoluteHeader](/docs/components/scroll-view-with-headers#absoluteHeader) to `true` on the scroll container.
 
 #### Example
 

@@ -35,6 +35,8 @@ const ScrollViewWithHeadersInputComp = (
     initialAbsoluteHeaderHeight = 0,
     contentContainerStyle,
     automaticallyAdjustsScrollIndicatorInsets,
+    headerFadeInThreshold = 1,
+    disableLargeHeaderFadeAnim = false,
     ...rest
   }: AnimatedScrollViewProps & SharedScrollContainerProps,
   ref: React.Ref<Animated.ScrollView | null>
@@ -59,6 +61,7 @@ const ScrollViewWithHeadersInputComp = (
     largeHeaderExists: !!LargeHeaderComponent,
     absoluteHeader,
     initialAbsoluteHeaderHeight,
+    headerFadeInThreshold,
   });
 
   return (
@@ -113,9 +116,15 @@ const ScrollViewWithHeadersInputComp = (
               if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
             }}
           >
-            <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-              {LargeHeaderComponent({ scrollY, showNavBar })}
-            </FadingView>
+            {!disableLargeHeaderFadeAnim ? (
+              <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                {LargeHeaderComponent({ scrollY, showNavBar })}
+              </FadingView>
+            ) : (
+              <View style={largeHeaderContainerStyle}>
+                {LargeHeaderComponent({ scrollY, showNavBar })}
+              </View>
+            )}
           </View>
         ) : null}
         {children}
