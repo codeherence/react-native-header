@@ -143,6 +143,10 @@ export type SharedScrollContainerProps = {
    * @default 1
    */
   headerFadeInThreshold?: number;
-  /** Whether or not the LargeHeaderComponent should fade in and out. */
+  /**
+   * Whether or not the LargeHeaderComponent should fade in and out.
+   *
+   * @default {false}
+   * */
   disableLargeHeaderFadeAnim?: boolean;
 };
