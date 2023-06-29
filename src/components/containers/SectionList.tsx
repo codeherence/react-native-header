@@ -41,6 +41,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     automaticallyAdjustsScrollIndicatorInsets,
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
+    scrollIndicatorInsets = {},
     ...rest
   }: AnimatedSectionListType<ItemT, SectionT>,
   ref: React.Ref<Animated.ScrollView>
@@ -111,7 +112,10 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
             ? automaticallyAdjustsScrollIndicatorInsets
             : !absoluteHeader
         }
-        scrollIndicatorInsets={{ top: absoluteHeader ? absoluteHeaderHeight : 0 }}
+        scrollIndicatorInsets={{
+          top: absoluteHeader ? absoluteHeaderHeight : 0,
+          ...scrollIndicatorInsets,
+        }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
             <View

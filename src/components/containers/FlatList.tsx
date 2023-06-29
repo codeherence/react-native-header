@@ -37,6 +37,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     automaticallyAdjustsScrollIndicatorInsets,
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
+    scrollIndicatorInsets = {},
     ...rest
   }: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps,
   ref: React.Ref<Animated.FlatList<ItemT> | null>
@@ -107,7 +108,10 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
             ? automaticallyAdjustsScrollIndicatorInsets
             : !absoluteHeader
         }
-        scrollIndicatorInsets={{ top: absoluteHeader ? absoluteHeaderHeight : 0 }}
+        scrollIndicatorInsets={{
+          top: absoluteHeader ? absoluteHeaderHeight : 0,
+          ...scrollIndicatorInsets,
+        }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
             <View

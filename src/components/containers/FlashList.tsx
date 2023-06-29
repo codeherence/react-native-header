@@ -41,6 +41,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     automaticallyAdjustsScrollIndicatorInsets,
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
+    scrollIndicatorInsets = {},
     ...rest
   }: AnimatedFlashListType<ItemT>,
   ref: React.Ref<FlashList<ItemT>>
@@ -112,7 +113,10 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
             ? automaticallyAdjustsScrollIndicatorInsets
             : !absoluteHeader
         }
-        scrollIndicatorInsets={{ top: absoluteHeader ? absoluteHeaderHeight : 0 }}
+        scrollIndicatorInsets={{
+          top: absoluteHeader ? absoluteHeaderHeight : 0,
+          ...scrollIndicatorInsets,
+        }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
             <View
