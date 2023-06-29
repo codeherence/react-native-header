@@ -8,17 +8,17 @@ description: A FlatList that uses React Native Header for better headers.
 Component that extends the [FlatList](https://reactnative.dev/docs/flatlist) to add support for
 headers exported from this library.
 
-The implementation of this component relies on the [HeaderComponent](/docs/components/flat-list-with-headers#headercomponent) 
+The implementation of this component relies on the [HeaderComponent](/docs/components/flat-list-with-headers#headercomponent)
 and [LargeHeaderComponent](/docs/components/flat-list-with-headers#largeheadercomponent) props.
-The [HeaderComponent](/docs/components/flat-list-with-headers#headercomponent) is rendered above 
-the FlatList and the [LargeHeaderComponent](/docs/components/flat-list-with-headers#largeheadercomponent) 
-is rendered as the `ListHeaderComponent` of the FlatList. Using these two props will allow for 
+The [HeaderComponent](/docs/components/flat-list-with-headers#headercomponent) is rendered above
+the FlatList and the [LargeHeaderComponent](/docs/components/flat-list-with-headers#largeheadercomponent)
+is rendered as the `ListHeaderComponent` of the FlatList. Using these two props will allow for
 animations/built-in features in this library to work properly.
 
 ## Props
 
-This component uses the `Animated.FlatList` under the hood, which inherits [all of the props 
-from the FlatList](https://reactnative.dev/docs/flatlist) component. 
+This component uses the `Animated.FlatList` under the hood, which inherits [all of the props
+from the FlatList](https://reactnative.dev/docs/flatlist) component.
 
 ### HeaderComponent
 
@@ -26,30 +26,29 @@ The component to render above the FlatList. This accepts a function that returns
 to display as the header. The function will be called with the following arguments:
 
 - `showNavBar`: An animated value that will be 0 when the header's subcomponents should be hidden
-  and 1 when they should be shown. This is useful for animating the header's subcomponents. The 
-  [Header](/docs/components/header) component uses this value to animate its left, center, and 
+  and 1 when they should be shown. This is useful for animating the header's subcomponents. The
+  [Header](/docs/components/header) component uses this value to animate its left, center, and
   right children.
 
 ### LargeHeaderComponent
 
-An optional component to render as the large header for this component. This accepts a function 
+An optional component to render as the large header for this component. This accepts a function
 that returns a React Element to display as the large header. The function will be called with the
 following arguments:
 
 - `scrollY`: An animated value that keeps track of the current scroll position of the FlatList.
-  This prop is useful for creating custom animations on the large header. In our [example](/docs/example), 
-  we use the [ScalingView](/docs/components/scaling-view) component to scale the large header 
+  This prop is useful for creating custom animations on the large header. In our [example](/docs/example),
+  we use the [ScalingView](/docs/components/scaling-view) component to scale the large header
   when the user pulls down on the FlatList (to mimic native iOS behaviour).
-  
 - `showNavBar`: An animated value that keeps track of whether or not the small header is hidden.
   This prop is useful if you want to create your own custom animations based on whether or not the
   small header is hidden.
 
 ### ignoreLeftSafeArea
 
-An optional boolean that determines whether or not to ignore the left safe area. Defaults to 
-`false`. The safe area adjustments are used to make sure that the scroll container does not 
-overlap with the notch/headers on different phones - leave this prop as false if you want to 
+An optional boolean that determines whether or not to ignore the left safe area. Defaults to
+`false`. The safe area adjustments are used to make sure that the scroll container does not
+overlap with the notch/headers on different phones - leave this prop as false if you want to
 respect those safe areas.
 
 ### ignoreRightSafeArea
@@ -61,7 +60,7 @@ respect those safe areas.
 
 ### disableAutoFixScroll
 
-An optional to disable the auto fix scroll mechanism. This is useful if you want to disable the 
+An optional to disable the auto fix scroll mechanism. This is useful if you want to disable the
 auto scroll when the large header is partially visible. Defaults to `false`.
 
 ### containerStyle
@@ -74,11 +73,22 @@ An optional style object that will be applied to the large header container.
 
 ### largeHeaderShown
 
-An optional animated [Shared Value](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/shared-values/) 
-that will be mutated by the library when the large header is shown or hidden. This is useful if you 
+An optional animated [Shared Value](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/shared-values/)
+that will be mutated by the library when the large header is shown or hidden. This is useful if you
 would like to track when the large header is shown or hidden.
 
 ### onLargeHeaderLayout
 
 An optional callback that will be called when the large header is laid out. This is useful if you
 want to access the layout of the large header to calculate the height of the large header.
+
+### absoluteHeader
+
+This property controls whether or not the header component is absolutely positioned. This is useful
+if you want to render a header component that allows for transparency.
+
+### initialAbsoluteHeaderHeight
+
+This property is used when `absoluteHeader` is true. This is the initial height of the
+absolute header. Since the header's height is computed on its layout event, this is used
+to set the initial height of the header so that it doesn't jump when it is initially rendered.
