@@ -8,4 +8,5 @@ export { default as FlashListUsageScreen } from './usage/FlashList';
 export { default as SectionListUsageScreen } from './usage/SectionList';
 export { default as SurfaceComponentUsageScreen } from './usage/SurfaceComponent';
 export { default as TwitterProfileScreen } from './usage/TwitterProfile';
-export { default as AbsoluteHeaderBlurSurface } from './usage/AbsoluteHeaderBlurSurface';
+export { default as AbsoluteHeaderBlurSurfaceUsageScreen } from './usage/AbsoluteHeaderBlurSurface';
+export { default as ArbitraryYTransitionHeaderUsageScreen } from './usage/ArbitraryYTransitionHeader';

@@ -11,6 +11,7 @@ export type RootStackParamList = {
   TwitterProfileScreen: undefined;
   HeaderSurfaceComponentUsageScreen: undefined;
   AbsoluteHeaderBlurSurfaceUsageScreen: undefined;
+  ArbitraryYTransitionHeaderUsageScreen: undefined;
 };
 
 // Overrides the typing for useNavigation in @react-navigation/native to support the internal
@@ -58,4 +59,9 @@ export type TwitterProfileScreenNavigationProps = NativeStackScreenProps<
 export type AbsoluteHeaderBlurSurfaceUsageScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
   'AbsoluteHeaderBlurSurfaceUsageScreen'
+>;
+
+export type ArbitraryYTransitionHeaderUsageScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  'ArbitraryYTransitionHeaderUsageScreen'
 >;

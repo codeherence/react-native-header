@@ -39,6 +39,8 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     initialAbsoluteHeaderHeight = 0,
     contentContainerStyle = {},
     automaticallyAdjustsScrollIndicatorInsets,
+    headerFadeInThreshold = 1,
+    disableLargeHeaderFadeAnim = false,
     ...rest
   }: AnimatedFlashListType<ItemT>,
   ref: React.Ref<FlashList<ItemT>>
@@ -63,6 +65,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     largeHeaderExists: !!LargeHeaderComponent,
     absoluteHeader,
     initialAbsoluteHeaderHeight,
+    headerFadeInThreshold,
   });
 
   return (
@@ -119,9 +122,15 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
                 if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
               }}
             >
-              <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                {LargeHeaderComponent({ scrollY, showNavBar })}
-              </FadingView>
+              {!disableLargeHeaderFadeAnim ? (
+                <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                  {LargeHeaderComponent({ scrollY, showNavBar })}
+                </FadingView>
+              ) : (
+                <View style={largeHeaderContainerStyle}>
+                  {LargeHeaderComponent({ scrollY, showNavBar })}
+                </View>
+              )}
             </View>
           ) : undefined
         }

@@ -366,6 +366,8 @@ const TwitterProfile: React.FC<TwitterProfileScreenNavigationProps> = () => {
         // other relevant components to respect the safe area.
         ignoreLeftSafeArea
         ignoreRightSafeArea
+        headerFadeInThreshold={0.2}
+        disableLargeHeaderFadeAnim
         style={styles.container}
         contentContainerStyle={[styles.contentContainer, { paddingBottom: bottom }]}
         containerStyle={styles.rootContainer}

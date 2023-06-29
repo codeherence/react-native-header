@@ -39,6 +39,8 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     initialAbsoluteHeaderHeight = 0,
     contentContainerStyle,
     automaticallyAdjustsScrollIndicatorInsets,
+    headerFadeInThreshold = 1,
+    disableLargeHeaderFadeAnim = false,
     ...rest
   }: AnimatedSectionListType<ItemT, SectionT>,
   ref: React.Ref<Animated.ScrollView>
@@ -63,6 +65,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     largeHeaderExists: !!LargeHeaderComponent,
     absoluteHeader,
     initialAbsoluteHeaderHeight,
+    headerFadeInThreshold,
   });
 
   return (
@@ -118,9 +121,15 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
                 if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
               }}
             >
-              <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                {LargeHeaderComponent({ scrollY, showNavBar })}
-              </FadingView>
+              {!disableLargeHeaderFadeAnim ? (
+                <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                  {LargeHeaderComponent({ scrollY, showNavBar })}
+                </FadingView>
+              ) : (
+                <View style={largeHeaderContainerStyle}>
+                  {LargeHeaderComponent({ scrollY, showNavBar })}
+                </View>
+              )}
             </View>
           ) : undefined
         }

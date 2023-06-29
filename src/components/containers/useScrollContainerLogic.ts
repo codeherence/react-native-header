@@ -58,6 +58,14 @@ interface UseScrollContainerLogicArgs {
    * to set the initial height of the header so that it doesn't jump when it is initially rendered.
    */
   initialAbsoluteHeaderHeight?: number;
+  /**
+   * A number between 0 and 1 representing at what point the header should fade in,
+   * based on the percentage of the LargeHeader's height. For example, if this is set to 0.5,
+   * the header will fade in when the scroll position is at 50% of the LargeHeader's height.
+   *
+   * @default 1
+   */
+  headerFadeInThreshold?: number;
 }
 
 /**
@@ -74,6 +82,7 @@ export const useScrollContainerLogic = ({
   adjustmentOffset = 4,
   absoluteHeader = false,
   initialAbsoluteHeaderHeight = 0,
+  headerFadeInThreshold = 1,
 }: UseScrollContainerLogicArgs) => {
   const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState(initialAbsoluteHeaderHeight);
   const scrollY = useSharedValue(0);
@@ -90,16 +99,19 @@ export const useScrollContainerLogic = ({
 
     if (largeHeaderShown) {
       largeHeaderShown.value = withTiming(
-        scrollY.value <= largeHeaderHeight.value - adjustmentOffset ? 0 : 1,
+        scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
         {
           duration: 250,
         }
       );
     }
 
-    return withTiming(scrollY.value <= largeHeaderHeight.value - adjustmentOffset ? 0 : 1, {
-      duration: 250,
-    });
+    return withTiming(
+      scrollY.value <= largeHeaderHeight.value * headerFadeInThreshold - adjustmentOffset ? 0 : 1,
+      {
+        duration: 250,
+      }
+    );
   }, [largeHeaderExists]);
 
   const largeHeaderOpacity = useDerivedValue(() => {

@@ -35,6 +35,8 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     initialAbsoluteHeaderHeight = 0,
     contentContainerStyle,
     automaticallyAdjustsScrollIndicatorInsets,
+    headerFadeInThreshold = 1,
+    disableLargeHeaderFadeAnim = false,
     ...rest
   }: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps,
   ref: React.Ref<Animated.FlatList<ItemT> | null>
@@ -59,6 +61,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     largeHeaderExists: !!LargeHeaderComponent,
     absoluteHeader,
     initialAbsoluteHeaderHeight,
+    headerFadeInThreshold,
   });
 
   return (
@@ -114,9 +117,15 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
                 if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
               }}
             >
-              <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                {LargeHeaderComponent({ scrollY, showNavBar })}
-              </FadingView>
+              {!disableLargeHeaderFadeAnim ? (
+                <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                  {LargeHeaderComponent({ scrollY, showNavBar })}
+                </FadingView>
+              ) : (
+                <View style={largeHeaderContainerStyle}>
+                  {LargeHeaderComponent({ scrollY, showNavBar })}
+                </View>
+              )}
             </View>
           ) : undefined
         }
