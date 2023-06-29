@@ -1,5 +1,12 @@
 
 
+## [0.9.0](https://github.com/codeherence/react-native-header/compare/v0.9.0-beta.0...v0.9.0) (2023-06-29)
+
+
+### Features
+
+* absolute headers ([#16](https://github.com/codeherence/react-native-header/issues/16)) ([1816333](https://github.com/codeherence/react-native-header/commit/1816333d38b9346bfa7e9e67bb3d9e0cd30babeb))
+
 ## [0.9.0 beta-0](https://github.com/codeherence/react-native-header/compare/v0.8.0...0.9.0-beta.0) (2023-06-09)
 
 
