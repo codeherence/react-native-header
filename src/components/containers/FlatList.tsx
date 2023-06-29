@@ -38,6 +38,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
     scrollIndicatorInsets = {},
+    inverted,
     ...rest
   }: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps,
   ref: React.Ref<Animated.FlatList<ItemT> | null>
@@ -53,8 +54,8 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     largeHeaderOpacity,
     scrollHandler,
     debouncedFixScroll,
-    absoluteHeaderHeight,
     onAbsoluteHeaderLayout,
+    scrollViewAdjustments,
   } = useScrollContainerLogic({
     scrollRef,
     largeHeaderShown,
@@ -63,6 +64,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     absoluteHeader,
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
+    inverted: !!inverted,
   });
 
   return (
@@ -98,10 +100,10 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
         contentContainerStyle={[
+          scrollViewAdjustments.contentContainerStyle,
           // @ts-ignore
           // Unfortunately there are issues with Reanimated typings, so will ignore for now.
           contentContainerStyle,
-          absoluteHeader ? { paddingTop: absoluteHeaderHeight } : undefined,
         ]}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
@@ -109,7 +111,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
             : !absoluteHeader
         }
         scrollIndicatorInsets={{
-          top: absoluteHeader ? absoluteHeaderHeight : 0,
+          ...scrollViewAdjustments.scrollIndicatorInsets,
           ...scrollIndicatorInsets,
         }}
         ListHeaderComponent={
@@ -133,6 +135,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
             </View>
           ) : undefined
         }
+        inverted={inverted}
         {...rest}
       />
 
