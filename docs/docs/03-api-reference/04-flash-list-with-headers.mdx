@@ -92,8 +92,28 @@ want to access the layout of the large header to calculate the height of the lar
 This property controls whether or not the header component is absolutely positioned. This is useful
 if you want to render a header component that allows for transparency.
 
+**Note**: This is only available in version >= 0.9.0.
+
 ### initialAbsoluteHeaderHeight
 
 This property is used when `absoluteHeader` is true. This is the initial height of the
 absolute header. Since the header's height is computed on its layout event, this is used
 to set the initial height of the header so that it doesn't jump when it is initially rendered.
+
+**Note**: This is only available in version >= 0.9.0.
+
+### headerFadeInThreshold
+
+A number between 0 and 1 representing at what point the header should fade in,
+based on the percentage of the LargeHeader's height. For example, if this is set to 0.5,
+the header will fade in when the scroll position is at 50% of the LargeHeader's height.
+
+Defaults to `1`.
+
+**Note**: This is only available in version >= 0.10.0.
+
+### disableLargeHeaderFadeAnim
+
+Whether or not the LargeHeaderComponent should fade in and out. Defaults to `false`.
+
+**Note**: This is only available in version >= 0.10.0.
