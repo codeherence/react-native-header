@@ -1,3 +1,5 @@
+import { useCallback, useState } from 'react';
+import { LayoutChangeEvent } from 'react-native';
 import Animated, {
   interpolate,
   runOnUI,
@@ -45,6 +47,17 @@ interface UseScrollContainerLogicArgs {
    * @default false
    */
   disableAutoFixScroll?: boolean;
+  /**
+   * This property controls whether or not the header component is absolutely positioned.
+   * This is useful if you want to render a header component that allows for transparency.
+   */
+  absoluteHeader?: boolean;
+  /**
+   * This property is used when `absoluteHeader` is true. This is the initial height of the
+   * absolute header. Since the header's height is computed on its layout event, this is used
+   * to set the initial height of the header so that it doesn't jump when it is initially rendered.
+   */
+  initialAbsoluteHeaderHeight?: number;
 }
 
 /**
@@ -59,7 +72,10 @@ export const useScrollContainerLogic = ({
   largeHeaderExists,
   disableAutoFixScroll = false,
   adjustmentOffset = 4,
+  absoluteHeader = false,
+  initialAbsoluteHeaderHeight = 0,
 }: UseScrollContainerLogicArgs) => {
+  const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState(initialAbsoluteHeaderHeight);
   const scrollY = useSharedValue(0);
   const largeHeaderHeight = useSharedValue(0);
 
@@ -110,6 +126,15 @@ export const useScrollContainerLogic = ({
     }
   }, 50);
 
+  const onAbsoluteHeaderLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      if (absoluteHeader) {
+        setAbsoluteHeaderHeight(e.nativeEvent.layout.height);
+      }
+    },
+    [absoluteHeader]
+  );
+
   return {
     scrollY,
     showNavBar,
@@ -117,5 +142,7 @@ export const useScrollContainerLogic = ({
     largeHeaderOpacity,
     scrollHandler,
     debouncedFixScroll,
+    absoluteHeaderHeight,
+    onAbsoluteHeaderLayout,
   };
 };

@@ -31,6 +31,10 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     disableAutoFixScroll = false,
     /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
     onScroll: _unusedOnScroll,
+    absoluteHeader = false,
+    initialAbsoluteHeaderHeight = 0,
+    contentContainerStyle,
+    automaticallyAdjustsScrollIndicatorInsets,
     ...rest
   }: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps,
   ref: React.Ref<Animated.FlatList<ItemT> | null>
@@ -46,11 +50,15 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     largeHeaderOpacity,
     scrollHandler,
     debouncedFixScroll,
+    absoluteHeaderHeight,
+    onAbsoluteHeaderLayout,
   } = useScrollContainerLogic({
     scrollRef,
     largeHeaderShown,
     disableAutoFixScroll,
     largeHeaderExists: !!LargeHeaderComponent,
+    absoluteHeader,
+    initialAbsoluteHeaderHeight,
   });
 
   return (
@@ -62,7 +70,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
         !ignoreRightSafeArea && { paddingRight: insets.right },
       ]}
     >
-      {HeaderComponent({ showNavBar, scrollY })}
+      {!absoluteHeader && HeaderComponent({ showNavBar, scrollY })}
       <Animated.FlatList
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -85,6 +93,18 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
           debouncedFixScroll();
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
+        contentContainerStyle={[
+          // @ts-ignore
+          // Unfortunately there are issues with Reanimated typings, so will ignore for now.
+          contentContainerStyle,
+          absoluteHeader ? { paddingTop: absoluteHeaderHeight } : undefined,
+        ]}
+        automaticallyAdjustsScrollIndicatorInsets={
+          automaticallyAdjustsScrollIndicatorInsets !== undefined
+            ? automaticallyAdjustsScrollIndicatorInsets
+            : !absoluteHeader
+        }
+        scrollIndicatorInsets={{ top: absoluteHeader ? absoluteHeaderHeight : 0 }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
             <View
@@ -102,6 +122,12 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
         }
         {...rest}
       />
+
+      {absoluteHeader && (
+        <View style={styles.absoluteHeader} onLayout={onAbsoluteHeaderLayout}>
+          {HeaderComponent({ showNavBar, scrollY })}
+        </View>
+      )}
     </View>
   );
 };
@@ -114,4 +140,12 @@ const FlatListWithHeaders = React.forwardRef(FlatListWithHeadersInputComp) as <I
 
 export default FlatListWithHeaders;
 
-const styles = StyleSheet.create({ container: { flex: 1 } });
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  absoluteHeader: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+  },
+});

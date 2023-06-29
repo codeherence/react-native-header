@@ -35,6 +35,10 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     disableAutoFixScroll = false,
     /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
     onScroll: _unusedOnScroll,
+    absoluteHeader = false,
+    initialAbsoluteHeaderHeight = 0,
+    contentContainerStyle = {},
+    automaticallyAdjustsScrollIndicatorInsets,
     ...rest
   }: AnimatedFlashListType<ItemT>,
   ref: React.Ref<FlashList<ItemT>>
@@ -50,11 +54,15 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     largeHeaderOpacity,
     scrollHandler,
     debouncedFixScroll,
+    absoluteHeaderHeight,
+    onAbsoluteHeaderLayout,
   } = useScrollContainerLogic({
     scrollRef,
     largeHeaderShown,
     disableAutoFixScroll,
     largeHeaderExists: !!LargeHeaderComponent,
+    absoluteHeader,
+    initialAbsoluteHeaderHeight,
   });
 
   return (
@@ -66,7 +74,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
         !ignoreRightSafeArea && { paddingRight: insets.right },
       ]}
     >
-      {HeaderComponent({ showNavBar, scrollY })}
+      {!absoluteHeader && HeaderComponent({ showNavBar, scrollY })}
       <AnimatedFlashList
         ref={scrollRef}
         scrollEventThrottle={16}
@@ -89,6 +97,19 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
           debouncedFixScroll();
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
+        // eslint-disable-next-line react-native/no-inline-styles
+        contentContainerStyle={{
+          // The reason why we do this is because FlashList does not support an array of
+          // styles (will throw a warning when you supply one).
+          ...contentContainerStyle,
+          paddingTop: absoluteHeader ? absoluteHeaderHeight : 0,
+        }}
+        automaticallyAdjustsScrollIndicatorInsets={
+          automaticallyAdjustsScrollIndicatorInsets !== undefined
+            ? automaticallyAdjustsScrollIndicatorInsets
+            : !absoluteHeader
+        }
+        scrollIndicatorInsets={{ top: absoluteHeader ? absoluteHeaderHeight : 0 }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
             <View
@@ -106,6 +127,12 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
         }
         {...rest}
       />
+
+      {absoluteHeader && (
+        <View style={styles.absoluteHeader} onLayout={onAbsoluteHeaderLayout}>
+          {HeaderComponent({ showNavBar, scrollY })}
+        </View>
+      )}
     </View>
   );
 };
@@ -117,4 +144,12 @@ const FlashListWithHeaders = React.forwardRef(FlashListWithHeadersInputComp) as 
 
 export default FlashListWithHeaders;
 
-const styles = StyleSheet.create({ container: { flex: 1 } });
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  absoluteHeader: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+  },
+});

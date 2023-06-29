@@ -124,4 +124,15 @@ export type SharedScrollContainerProps = {
    * scroll events, use the useScrollViewOffset hook with a ref.
    */
   onScroll?: React.ComponentProps<typeof Animated.ScrollView>['onScroll'];
+  /**
+   * This property controls whether or not the header component is absolutely positioned.
+   * This is useful if you want to render a header component that allows for transparency.
+   */
+  absoluteHeader?: boolean;
+  /**
+   * This property is used when `absoluteHeader` is true. This is the initial height of the
+   * absolute header. Since the header's height is computed on its layout event, this is used
+   * to set the initial height of the header so that it doesn't jump when it is initially rendered.
+   */
+  initialAbsoluteHeaderHeight?: number;
 };

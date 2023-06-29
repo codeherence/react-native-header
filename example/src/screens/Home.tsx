@@ -49,6 +49,11 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     route: 'TwitterProfileScreen',
     description: 'Rebuilding the Twitter profile header with this library.',
   },
+  {
+    name: 'Absolute Header with Blurred Surface',
+    route: 'AbsoluteHeaderBlurSurfaceUsageScreen',
+    description: 'An example of an absolutely-positioned header with a BlurView surface.',
+  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
@@ -83,6 +88,7 @@ const Home: React.FC<HomeScreenNavigationProps> = ({ navigation }) => {
 
   return (
     <ScrollViewWithHeaders
+      disableAutoFixScroll
       HeaderComponent={HeaderComponent}
       LargeHeaderComponent={LargeHeaderComponent}
       contentContainerStyle={{ paddingBottom: bottom }}
