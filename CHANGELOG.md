@@ -1,5 +1,17 @@
 
 
+## [0.10.1](https://github.com/codeherence/react-native-header/compare/v0.10.0...v0.10.1) (2023-06-29)
+
+
+### Features
+
+* better support inverted virtualized lists ([#19](https://github.com/codeherence/react-native-header/issues/19)) ([0ee68ba](https://github.com/codeherence/react-native-header/commit/0ee68bad596c82f857e38ac1c2e223ea6065b363))
+
+
+### Bug Fixes
+
+* allow for scrollIndicatorInsets to be supplied to scroll containers ([#18](https://github.com/codeherence/react-native-header/issues/18)) ([3dda369](https://github.com/codeherence/react-native-header/commit/3dda3695e660ea3e2d7d838163eae0808a176b5f))
+
 ## [0.10.0](https://github.com/codeherence/react-native-header/compare/v0.9.0...v0.10.0) (2023-06-29)
 
 
