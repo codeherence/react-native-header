@@ -23,14 +23,13 @@ const ScrollViewWithHeadersInputComp = (
     onLargeHeaderLayout,
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
+    onScroll,
     onScrollBeginDrag,
     onScrollEndDrag,
     onMomentumScrollBegin,
     onMomentumScrollEnd,
     disableAutoFixScroll = false,
     children,
-    /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
-    onScroll: _unusedOnScroll,
     absoluteHeader = false,
     initialAbsoluteHeaderHeight = 0,
     contentContainerStyle,
@@ -79,7 +78,10 @@ const ScrollViewWithHeadersInputComp = (
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
-        onScroll={scrollHandler}
+        onScroll={(e) => {
+          scrollHandler(e);
+          if (onScroll) onScroll(e);
+        }}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();

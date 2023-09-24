@@ -33,8 +33,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
     disableAutoFixScroll = false,
-    /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
-    onScroll: _unusedOnScroll,
+    onScroll,
     absoluteHeader = false,
     initialAbsoluteHeaderHeight = 0,
     contentContainerStyle,
@@ -85,7 +84,10 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
-        onScroll={scrollHandler}
+        onScroll={(e) => {
+          scrollHandler(e);
+          if (onScroll) onScroll(e);
+        }}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();
