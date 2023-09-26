@@ -13,6 +13,7 @@ import {
   AbsoluteHeaderBlurSurfaceUsageScreen,
   ArbitraryYTransitionHeaderUsageScreen,
   InvertedUsageScreen,
+  CustomOnScrollWorkletUsageScreen,
 } from '../screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -42,6 +43,10 @@ export default () => (
     <Stack.Screen
       name="ArbitraryYTransitionHeaderUsageScreen"
       component={ArbitraryYTransitionHeaderUsageScreen}
+    />
+    <Stack.Screen
+      name="CustomOnScrollWorkletUsageScreen"
+      component={CustomOnScrollWorkletUsageScreen}
     />
   </Stack.Navigator>
 );

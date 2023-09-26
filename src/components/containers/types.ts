@@ -120,14 +120,24 @@ export type SharedScrollContainerProps = {
    */
   onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /**
-   * A handler supplied to the scroll container to track the scroll state. This can be used in
-   * conjunction with [useAnimatedScrollHandler](https://docs.swmansion.com/react-native-reanimated/docs/scroll/useAnimatedScrollHandler)
-   * to track the scroll position on the UI thread.
-   *
-   * @note We use the FlatList's type definition for `onScroll` since the ScrollView type definition does not
-   * reference it.
+   * This property is not supported at the moment. Please use `onScrollWorklet` instead
+   * to track the scroll container's state with a reanimated worklet.
    */
-  onScroll?: React.ComponentProps<typeof Animated.FlatList>['onScroll'];
+  onScroll?: React.ComponentProps<typeof Animated.ScrollView>['onScroll'];
+  /**
+   * A custom worklet that allows custom tracking scroll container's
+   * state (i.e., its scroll contentInset, contentOffset, etc.). Please
+   * ensure that this function is a [worklet](https://docs.swmansion.com/react-native-reanimated/docs/2.x/fundamentals/worklets/).
+   *
+   * @example
+   * ```
+   * const scrollHandlerWorklet = (evt: NativeScrollEvent) => {
+   *   'worklet';
+   *   console.log('offset: ', evt.contentOffset);
+   * };
+   * ```
+   */
+  onScrollWorklet?: (evt: NativeScrollEvent) => void;
   /**
    * This property controls whether or not the header component is absolutely positioned.
    * This is useful if you want to render a header component that allows for transparency.

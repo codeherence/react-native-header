@@ -65,6 +65,12 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     description:
       'An example of a header that transitions based on the scroll position of the ScrollView, instead of passing the height of the large header before animating.',
   },
+  {
+    name: 'Custom onScroll Worklet Example',
+    route: 'CustomOnScrollWorkletUsageScreen',
+    description:
+      "A simple example with a custom worklet that tracks the scroll container's offset.",
+  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {

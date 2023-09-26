@@ -24,12 +24,13 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     onLargeHeaderLayout,
     onScrollBeginDrag,
     onScrollEndDrag,
+    onScrollWorklet,
     onMomentumScrollBegin,
     onMomentumScrollEnd,
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
     disableAutoFixScroll = false,
-    onScroll,
+    onScroll: _unusedOnScroll,
     absoluteHeader = false,
     initialAbsoluteHeaderHeight = 0,
     contentContainerStyle,
@@ -64,6 +65,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
     inverted: !!inverted,
+    onScrollWorklet,
   });
 
   return (
@@ -80,10 +82,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
-        onScroll={(e) => {
-          scrollHandler(e);
-          if (onScroll) onScroll(e);
-        }}
+        onScroll={scrollHandler}
         automaticallyAdjustContentInsets={false}
         onScrollBeginDrag={(e) => {
           debouncedFixScroll.cancel();

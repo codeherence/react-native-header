@@ -11,3 +11,4 @@ export { default as SurfaceComponentUsageScreen } from './usage/SurfaceComponent
 export { default as TwitterProfileScreen } from './usage/TwitterProfile';
 export { default as AbsoluteHeaderBlurSurfaceUsageScreen } from './usage/AbsoluteHeaderBlurSurface';
 export { default as ArbitraryYTransitionHeaderUsageScreen } from './usage/ArbitraryYTransitionHeader';
+export { default as CustomOnScrollWorkletUsageScreen } from './usage/CustomWorklet';

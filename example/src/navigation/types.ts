@@ -13,6 +13,7 @@ export type RootStackParamList = {
   AbsoluteHeaderBlurSurfaceUsageScreen: undefined;
   ArbitraryYTransitionHeaderUsageScreen: undefined;
   InvertedUsageScreen: undefined;
+  CustomOnScrollWorkletUsageScreen: undefined;
 };
 
 // Overrides the typing for useNavigation in @react-navigation/native to support the internal
@@ -70,4 +71,9 @@ export type ArbitraryYTransitionHeaderUsageScreenNavigationProps = NativeStackSc
 export type InvertedUsageScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
   'InvertedUsageScreen'
+>;
+
+export type CustomOnScrollWorkletUsageScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  'CustomOnScrollWorkletUsageScreen'
 >;
