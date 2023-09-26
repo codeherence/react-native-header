@@ -120,10 +120,14 @@ export type SharedScrollContainerProps = {
    */
   onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /**
-   * This property is not supported at the moment. If you would like to listen to
-   * scroll events, use the useScrollViewOffset hook with a ref.
+   * A handler supplied to the scroll container to track the scroll state. This can be used in
+   * conjunction with [useAnimatedScrollHandler](https://docs.swmansion.com/react-native-reanimated/docs/scroll/useAnimatedScrollHandler)
+   * to track the scroll position on the UI thread.
+   *
+   * @note We use the FlatList's type definition for `onScroll` since the ScrollView type definition does not
+   * reference it.
    */
-  onScroll?: React.ComponentProps<typeof Animated.ScrollView>['onScroll'];
+  onScroll?: React.ComponentProps<typeof Animated.FlatList>['onScroll'];
   /**
    * This property controls whether or not the header component is absolutely positioned.
    * This is useful if you want to render a header component that allows for transparency.
