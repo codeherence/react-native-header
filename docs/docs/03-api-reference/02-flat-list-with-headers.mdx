@@ -112,3 +112,22 @@ Defaults to `1`.
 Whether or not the LargeHeaderComponent should fade in and out. Defaults to `false`.
 
 **Note**: This is only available in version >= 0.10.0.
+
+### onScrollWorklet
+
+A custom worklet that allows custom tracking scroll container's
+state (i.e., its scroll contentInset, contentOffset, etc.). Please
+ensure that this function is a [worklet](https://docs.swmansion.com/react-native-reanimated/docs/2.x/fundamentals/worklets/).
+
+Since the library uses the `onScroll` prop to handle animations internally and [reanimated
+does not currently allow for multiple onScroll handlers](https://github.com/software-mansion/react-native-reanimated/discussions/1763),
+you must use this property to track the state of the scroll container's state.
+
+An example is shown below:
+
+```tsx
+const scrollHandlerWorklet = (evt: NativeScrollEvent) => {
+  'worklet';
+  console.log('offset: ', evt.contentOffset);
+};
+```

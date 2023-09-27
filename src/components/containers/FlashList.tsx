@@ -18,6 +18,8 @@ const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as React.C
   unknown
 >;
 
+type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, 'onScroll'>;
+
 const FlashListWithHeadersInputComp = <ItemT extends any = any>(
   {
     largeHeaderShown,
@@ -28,12 +30,14 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     onLargeHeaderLayout,
     onScrollBeginDrag,
     onScrollEndDrag,
+    onScrollWorklet,
     onMomentumScrollBegin,
     onMomentumScrollEnd,
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
     disableAutoFixScroll = false,
-    /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
+    // We use this to ensure that the onScroll property isn't accidentally used.
+    // @ts-ignore
     onScroll: _unusedOnScroll,
     absoluteHeader = false,
     initialAbsoluteHeaderHeight = 0,
@@ -44,9 +48,15 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     scrollIndicatorInsets = {},
     inverted,
     ...rest
-  }: AnimatedFlashListType<ItemT>,
+  }: FlashListWithHeadersProps<ItemT>,
   ref: React.Ref<FlashList<ItemT>>
 ) => {
+  if (_unusedOnScroll) {
+    throw new Error(
+      "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
+    );
+  }
+
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<any>();
   useImperativeHandle(ref, () => scrollRef.current);
@@ -69,6 +79,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
     inverted: !!inverted,
+    onScrollWorklet,
   });
 
   return (
@@ -154,7 +165,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
 
 // The typecast is needed to make the component generic.
 const FlashListWithHeaders = React.forwardRef(FlashListWithHeadersInputComp) as <ItemT = any>(
-  props: AnimatedFlashListType<ItemT> & { ref?: React.Ref<FlashList<ItemT>> }
+  props: FlashListWithHeadersProps<ItemT> & { ref?: React.Ref<FlashList<ItemT>> }
 ) => React.ReactElement;
 
 export default FlashListWithHeaders;

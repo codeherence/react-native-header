@@ -18,6 +18,11 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList) as Rea
   any
 >;
 
+type SectionListWithHeadersProps<ItemT, SectionT = DefaultSectionT> = Omit<
+  AnimatedSectionListType<ItemT, SectionT>,
+  'onScroll'
+>;
+
 const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = DefaultSectionT>(
   {
     largeHeaderShown,
@@ -28,12 +33,14 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     onLargeHeaderLayout,
     onScrollBeginDrag,
     onScrollEndDrag,
+    onScrollWorklet,
     onMomentumScrollBegin,
     onMomentumScrollEnd,
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
     disableAutoFixScroll = false,
-    /** At the moment, we will not allow overriding of this since the scrollHandler needs it. */
+    // We use this to ensure that the onScroll property isn't accidentally used.
+    // @ts-ignore
     onScroll: _unusedOnScroll,
     absoluteHeader = false,
     initialAbsoluteHeaderHeight = 0,
@@ -44,9 +51,15 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     scrollIndicatorInsets = {},
     inverted,
     ...rest
-  }: AnimatedSectionListType<ItemT, SectionT>,
+  }: SectionListWithHeadersProps<ItemT, SectionT>,
   ref: React.Ref<Animated.ScrollView>
 ) => {
+  if (_unusedOnScroll) {
+    throw new Error(
+      "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
+    );
+  }
+
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<any>();
   useImperativeHandle(ref, () => scrollRef.current);
@@ -69,6 +82,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
     inverted: !!inverted,
+    onScrollWorklet,
   });
 
   return (
@@ -157,7 +171,7 @@ const SectionListWithHeaders = React.forwardRef(SectionListWithHeadersInputComp)
   ItemT = any,
   SectionT = DefaultSectionT
 >(
-  props: AnimatedSectionListType<ItemT, SectionT> & { ref?: React.Ref<Animated.ScrollView> }
+  props: SectionListWithHeadersProps<ItemT, SectionT> & { ref?: React.Ref<Animated.ScrollView> }
 ) => React.ReactElement;
 
 export default SectionListWithHeaders;

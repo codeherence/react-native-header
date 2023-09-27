@@ -120,10 +120,19 @@ export type SharedScrollContainerProps = {
    */
   onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /**
-   * This property is not supported at the moment. If you would like to listen to
-   * scroll events, use the useScrollViewOffset hook with a ref.
+   * A custom worklet that allows custom tracking scroll container's
+   * state (i.e., its scroll contentInset, contentOffset, etc.). Please
+   * ensure that this function is a [worklet](https://docs.swmansion.com/react-native-reanimated/docs/2.x/fundamentals/worklets/).
+   *
+   * @example
+   * ```
+   * const scrollHandlerWorklet = (evt: NativeScrollEvent) => {
+   *   'worklet';
+   *   console.log('offset: ', evt.contentOffset);
+   * };
+   * ```
    */
-  onScroll?: React.ComponentProps<typeof Animated.ScrollView>['onScroll'];
+  onScrollWorklet?: (evt: NativeScrollEvent) => void;
   /**
    * This property controls whether or not the header component is absolutely positioned.
    * This is useful if you want to render a header component that allows for transparency.

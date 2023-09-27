@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { LayoutChangeEvent } from 'react-native';
+import { LayoutChangeEvent, NativeScrollEvent } from 'react-native';
 import Animated, {
   interpolate,
   runOnUI,
@@ -70,6 +70,12 @@ interface UseScrollContainerLogicArgs {
    * Whether or not the scroll container is inverted.
    */
   inverted?: boolean;
+  /**
+   * A custom worklet that allows custom tracking scroll container's
+   * state (i.e., its scroll contentInset, contentOffset, etc.). Please
+   * ensure that this function is a [worklet](https://docs.swmansion.com/react-native-reanimated/docs/2.x/fundamentals/worklets/).
+   */
+  onScrollWorklet?: (evt: NativeScrollEvent) => void;
 }
 
 /**
@@ -88,14 +94,20 @@ export const useScrollContainerLogic = ({
   initialAbsoluteHeaderHeight = 0,
   headerFadeInThreshold = 1,
   inverted,
+  onScrollWorklet,
 }: UseScrollContainerLogicArgs) => {
   const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState(initialAbsoluteHeaderHeight);
   const scrollY = useSharedValue(0);
   const largeHeaderHeight = useSharedValue(0);
 
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    scrollY.value = event.contentOffset.y;
-  });
+  const scrollHandler = useAnimatedScrollHandler(
+    (event) => {
+      if (onScrollWorklet) onScrollWorklet(event);
+
+      scrollY.value = event.contentOffset.y;
+    },
+    [onScrollWorklet]
+  );
 
   const showNavBar = useDerivedValue(() => {
     if (!largeHeaderExists) return withTiming(scrollY.value <= 0 ? 0 : 1, { duration: 250 });
