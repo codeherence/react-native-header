@@ -14,6 +14,11 @@ type AnimatedFlatListType<ItemT = any> = React.ComponentClass<
 type AnimatedFlatListBaseProps<ItemT> = React.ComponentProps<AnimatedFlatListType<ItemT>>;
 type AnimatedFlatListProps<ItemT> = AnimatedFlatListBaseProps<ItemT>;
 
+type FlatListWithHeadersProps<ItemT> = Omit<
+  AnimatedFlatListProps<ItemT> & SharedScrollContainerProps,
+  'onScroll'
+>;
+
 const FlatListWithHeadersInputComp = <ItemT extends unknown>(
   {
     largeHeaderShown,
@@ -30,6 +35,8 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
     disableAutoFixScroll = false,
+    // We use this to ensure that the onScroll property isn't accidentally used.
+    // @ts-ignore
     onScroll: _unusedOnScroll,
     absoluteHeader = false,
     initialAbsoluteHeaderHeight = 0,
@@ -40,9 +47,15 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     scrollIndicatorInsets = {},
     inverted,
     ...rest
-  }: AnimatedFlatListProps<ItemT> & SharedScrollContainerProps,
+  }: FlatListWithHeadersProps<ItemT>,
   ref: React.Ref<Animated.FlatList<ItemT> | null>
 ) => {
+  if (_unusedOnScroll) {
+    throw new Error(
+      "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
+    );
+  }
+
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.FlatList<ItemT>>();
   useImperativeHandle(ref, () => scrollRef.current);
@@ -151,8 +164,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
 
 // The typecast is needed to make the component generic.
 const FlatListWithHeaders = React.forwardRef(FlatListWithHeadersInputComp) as <ItemT = any>(
-  props: AnimatedFlatListProps<ItemT> &
-    SharedScrollContainerProps & { ref?: React.Ref<Animated.FlatList<ItemT>> }
+  props: FlatListWithHeadersProps<ItemT> & { ref?: React.Ref<Animated.FlatList<ItemT>> }
 ) => React.ReactElement;
 
 export default FlatListWithHeaders;

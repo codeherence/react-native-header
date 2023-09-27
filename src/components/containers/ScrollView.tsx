@@ -13,6 +13,11 @@ type AnimatedScrollViewProps = React.ComponentProps<typeof AnimatedScrollView> &
   children?: React.ReactNode;
 };
 
+type ScrollViewWithHeadersProps = Omit<
+  AnimatedScrollViewProps & SharedScrollContainerProps,
+  'onScroll'
+>;
+
 const ScrollViewWithHeadersInputComp = (
   {
     largeHeaderShown,
@@ -23,6 +28,8 @@ const ScrollViewWithHeadersInputComp = (
     onLargeHeaderLayout,
     ignoreLeftSafeArea,
     ignoreRightSafeArea,
+    // We use this to ensure that the onScroll property isn't accidentally used.
+    // @ts-ignore
     onScroll: _unusedOnScroll,
     onScrollBeginDrag,
     onScrollEndDrag,
@@ -39,9 +46,15 @@ const ScrollViewWithHeadersInputComp = (
     scrollIndicatorInsets = {},
     disableLargeHeaderFadeAnim = false,
     ...rest
-  }: AnimatedScrollViewProps & SharedScrollContainerProps,
+  }: ScrollViewWithHeadersProps,
   ref: React.Ref<Animated.ScrollView | null>
 ) => {
+  if (_unusedOnScroll) {
+    throw new Error(
+      "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
+    );
+  }
+
   const insets = useSafeAreaInsets();
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   useImperativeHandle(ref, () => scrollRef.current);
@@ -146,10 +159,9 @@ const ScrollViewWithHeadersInputComp = (
   );
 };
 
-const ScrollViewWithHeaders = React.forwardRef<
-  Animated.ScrollView,
-  AnimatedScrollViewProps & SharedScrollContainerProps
->(ScrollViewWithHeadersInputComp);
+const ScrollViewWithHeaders = React.forwardRef<Animated.ScrollView, ScrollViewWithHeadersProps>(
+  ScrollViewWithHeadersInputComp
+);
 
 export default ScrollViewWithHeaders;
 

@@ -120,11 +120,6 @@ export type SharedScrollContainerProps = {
    */
   onMomentumScrollEnd?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /**
-   * This property is not supported at the moment. Please use `onScrollWorklet` instead
-   * to track the scroll container's state with a reanimated worklet.
-   */
-  onScroll?: React.ComponentProps<typeof Animated.ScrollView>['onScroll'];
-  /**
    * A custom worklet that allows custom tracking scroll container's
    * state (i.e., its scroll contentInset, contentOffset, etc.). Please
    * ensure that this function is a [worklet](https://docs.swmansion.com/react-native-reanimated/docs/2.x/fundamentals/worklets/).
