@@ -1,5 +1,12 @@
 
 
+## [0.11.0](https://github.com/codeherence/react-native-header/compare/v0.10.1...v0.11.0) (2023-09-27)
+
+
+### Features
+
+* use user-provided onScroll ([#22](https://github.com/codeherence/react-native-header/issues/22)) ([f8718b4](https://github.com/codeherence/react-native-header/commit/f8718b4d6436e6ef48c82b61330eae57fa99eab4))
+
 ## [0.10.1](https://github.com/codeherence/react-native-header/compare/v0.10.0...v0.10.1) (2023-06-29)
 
 
