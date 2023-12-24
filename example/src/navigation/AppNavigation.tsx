@@ -49,6 +49,12 @@ export default () => (
       name="CustomOnScrollWorkletUsageScreen"
       component={CustomOnScrollWorkletUsageScreen}
     />
-    <Stack.Screen name="TwitterProfileWithTabsScreen" component={TwitterProfileWithTabsScreen} />
+    <Stack.Screen
+      name="TwitterProfileWithTabsScreen"
+      component={TwitterProfileWithTabsScreen}
+      options={{
+        fullScreenGestureEnabled: true,
+      }}
+    />
   </Stack.Navigator>
 );

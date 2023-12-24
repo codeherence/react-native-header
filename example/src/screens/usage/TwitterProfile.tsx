@@ -194,7 +194,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
             </TouchableOpacity>
             {/* Fade the name + tweets on the left header once the navBar should be shown. */}
             <FadingView opacity={showNavBar}>
-              <Text style={styles.navBarTitle}>Evan Younan</Text>
+              <Text style={styles.navBarTitle}>Evan</Text>
               <Text style={styles.disabledSmallText}>19.4k Tweets</Text>
             </FadingView>
           </>
@@ -258,7 +258,7 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
     >
       <View style={styles.profileHandleContainer}>
         <View style={styles.profileHeaderRow}>
-          <Text style={styles.title}>Evan Younan</Text>
+          <Text style={styles.title}>Evan</Text>
           <TwitterVerifiedSvg height={18} width={18} />
         </View>
 
