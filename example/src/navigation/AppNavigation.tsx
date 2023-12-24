@@ -14,6 +14,7 @@ import {
   ArbitraryYTransitionHeaderUsageScreen,
   InvertedUsageScreen,
   CustomOnScrollWorkletUsageScreen,
+  TwitterProfileWithTabsScreen,
 } from '../screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -48,5 +49,6 @@ export default () => (
       name="CustomOnScrollWorkletUsageScreen"
       component={CustomOnScrollWorkletUsageScreen}
     />
+    <Stack.Screen name="TwitterProfileWithTabsScreen" component={TwitterProfileWithTabsScreen} />
   </Stack.Navigator>
 );

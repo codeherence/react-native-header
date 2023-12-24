@@ -71,6 +71,13 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     description:
       "A simple example with a custom worklet that tracks the scroll container's offset.",
   },
+  {
+    name: 'Twitter Profile with Tabs Example',
+    route: 'TwitterProfileWithTabsScreen',
+    description:
+      "An example of the twitter profile with tabs. The header's in this example" +
+      ' should scroll in conjunction with the tabs.',
+  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
