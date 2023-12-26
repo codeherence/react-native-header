@@ -262,7 +262,7 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
           <TwitterVerifiedSvg height={18} width={18} />
         </View>
 
-        <Text style={styles.disabledText}>@e_younan</Text>
+        <Text style={styles.disabledText}>@evan</Text>
       </View>
 
       <Text style={styles.text}>

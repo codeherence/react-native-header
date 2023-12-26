@@ -1,4 +1,4 @@
-import React, { RefObject, useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   Image,
   Linking,
@@ -11,19 +11,16 @@ import {
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native';
-import { TwitterProfileWithTabsScreenNavigationProps } from '../../navigation';
-import { range } from '../../utils';
+import { TwitterProfileWithTabsScreenNavigationProps } from '../../../navigation';
 import Animated, {
   Extrapolate,
   interpolate,
-  useAnimatedRef,
   useAnimatedStyle,
   useDerivedValue,
-  useScrollViewOffset,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { AVATAR_SIZE_MAP, Avatar } from '../../components';
+import { AVATAR_SIZE_MAP, Avatar } from '../../../components';
 import {
   FadingView,
   Header,
@@ -32,9 +29,36 @@ import {
 } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
-import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
+import TwitterVerifiedSvg from '../../../../assets/twitter-verified.svg';
 import { StatusBar } from 'expo-status-bar';
 import { BlurView } from '@react-native-community/blur';
+import { TweetsPage } from './components';
+
+// Note: The implementation of virtualized lists that should exist under some
+// dynamic large header should be done in this way:
+//  - We compute the height of the following: small header, large header, sticky tabs,
+//    whole screen.
+// Then we should derive the computations of the following:
+//  - pager view height := whole screen - (small header + sticky tabs)
+//
+// The reason why the pager view should have a fixed height is to avoid layout changes.
+// Layout animations are generally less performant, and also cause weird behaviour
+// when changing the size of a scroll container while scrolling.
+// However, there is some complexity introduced with the approach above. While it is the
+// correct solution, we need to disable the scrolling on the scroll container at first,
+// allow the user to "drag" the scroll container up until the large header is hidden,
+// then enable scrolling. This suggests that we need a gesture handler to sit on top
+// of the scrollview. From a quick glance, there is a valuable Medium post that highlights
+// how to approach implementing simultaneous handlers on a scroll container:
+// https://medium.com/@taitasciore/handling-pan-and-scroll-gestures-simultaneously-and-gracefully-with-gesture-handler-2-reanimated-63f0d8f72d3c
+
+// The current approach is to simply perform a layout animation on the scroll container,
+// which handles the "height" of the scrollview with the "top" and "bottom" styles.
+
+// The only thing the implementation is now missing is having multiple scroll containers
+// on each page. In order to implement this, you would need to instantiate x reanimated scroll
+// handlers, enable them when their tab is active, and update the shared animation values
+// as the current scroll container that is active is scrolled.
 
 // Twitter large header constants
 const canUseBlurView =
@@ -46,6 +70,7 @@ const DISABLED_COLOR = 'rgba(255, 255, 255, 0.6)';
 const AVATAR_SIZE = 'md';
 const AVATAR_START_SCALE = 1;
 const AVATAR_END_SCALE = 0.5;
+const TABS = ['Tweets', 'Replies', 'Media', 'Likes'] as const;
 const AVATAR_SIZE_VALUE = AVATAR_SIZE_MAP[AVATAR_SIZE];
 const BANNER_BOTTOM_HEIGHT_ADDITION = AVATAR_SIZE_VALUE;
 const AnimatedImage = Animated.createAnimatedComponent(Image);
@@ -158,7 +183,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
             )}
 
             <AnimatedImage
-              source={require('../../../assets/planets.jpeg')}
+              source={require('../../../../assets/planets.jpeg')}
               resizeMode="cover"
               style={[styles.imageStyle, { width }]}
             />
@@ -219,7 +244,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
         >
           <Animated.View style={profileImageScaleStyle}>
             <TouchableOpacity>
-              <Avatar size={AVATAR_SIZE} source={require('../../../assets/circle-pic.png')} />
+              <Avatar size={AVATAR_SIZE} source={require('../../../../assets/circle-pic.png')} />
             </TouchableOpacity>
           </Animated.View>
 
@@ -238,7 +263,6 @@ const LargeHeaderComponent: React.FC = () => {
   const onPressLink = useCallback(async () => {
     try {
       const supported = await Linking.canOpenURL('https://codeherence.com');
-
       if (supported) {
         await Linking.openURL('https://codeherence.com');
       }
@@ -263,7 +287,7 @@ const LargeHeaderComponent: React.FC = () => {
           <TwitterVerifiedSvg height={18} width={18} />
         </View>
 
-        <Text style={styles.disabledText}>@e_younan</Text>
+        <Text style={styles.disabledText}>@evan</Text>
       </View>
 
       <Text style={styles.text}>
@@ -332,51 +356,36 @@ const LargeHeaderComponent: React.FC = () => {
 };
 
 const useScrollLogicHandler = () => {
-  const aref = useAnimatedRef<Animated.FlatList<number>>();
-  const scrollContainerInit = useRef(false);
   // State variables
-  const [scrollContainerHeight, setScrollContainerHeight] = useState(0);
-  const [largeHeaderHeight, setLargeHeaderHeight] = useState(0);
   const [tabsHeight, setTabsHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [largeHeaderHeight, setLargeHeaderHeight] = useState(0);
 
-  // Need to cast it to a RefObject<Animated.ScrollView> since the useScrollViewOffset hook
-  // only accepts that type at the moment.
-  // @TODO - Open a PR to resolve this typing issue.
-  const scrollHandler = useScrollViewOffset(aref as unknown as RefObject<Animated.ScrollView>);
+  const scrollY = useSharedValue(0);
 
   // Now, when we have the large header height, we want to ensure that a scroll on the inner
   // container modifies the translationY of the large header.
   const translationY = useDerivedValue(() => {
     if (largeHeaderHeight === 0) return 0;
-    return interpolate(
-      scrollHandler.value,
-      [-largeHeaderHeight, largeHeaderHeight],
-      [largeHeaderHeight, -largeHeaderHeight],
-      Extrapolate.CLAMP
-    );
+    return Math.max(-scrollY.value, -largeHeaderHeight);
   }, [largeHeaderHeight, tabsHeight]);
 
   const showNavBar = useDerivedValue(() => {
-    return withTiming(scrollHandler.value >= largeHeaderHeight ? 1 : 0, { duration: 200 });
+    return withTiming(scrollY.value >= largeHeaderHeight ? 1 : 0, { duration: 200 });
   }, [largeHeaderHeight]);
 
   const scrollComponentStyle = useAnimatedStyle(() => {
     // The scroll component must have its height and translationY be modified in conjunction to the
     // header offsets.
-    // The computation for the scroll container should be:
-    //  := Height of full screen - ( H(top inset) + H(small header) + H(large header) + H(tabs) ) + translation
 
-    // Tested on an iPhone 15 Pro Max simulator with 150 offset.
-    // For now, I am hardcoding to 150. Adjust the 150 so that it sits under the tabs.
-
+    // The headerHeight includes the top inset and small header size.
+    const baseAdjustment = headerHeight + largeHeaderHeight + tabsHeight;
     if (-translationY.value < 0) {
-      return { top: largeHeaderHeight + 150 };
+      return { top: baseAdjustment };
     }
 
-    return {
-      top: largeHeaderHeight + 150 + translationY.value,
-    };
-  }, [translationY, scrollContainerHeight, largeHeaderHeight]);
+    return { top: baseAdjustment + translationY.value };
+  }, [translationY, largeHeaderHeight, headerHeight, tabsHeight]);
 
   const largeHeaderStyle = useAnimatedStyle(() => {
     return { transform: [{ translateY: translationY.value }] };
@@ -387,41 +396,38 @@ const useScrollLogicHandler = () => {
   }, []);
 
   return {
-    aref,
-    scrollContainerInit,
-    scrollHandler,
+    scrollY,
     showNavBar,
     largeHeaderStyle,
     animatedTabsStyle,
     scrollComponentStyle,
     setTabsHeight,
+    setHeaderHeight,
     setLargeHeaderHeight,
-    setScrollContainerHeight,
   };
 };
 
 const TwitterProfileWithTabs: React.FC<TwitterProfileWithTabsScreenNavigationProps> = () => {
-  const { bottom } = useSafeAreaInsets();
   const pagerRef = useRef<PagerView>(null);
   const [activeTab, setActiveTab] = useState(0);
 
   const {
-    aref,
-    scrollHandler,
-    scrollContainerInit,
+    scrollY,
     showNavBar,
     largeHeaderStyle,
     animatedTabsStyle,
     scrollComponentStyle,
-    setLargeHeaderHeight,
     setTabsHeight,
-    setScrollContainerHeight,
+    setHeaderHeight,
+    setLargeHeaderHeight,
   } = useScrollLogicHandler();
 
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <HeaderComponent showNavBar={showNavBar} scrollY={scrollHandler} />
+      <View onLayout={(e) => setHeaderHeight(e.nativeEvent.layout.height)}>
+        <HeaderComponent showNavBar={showNavBar} scrollY={scrollY} />
+      </View>
       <Animated.View
         style={[styles.staticLargeHeaderStyle, largeHeaderStyle]}
         onLayout={({ nativeEvent }) => setLargeHeaderHeight(nativeEvent.layout.height)}
@@ -435,7 +441,7 @@ const TwitterProfileWithTabs: React.FC<TwitterProfileWithTabsScreenNavigationPro
           onLayout={({ nativeEvent }) => setTabsHeight(nativeEvent.layout.height)}
           style={styles.tabBarContainer}
         >
-          {['Tweets', 'Replies', 'Media', 'Likes'].map((tab, index) => (
+          {TABS.map((tab, index) => (
             <TouchableOpacity
               key={`option-${index}`}
               style={styles.tabButton}
@@ -458,35 +464,10 @@ const TwitterProfileWithTabs: React.FC<TwitterProfileWithTabsScreenNavigationPro
           setActiveTab(e.nativeEvent.position);
         }}
       >
-        <Animated.View style={styles.childView} key="1">
-          <Animated.FlatList<number>
-            ref={aref}
-            onLayout={({ nativeEvent }) => {
-              if (!scrollContainerInit.current && nativeEvent.layout.height > 0) {
-                scrollContainerInit.current = true;
-                setScrollContainerHeight(nativeEvent.layout.height);
-              }
-            }}
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator
-            indicatorStyle="white"
-            data={useMemo(() => range({ end: 100 }), [])}
-            renderItem={({ item }) => <Text style={styles.listText}>Component {item}</Text>}
-            style={styles.tweetsListStyle}
-            contentContainerStyle={[styles.tweetsListContainerStyle, { paddingBottom: bottom }]}
-          />
-        </Animated.View>
-        <View style={styles.childView} key="2">
-          <Text style={styles.text}>Replies go here...</Text>
-        </View>
-        <View style={styles.childView} key="3">
-          <Text style={styles.text}>Media goes here...</Text>
-        </View>
-        <View style={styles.childView} key="4">
-          <Text style={styles.text}>Likes go here...</Text>
-        </View>
+        {TABS.map((tab, i) => (
+          <TweetsPage key={tab} page={String(i + 1)} scrollY={scrollY} />
+        ))}
       </AnimatedPagerView>
-      {/* </Animated.View> */}
     </View>
   );
 };
