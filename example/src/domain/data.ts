@@ -21,8 +21,12 @@ const generatePosts = (numPosts: number): IPost[] => {
           'Neuralink will change the world\n\n' +
           'XAI will change our universe\n\n' +
           'The Boring Company will change the world\n\n' +
-          'The quest continues...',
+          'The quest continues...\n\n',
       },
+      { type: 'hashtag', text: 'innovation' },
+      { type: 'hashtag', text: 'future' },
+      { type: 'hashtag', text: 'technology' },
+      { type: 'hashtag', text: 'grind' },
     ],
     attachments: [],
     date: new Date().toISOString(),

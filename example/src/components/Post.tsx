@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Linking, StyleSheet, Text, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import TwitterVerifiedSvg from '../../assets/twitter-verified.svg';
 import { Avatar } from './Avatar';
@@ -7,20 +7,54 @@ import type { IPost } from '../domain';
 
 const { height: dHeight } = Dimensions.get('window');
 const MIN_POST_HEIGHT = dHeight * 0.3;
+const TWITTER_PRIMARY_COLOR = '#1d9bf0';
 const DISABLED_COLOR = 'rgba(255, 255, 255, 0.6)';
 
 interface PostBodyProps {
   body: IPost['body'];
 }
 
+const openURL = async (url: string) => {
+  try {
+    await Linking.openURL(url);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const emptyFnc = () => {};
+
 const PostBody: React.FC<PostBodyProps> = ({ body }) => {
   return (
     <Text>
-      {body.map((bodyPart) => {
+      {body.map((bodyPart, i) => {
+        const key = `body-${i}`;
+
         if (bodyPart.type === 'text') {
-          return <Text style={styles.text}>{bodyPart.text}</Text>;
+          return (
+            <Text key={key} style={styles.text}>
+              {bodyPart.text}
+            </Text>
+          );
+        } else if (bodyPart.type === 'handle') {
+          return (
+            <Text key={key} onPress={emptyFnc} style={styles.primaryText}>
+              @{bodyPart.userHandle}
+            </Text>
+          );
+        } else if (bodyPart.type === 'link') {
+          return (
+            <Text key={key} onPress={() => openURL(bodyPart.url)} style={styles.primaryText}>
+              {bodyPart.text}
+            </Text>
+          );
         }
-        return null;
+        // Hashtag
+        return (
+          <Text key={key} onPress={emptyFnc} style={styles.primaryText}>
+            #{bodyPart.text}{' '}
+          </Text>
+        );
       })}
     </Text>
   );
@@ -118,4 +152,5 @@ const styles = StyleSheet.create({
     height: 2,
     borderRadius: 1,
   },
+  primaryText: { color: TWITTER_PRIMARY_COLOR, fontSize: 14 },
 });
