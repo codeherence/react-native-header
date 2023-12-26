@@ -565,7 +565,13 @@ const styles = StyleSheet.create({
   whoFollowsThemContainer: { flexDirection: 'row', gap: 12, alignItems: 'center' },
   followerPreviewContainer: { position: 'relative', width: AVATAR_SIZE_MAP.sm * (7 / 3) },
   followerText: { flex: 1 },
-  tabBarContainer: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#000' },
+  tabBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#000',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(255, 255, 255, 0.2)',
+  },
   tabButton: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   tabText: { color: 'white', fontSize: 14, fontWeight: '600', paddingVertical: 12 },
   blueUnderline: {
