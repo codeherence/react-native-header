@@ -68,6 +68,7 @@ const ScrollViewWithHeadersInputComp = (
     debouncedFixScroll,
     absoluteHeaderHeight,
     onAbsoluteHeaderLayout,
+    scrollViewAdjustments,
   } = useScrollContainerLogic({
     scrollRef,
     largeHeaderShown,
@@ -112,10 +113,10 @@ const ScrollViewWithHeadersInputComp = (
           if (onMomentumScrollEnd) onMomentumScrollEnd(e);
         }}
         contentContainerStyle={[
+          scrollViewAdjustments.contentContainerStyle,
           // @ts-ignore
           // Reanimated typings are causing this error - will fix in the future.
           contentContainerStyle,
-          absoluteHeader ? { paddingTop: absoluteHeaderHeight } : undefined,
         ]}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
