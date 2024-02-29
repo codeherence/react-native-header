@@ -1,5 +1,7 @@
 
 
+## [0.11.2](https://github.com/codeherence/react-native-header/compare/v0.11.1...v0.11.2) (2024-02-29)
+
 ## [0.11.1](https://github.com/codeherence/react-native-header/compare/v0.11.0...v0.11.1) (2024-02-29)
 
 
