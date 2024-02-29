@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { randParagraph, randUuid } from '@ngneat/falso';
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import {
@@ -17,7 +17,7 @@ import { range } from '../../utils';
 import type { InvertedUsageScreenNavigationProps } from '../../navigation';
 
 const HeaderSurface: React.FC<SurfaceComponentProps> = () => {
-  return <BlurView style={StyleSheet.absoluteFill} blurType="chromeMaterialDark" />;
+  return <BlurView style={StyleSheet.absoluteFill} tint="systemChromeMaterialDark" />;
 };
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {

@@ -21,5 +21,10 @@ module.exports = async function (env, argv) {
     'react-native-web': path.join(node_modules, 'react-native-web'),
   });
 
+  config.resolve.fallback = {
+    ...config.resolve.fallback,
+    crypto: require.resolve('expo-crypto'),
+  };
+
   return config;
 };

@@ -165,7 +165,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
 
 // The typecast is needed to make the component generic.
 const FlashListWithHeaders = React.forwardRef(FlashListWithHeadersInputComp) as <ItemT = any>(
-  props: FlashListWithHeadersProps<ItemT> & { ref?: React.Ref<FlashList<ItemT>> }
+  props: FlashListWithHeadersProps<ItemT> & { ref?: React.RefObject<FlashList<ItemT>> }
 ) => React.ReactElement;
 
 export default FlashListWithHeaders;
