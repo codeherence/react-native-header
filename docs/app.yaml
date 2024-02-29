@@ -1,5 +1,5 @@
 env: standard
-runtime: nodejs16
+runtime: nodejs20
 service: default
 automatic_scaling:
   min_idle_instances: automatic
