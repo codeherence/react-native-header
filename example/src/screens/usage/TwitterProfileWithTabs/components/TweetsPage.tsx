@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import Animated, { SharedValue, useAnimatedScrollHandler } from 'react-native-reanimated';
+import Animated, {
+  SharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IPost, POSTS } from '../../../../domain';
@@ -9,18 +13,32 @@ import { Post } from '../../../../components';
 interface TweetsPageProps {
   page: string;
   scrollY: SharedValue<number>;
+  indicatorAdjustment: number;
+  spacerHeight: Animated.SharedValue<number>;
 }
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<IPost>);
 const ItemSeparator: React.FC = () => <View style={styles.separator} />;
 
-const TweetsPage: React.FC<TweetsPageProps> = ({ page, scrollY }) => {
+const TweetsPage: React.FC<TweetsPageProps> = ({
+  page,
+  scrollY,
+  spacerHeight,
+  indicatorAdjustment,
+}) => {
   const { bottom } = useSafeAreaInsets();
   const [data] = useState(POSTS);
+
+  const headerStyle = useAnimatedStyle(() => {
+    return {
+      height: spacerHeight.value,
+    };
+  });
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (e) => {
       scrollY.value = e.contentOffset.y;
+      // console.log(e.contentOffset.y);
     },
   });
 
@@ -30,11 +48,16 @@ const TweetsPage: React.FC<TweetsPageProps> = ({ page, scrollY }) => {
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator
+        ListHeaderComponent={() => <Animated.View style={headerStyle} />}
+        // renderScrollComponent={(props) => <ScrollView {...props} />}
+        nestedScrollEnabled
         indicatorStyle="white"
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <Post post={item} />}
         estimatedItemSize={280}
+        automaticallyAdjustsScrollIndicatorInsets={false}
+        scrollIndicatorInsets={{ top: indicatorAdjustment, bottom }}
         ItemSeparatorComponent={ItemSeparator}
         contentContainerStyle={{ paddingBottom: bottom }}
       />
