@@ -130,7 +130,7 @@ export default Home;
 
 const styles = StyleSheet.create({
   usagesList: { marginTop: 16, paddingHorizontal: 16, gap: 12 },
-  navBarTitle: { fontSize: 16, fontWeight: 'bold' },
+  navBarTitle: { fontSize: 16, fontWeight: 'bold', paddingVertical: 12 },
   regular: { fontSize: 14 },
   title: { fontSize: 32, fontWeight: 'bold' },
   subtitle: { fontSize: 24, fontWeight: 'bold' },

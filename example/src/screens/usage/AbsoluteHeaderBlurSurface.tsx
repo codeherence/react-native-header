@@ -12,14 +12,14 @@ import {
   SurfaceComponentProps,
 } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
 import { BackButton } from '../../components';
 import { range } from '../../utils';
 
 const HeaderSurface: React.FC<SurfaceComponentProps> = ({ showNavBar }) => {
   return (
     <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
-      <BlurView style={StyleSheet.absoluteFill} blurType="light" />
+      <BlurView style={StyleSheet.absoluteFill} tint="light" />
     </FadingView>
   );
 };

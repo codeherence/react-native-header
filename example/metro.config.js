@@ -10,6 +10,7 @@ const modules = Object.keys({
   ...pak.peerDependencies,
 });
 
+/** @type {import('expo/metro-config').MetroConfig} */
 const defaultConfig = getDefaultConfig(__dirname);
 
 const { transformer: defaultTransformer, resolver: defaultResolver } = defaultConfig;

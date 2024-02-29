@@ -1,5 +1,6 @@
 import React, { Reducer, useReducer } from 'react';
-import { ActivityIndicator, Image, ImageProps, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { Image, ImageProps } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 
 type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -44,7 +45,7 @@ export const Avatar: React.FC<AvatarProps> = ({ style, size = 'sm', ...imageProp
         {...imageProps}
         onError={() => dispatch({ type: 'failed' })}
         onLoad={() => dispatch({ type: 'success' })}
-        resizeMode="cover"
+        contentFit="cover"
         style={[{ height: wh, width: wh, borderRadius: wh / 2 }, style]}
       />
     </>

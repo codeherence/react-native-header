@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
-  Image,
   Linking,
   SectionListRenderItem,
   StyleSheet,
@@ -28,10 +27,11 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from 'react-native-reanimated';
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
 import { Avatar, AVATAR_SIZE_MAP } from '../../components';
-import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
+// import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
 import type { TwitterProfileScreenNavigationProps } from '../../navigation';
+import { Image } from 'expo-image';
 
 // From reading comments online, the BlurView does not work properly for Android <= 11.
 // We will have a boolean to check if we can use the BlurView.
@@ -48,8 +48,6 @@ const AVATAR_START_SCALE = 1;
 const AVATAR_END_SCALE = 0.5;
 const AVATAR_SIZE_VALUE = AVATAR_SIZE_MAP[AVATAR_SIZE];
 const BANNER_BOTTOM_HEIGHT_ADDITION = AVATAR_SIZE_VALUE;
-const AnimatedImage = Animated.createAnimatedComponent(Image);
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) => {
   const navigation = useNavigation();
@@ -127,7 +125,12 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   }, [height]);
 
   return (
-    <View style={styles.smallHeaderContainer}>
+    <View
+      // onLayout={(e) => {
+      //   bannerHeight
+      // }}
+      style={styles.smallHeaderContainer}
+    >
       <Animated.View style={[StyleSheet.absoluteFill, bannerTranslationStyle]}>
         <Animated.View
           onLayout={(e) => (bannerHeight.value = e.nativeEvent.layout.height)}
@@ -135,16 +138,9 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
         >
           <View style={{ marginBottom: -BANNER_BOTTOM_HEIGHT_ADDITION }}>
             {canUseBlurView ? (
-              <AnimatedBlurView
-                style={[StyleSheet.absoluteFill, styles.blurView, blurStyle]}
-                blurType="dark"
-                reducedTransparencyFallbackColor="white"
-                blurAmount={5}
-                // @ts-ignore
-                // https://github.com/Kureev/react-native-blur/issues/414
-                // Fixes Android issue where the blur view will take up the whole screen.
-                overlayColor="transparent"
-              />
+              <Animated.View style={[StyleSheet.absoluteFill, styles.blurView, blurStyle]}>
+                <BlurView style={[StyleSheet.absoluteFill]} intensity={50} tint="dark" />
+              </Animated.View>
             ) : (
               <Animated.View
                 style={[
@@ -156,10 +152,15 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
               />
             )}
 
-            <AnimatedImage
+            <Image
               source={require('../../../assets/planets.jpeg')}
-              resizeMode="cover"
-              style={[styles.imageStyle, { width }]}
+              contentFit="cover"
+              contentPosition="center"
+              style={[
+                styles.imageStyle,
+                { width },
+                Platform.OS === 'web' && { height: bannerHeight.value },
+              ]}
             />
           </View>
         </Animated.View>
@@ -259,7 +260,12 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
       <View style={styles.profileHandleContainer}>
         <View style={styles.profileHeaderRow}>
           <Text style={styles.title}>Evan Younan</Text>
-          <TwitterVerifiedSvg height={18} width={18} />
+          <Image
+            source={require('../../../assets/twitter-verified.svg')}
+            contentFit="contain"
+            contentPosition="center"
+            style={styles.twitterVerifiedIcon}
+          />
         </View>
 
         <Text style={styles.disabledText}>@e_younan</Text>
@@ -458,4 +464,5 @@ const styles = StyleSheet.create({
   locationAndWebContainer: { flexDirection: 'row', gap: 12, alignItems: 'center' },
   dataRow: { flexDirection: 'row', gap: 4, alignItems: 'center' },
   androidBlurViewBg: { backgroundColor: 'rgba(0,0,0,0.5)' },
+  twitterVerifiedIcon: { height: 18, width: 18 },
 });
