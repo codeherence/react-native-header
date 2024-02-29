@@ -1,5 +1,12 @@
 
 
+## [0.11.1](https://github.com/codeherence/react-native-header/compare/v0.11.0...v0.11.1) (2024-02-29)
+
+
+### Bug Fixes
+
+* scrollview padding top inconsistency ([#26](https://github.com/codeherence/react-native-header/issues/26)) ([2b23bf7](https://github.com/codeherence/react-native-header/commit/2b23bf78597a936f73c19f205a1ea0a9a01f0c02))
+
 ## [0.11.0](https://github.com/codeherence/react-native-header/compare/v0.10.1...v0.11.0) (2023-09-27)
 
 
