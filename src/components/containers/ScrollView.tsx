@@ -130,28 +130,27 @@ const ScrollViewWithHeadersInputComp = (
         }}
         {...rest}
       >
-        {LargeHeaderComponent ? (
-          <>
-            <View
-              onLayout={(e) => {
-                largeHeaderHeight.value = e.nativeEvent.layout.height;
+        {LargeHeaderComponent && (
+          <View
+            onLayout={(e) => {
+              largeHeaderHeight.value = e.nativeEvent.layout.height;
 
-                if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
-              }}
-            >
-              {!disableLargeHeaderFadeAnim ? (
-                <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </FadingView>
-              ) : (
-                <View style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </View>
-              )}
-            </View>
-            {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
-          </>
-        ) : null}
+              if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
+            }}
+          >
+            {!disableLargeHeaderFadeAnim ? (
+              <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                {LargeHeaderComponent({ scrollY, showNavBar })}
+              </FadingView>
+            ) : (
+              <View style={largeHeaderContainerStyle}>
+                {LargeHeaderComponent({ scrollY, showNavBar })}
+              </View>
+            )}
+          </View>
+        )}
+        {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
+
         {children}
       </AnimatedScrollView>
 
