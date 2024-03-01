@@ -7,5 +7,6 @@ export { default as FlashListWithHeaders } from './FlashList';
 export type {
   ScrollHeaderProps,
   ScrollLargeHeaderProps,
+  ScrollLargeHeaderSubtitleProps,
   SharedScrollContainerProps,
 } from './types';

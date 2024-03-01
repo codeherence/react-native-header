@@ -27,6 +27,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
   {
     largeHeaderShown,
     containerStyle,
+    LargeHeaderSubtitleComponent,
     LargeHeaderComponent,
     largeHeaderContainerStyle,
     HeaderComponent,
@@ -134,23 +135,27 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
         }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
-            <View
-              onLayout={(e) => {
-                largeHeaderHeight.value = e.nativeEvent.layout.height;
+            <>
+              <View
+                onLayout={(e) => {
+                  largeHeaderHeight.value = e.nativeEvent.layout.height;
 
-                if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
-              }}
-            >
-              {!disableLargeHeaderFadeAnim ? (
-                <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </FadingView>
-              ) : (
-                <View style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </View>
-              )}
-            </View>
+                  if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
+                }}
+              >
+                {!disableLargeHeaderFadeAnim ? (
+                  <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showNavBar })}
+                  </FadingView>
+                ) : (
+                  <View style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showNavBar })}
+                  </View>
+                )}
+              </View>
+              {LargeHeaderSubtitleComponent &&
+                LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
+            </>
           ) : undefined
         }
         inverted={inverted}
@@ -171,7 +176,9 @@ const SectionListWithHeaders = React.forwardRef(SectionListWithHeadersInputComp)
   ItemT = any,
   SectionT = DefaultSectionT
 >(
-  props: SectionListWithHeadersProps<ItemT, SectionT> & { ref?: React.Ref<Animated.ScrollView> }
+  props: SectionListWithHeadersProps<ItemT, SectionT> & {
+    ref?: React.Ref<Animated.ScrollView>;
+  }
 ) => React.ReactElement;
 
 export default SectionListWithHeaders;
