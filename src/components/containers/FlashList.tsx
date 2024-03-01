@@ -131,8 +131,8 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
           ...scrollIndicatorInsets,
         }}
         ListHeaderComponent={
-          LargeHeaderComponent ? (
-            <>
+          <>
+            {LargeHeaderComponent && (
               <View
                 onLayout={(e) => {
                   largeHeaderHeight.value = e.nativeEvent.layout.height;
@@ -150,10 +150,9 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
                   </View>
                 )}
               </View>
-              {LargeHeaderSubtitleComponent &&
-                LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
-            </>
-          ) : undefined
+            )}
+            {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
+          </>
         }
         inverted={inverted}
         {...rest}

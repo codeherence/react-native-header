@@ -134,8 +134,8 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
           ...scrollIndicatorInsets,
         }}
         ListHeaderComponent={
-          LargeHeaderComponent ? (
-            <>
+          <>
+            {LargeHeaderComponent && (
               <View
                 onLayout={(e) => {
                   largeHeaderHeight.value = e.nativeEvent.layout.height;
@@ -153,10 +153,9 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
                   </View>
                 )}
               </View>
-              {LargeHeaderSubtitleComponent &&
-                LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
-            </>
-          ) : undefined
+            )}
+            {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
+          </>
         }
         inverted={inverted}
         {...rest}
