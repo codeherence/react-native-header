@@ -26,6 +26,25 @@ export interface ScrollLargeHeaderProps {
   showNavBar: Animated.SharedValue<number>;
 }
 
+/**
+ * The props supplied to the large header subtitle component of this scroll container.
+ */
+export interface ScrollLargeHeaderSubtitleProps {
+  /**
+   * The scroll position of the scroll view.
+   *
+   * @type {Animated.SharedValue<number>}
+   */
+  scrollY: Animated.SharedValue<number>;
+  /**
+   * Animated value between 0 and 1 that indicates whether the small header's content should be
+   * visible. This is used to animate the header's content in and out.
+   *
+   * @type {Animated.SharedValue<number>}
+   */
+  showNavBar: Animated.SharedValue<number>;
+}
+
 export interface ScrollHeaderProps {
   /**
    * Animated value between 0 and 1 that indicates whether the small header's content should be
@@ -59,6 +78,13 @@ export type SharedScrollContainerProps = {
    * @returns {React.ReactNode}
    */
   LargeHeaderComponent?: (props: ScrollLargeHeaderProps) => React.ReactNode;
+  /**
+   * The subtitle component for the large header component. This is the component that is rendered below the large header component.
+   *
+   * @param {ScrollLargeHeaderSubtitleProps} props The props given to the large header subtitle component.
+   * @returns {React.ReactNode}
+   */
+  LargeHeaderSubtitleComponent?: (props: ScrollLargeHeaderSubtitleProps) => React.ReactNode;
   /**
    * The small header component. This is the component that is rendered on top of the scroll view.
    *

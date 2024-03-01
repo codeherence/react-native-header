@@ -14,6 +14,7 @@ export type {
   LargeHeaderProps,
   ScrollHeaderProps,
   ScrollLargeHeaderProps,
+  ScrollLargeHeaderSubtitleProps,
   SharedScrollContainerProps,
   SurfaceComponentProps,
 } from './components';

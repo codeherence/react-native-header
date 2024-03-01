@@ -24,6 +24,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
   {
     largeHeaderShown,
     containerStyle,
+    LargeHeaderSubtitleComponent,
     LargeHeaderComponent,
     largeHeaderContainerStyle,
     HeaderComponent,
@@ -131,23 +132,27 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
         }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
-            <View
-              onLayout={(e) => {
-                largeHeaderHeight.value = e.nativeEvent.layout.height;
+            <>
+              <View
+                onLayout={(e) => {
+                  largeHeaderHeight.value = e.nativeEvent.layout.height;
 
-                if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
-              }}
-            >
-              {!disableLargeHeaderFadeAnim ? (
-                <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </FadingView>
-              ) : (
-                <View style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </View>
-              )}
-            </View>
+                  if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
+                }}
+              >
+                {!disableLargeHeaderFadeAnim ? (
+                  <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showNavBar })}
+                  </FadingView>
+                ) : (
+                  <View style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showNavBar })}
+                  </View>
+                )}
+              </View>
+              {LargeHeaderSubtitleComponent &&
+                LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
+            </>
           ) : undefined
         }
         inverted={inverted}
@@ -165,7 +170,9 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
 
 // The typecast is needed to make the component generic.
 const FlashListWithHeaders = React.forwardRef(FlashListWithHeadersInputComp) as <ItemT = any>(
-  props: FlashListWithHeadersProps<ItemT> & { ref?: React.RefObject<FlashList<ItemT>> }
+  props: FlashListWithHeadersProps<ItemT> & {
+    ref?: React.RefObject<FlashList<ItemT>>;
+  }
 ) => React.ReactElement;
 
 export default FlashListWithHeaders;

@@ -9,6 +9,7 @@ export {
 export type {
   ScrollHeaderProps,
   ScrollLargeHeaderProps,
+  ScrollLargeHeaderSubtitleProps,
   SharedScrollContainerProps,
 } from './containers';
 export { Header, LargeHeader } from './headers';

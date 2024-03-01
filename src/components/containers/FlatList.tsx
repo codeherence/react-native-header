@@ -23,6 +23,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
   {
     largeHeaderShown,
     containerStyle,
+    LargeHeaderSubtitleComponent,
     LargeHeaderComponent,
     largeHeaderContainerStyle,
     HeaderComponent,
@@ -130,23 +131,27 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
         }}
         ListHeaderComponent={
           LargeHeaderComponent ? (
-            <View
-              onLayout={(e) => {
-                largeHeaderHeight.value = e.nativeEvent.layout.height;
+            <>
+              <View
+                onLayout={(e) => {
+                  largeHeaderHeight.value = e.nativeEvent.layout.height;
 
-                if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
-              }}
-            >
-              {!disableLargeHeaderFadeAnim ? (
-                <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </FadingView>
-              ) : (
-                <View style={largeHeaderContainerStyle}>
-                  {LargeHeaderComponent({ scrollY, showNavBar })}
-                </View>
-              )}
-            </View>
+                  if (onLargeHeaderLayout) onLargeHeaderLayout(e.nativeEvent.layout);
+                }}
+              >
+                {!disableLargeHeaderFadeAnim ? (
+                  <FadingView opacity={largeHeaderOpacity} style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showNavBar })}
+                  </FadingView>
+                ) : (
+                  <View style={largeHeaderContainerStyle}>
+                    {LargeHeaderComponent({ scrollY, showNavBar })}
+                  </View>
+                )}
+              </View>
+              {LargeHeaderSubtitleComponent &&
+                LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
+            </>
           ) : undefined
         }
         inverted={inverted}
@@ -164,7 +169,9 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
 
 // The typecast is needed to make the component generic.
 const FlatListWithHeaders = React.forwardRef(FlatListWithHeadersInputComp) as <ItemT = any>(
-  props: FlatListWithHeadersProps<ItemT> & { ref?: React.Ref<Animated.FlatList<ItemT>> }
+  props: FlatListWithHeadersProps<ItemT> & {
+    ref?: React.Ref<Animated.FlatList<ItemT>>;
+  }
 ) => React.ReactElement;
 
 export default FlatListWithHeaders;
