@@ -49,6 +49,20 @@ following arguments:
   This prop is useful if you want to create your own custom animations based on whether or not the
   small header is hidden.
 
+### LargeHeaderSubtitleComponent
+
+An optional component to render as a subtitle for the large header for this component. This accepts a function
+that returns a React Element to display as the large header subtitle. The function will be called with the
+following arguments:
+
+- `scrollY`: An animated value that keeps track of the current scroll position of the FlatList.
+  This prop is useful for creating custom animations on the large header. In our [example](/docs/example),
+  we use the [ScalingView](/docs/components/scaling-view) component to scale the large header
+  when the user pulls down on the FlatList (to mimic native iOS behaviour).
+- `showNavBar`: An animated value that keeps track of whether or not the small header is hidden.
+  This prop is useful if you want to create your own custom animations based on whether or not the
+  small header is hidden.
+
 ### ignoreLeftSafeArea
 
 An optional boolean that determines whether or not to ignore the left safe area. Defaults to
