@@ -1,5 +1,17 @@
 
 
+## [0.12.0](https://github.com/codeherence/react-native-header/compare/v0.11.2...v0.12.0) (2024-03-02)
+
+
+### Features
+
+* add LargeHeaderSubtitleComponent ([160ff01](https://github.com/codeherence/react-native-header/commit/160ff01d31feea6d32c4668e9858c506d8c36a30))
+
+
+### Bug Fixes
+
+* ensure large header subtitle doesn't rely on large header ([d29e42c](https://github.com/codeherence/react-native-header/commit/d29e42c3382c27227b724b3ddefa4c0df30eb22f))
+
 ## [0.11.2](https://github.com/codeherence/react-native-header/compare/v0.11.1...v0.11.2) (2024-02-29)
 
 ## [0.11.1](https://github.com/codeherence/react-native-header/compare/v0.11.0...v0.11.1) (2024-02-29)
