@@ -21,6 +21,8 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
     <Header
       showNavBar={showNavBar}
       headerCenterFadesIn={false}
+      borderColor="red"
+      initialBorderColor="blue"
       headerCenter={
         <Text style={styles.navBarTitle} numberOfLines={1}>
           Header
@@ -79,6 +81,8 @@ const Simple: React.FC<SimpleUsageScreenNavigationProps> = () => {
       HeaderComponent={HeaderComponent}
       LargeHeaderComponent={LargeHeaderComponent}
       LargeHeaderSubtitleComponent={LargeHeaderSubtitleComponent}
+      automaticallyAdjustsScrollIndicatorInsets={false}
+      scrollIndicatorInsets={{ bottom }}
       contentContainerStyle={{ paddingBottom: bottom }}
       refreshControl={
         <RefreshControl refreshing={refreshing} colors={['#8E8E93']} onRefresh={onRefresh} />

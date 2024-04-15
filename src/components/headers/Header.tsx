@@ -23,6 +23,7 @@ const Header: React.FC<HeaderProps> = ({
   noBottomBorder = false,
   ignoreTopSafeArea = false,
   borderColor,
+  initialBorderColor,
   borderWidth,
   SurfaceComponent,
 }) => {
@@ -113,6 +114,7 @@ const Header: React.FC<HeaderProps> = ({
         <HeaderBottomBorder
           opacity={showNavBar}
           borderColor={borderColor}
+          initialBorderColor={initialBorderColor}
           borderWidth={borderWidth}
         />
       )}
