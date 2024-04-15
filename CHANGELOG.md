@@ -1,5 +1,13 @@
 
 
+## [0.12.1](https://github.com/codeherence/react-native-header/compare/v0.12.0...v0.12.1) (2024-04-15)
+
+
+### Features
+
+* introduce bottom border color interpolation ([5069e90](https://github.com/codeherence/react-native-header/commit/5069e90cd8356c14c2ed6beac772a62adb9a1bae))
+* upload gif ([2bbb2a8](https://github.com/codeherence/react-native-header/commit/2bbb2a838223aa4c5a2892060c6efe7182e89ec9))
+
 ## [0.12.0](https://github.com/codeherence/react-native-header/compare/v0.11.2...v0.12.0) (2024-03-02)
 
 
