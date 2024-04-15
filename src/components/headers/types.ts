@@ -108,6 +108,13 @@ export interface HeaderProps {
    */
   noBottomBorder?: boolean;
   /**
+   * The color of the border when the header is not scrolled up.
+   *
+   * @default '#E5E5E5'
+   * @type {string}
+   */
+  initialBorderColor?: string;
+  /**
    * The color of the bottom border.
    *
    * @default '#E5E5E5'

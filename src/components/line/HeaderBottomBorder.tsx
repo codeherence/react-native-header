@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
 
 interface HeaderBottomBorderProps {
   /**
@@ -13,6 +13,10 @@ interface HeaderBottomBorderProps {
    * Style of the bottom border component.
    */
   style?: StyleProp<ViewStyle>;
+  /**
+   *
+   */
+  initialBorderColor?: string;
   /**
    * Color of the bottom border.
    *
@@ -30,21 +34,18 @@ interface HeaderBottomBorderProps {
 const HeaderBottomBorder: React.FC<HeaderBottomBorderProps> = ({
   opacity,
   style,
+  initialBorderColor = '#E5E5E5',
   borderColor = '#E5E5E5',
   borderWidth = 1,
 }) => {
-  const borderBottomStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
-
-  return (
-    <Animated.View
-      style={[
-        styles.line,
-        borderBottomStyle,
-        { height: borderWidth, backgroundColor: borderColor },
-        style,
-      ]}
-    />
+  const borderBottomStyle = useAnimatedStyle(
+    () => ({
+      backgroundColor: interpolateColor(opacity.value, [0, 1], [initialBorderColor, borderColor]),
+    }),
+    [initialBorderColor, borderColor]
   );
+
+  return <Animated.View style={[styles.line, borderBottomStyle, { height: borderWidth }, style]} />;
 };
 
 export default HeaderBottomBorder;
