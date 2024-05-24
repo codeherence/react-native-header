@@ -17,6 +17,12 @@ React Native Header is a high-performance, cross-platform animated header compon
 - Works with Shopify's [FlashList](https://shopify.github.io/flash-list/)
 - Written in TypeScript
 
+## Showcase
+
+To quickly see the library in action, check out the [Snack](https://snack.expo.dev/@eyounan/react-native-header-example) or scan the QR code to open the example application on your device.
+
+[<img src="https://github.com/codeherence/react-native-header/assets/128341688/e5410e84-e938-4268-976b-ce205e53d6d0" width="30%" alt="Open Snack">](https://snack.expo.dev/@eyounan/react-native-header-example)
+
 ## Documentation
 
 The documentation for this library can be found at [here](https://react-native-header.codeherence.com).
