@@ -1,5 +1,13 @@
 
 
+## [0.13.0](https://github.com/codeherence/react-native-header/compare/v0.12.2...v0.13.0) (2024-10-14)
+
+
+### Bug Fixes
+
+* allows header container styles overriding ([3bcec8b](https://github.com/codeherence/react-native-header/commit/3bcec8b43dd5422d48b89d0267a14b59d7644106))
+* allows header style overriding ([fc8ffc5](https://github.com/codeherence/react-native-header/commit/fc8ffc5082b832e92a532fbfd85591c1527f76fa))
+
 ## [0.12.2](https://github.com/codeherence/react-native-header/compare/v0.12.1...v0.12.2) (2024-05-24)
 
 ## [0.12.1](https://github.com/codeherence/react-native-header/compare/v0.12.0...v0.12.1) (2024-04-15)
