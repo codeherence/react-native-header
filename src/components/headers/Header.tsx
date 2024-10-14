@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({
     <View>
       {SurfaceComponent && SurfaceComponent({ showNavBar })}
 
-      <View style={[styles.container, headerStyle, !ignoreTopSafeArea && { paddingTop: top }]}>
+      <View style={[styles.container, !ignoreTopSafeArea && { paddingTop: top }, headerStyle]}>
         {headerLeftFadesIn ? (
           <FadingView
             opacity={showNavBar}
