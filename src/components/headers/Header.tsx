@@ -50,9 +50,9 @@ const Header: React.FC<HeaderProps> = ({
             opacity={showNavBar}
             style={[
               styles.leftContainer,
-              headerLeftStyle,
               noHeaderLeftRight && styles.noFlex,
               { width: minSideHeaderWidth },
+              headerLeftStyle,
             ]}
           >
             {headerLeft}
@@ -61,9 +61,9 @@ const Header: React.FC<HeaderProps> = ({
           <View
             style={[
               styles.leftContainer,
-              headerLeftStyle,
               noHeaderLeftRight && styles.noFlex,
               { width: minSideHeaderWidth },
+              headerLeftStyle,
             ]}
           >
             {headerLeft}
@@ -74,12 +74,12 @@ const Header: React.FC<HeaderProps> = ({
           (headerCenterFadesIn ? (
             <FadingView
               opacity={showNavBar}
-              style={[styles.centerContainer, headerCenterStyle, { minWidth: centerWidth }]}
+              style={[styles.centerContainer, { minWidth: centerWidth }, headerCenterStyle]}
             >
               {headerCenter}
             </FadingView>
           ) : (
-            <View style={[styles.centerContainer, headerCenterStyle, { width: centerWidth }]}>
+            <View style={[styles.centerContainer, { width: centerWidth }, headerCenterStyle]}>
               {headerCenter}
             </View>
           ))}
@@ -89,9 +89,9 @@ const Header: React.FC<HeaderProps> = ({
             opacity={showNavBar}
             style={[
               styles.rightContainer,
-              headerRightStyle,
               noHeaderLeftRight && styles.noFlex,
               { width: minSideHeaderWidth },
+              headerRightStyle,
             ]}
           >
             {headerRight}
@@ -100,9 +100,9 @@ const Header: React.FC<HeaderProps> = ({
           <View
             style={[
               styles.rightContainer,
-              headerRightStyle,
               noHeaderLeftRight && styles.noFlex,
               { width: minSideHeaderWidth },
+              headerRightStyle,
             ]}
           >
             {headerRight}
