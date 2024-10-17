@@ -5,6 +5,7 @@ export { default as ProfileScreen } from './Profile';
 export { default as SimpleUsageScreen } from './usage/Simple';
 export { default as FlatListUsageScreen } from './usage/FlatList';
 export { default as FlashListUsageScreen } from './usage/FlashList';
+export { default as MasonryFlashListUsageScreen } from './usage/MasonryFlashList';
 export { default as SectionListUsageScreen } from './usage/SectionList';
 export { default as InvertedUsageScreen } from './usage/Inverted';
 export { default as SurfaceComponentUsageScreen } from './usage/SurfaceComponent';
