@@ -7,6 +7,7 @@ export {
   FlatListWithHeaders,
   SectionListWithHeaders,
   FlashListWithHeaders,
+  MasonryFlashListWithHeaders,
 } from './components';
 
 export type {
