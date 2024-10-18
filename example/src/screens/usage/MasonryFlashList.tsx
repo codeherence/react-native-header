@@ -15,6 +15,7 @@ import { Avatar, BackButton } from '../../components';
 import { RANDOM_IMAGE_NUM } from '../../constants';
 import type { MasonryFlashListUsageScreenNavigationProps } from '../../navigation';
 import type { ListRenderItem, MasonryFlashListRef } from '@shopify/flash-list';
+import { Image } from 'expo-image';
 
 const { width: dWidth, height: dHeight } = Dimensions.get('window');
 
@@ -63,7 +64,7 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = ({ scrollY }) => 
 };
 
 // Used for FlashList optimization
-const ITEM_HEIGHT = 60;
+const ITEM_HEIGHT = 200;
 
 const MasonryFlashListExample: React.FC<MasonryFlashListUsageScreenNavigationProps> = () => {
   const { bottom } = useSafeAreaInsets();
@@ -71,10 +72,16 @@ const MasonryFlashListExample: React.FC<MasonryFlashListUsageScreenNavigationPro
 
   const data = useMemo(() => range({ end: 500 }), []);
 
-  const renderItem: ListRenderItem<number> = useCallback(({ item }) => {
+  const renderItem: ListRenderItem<number> = useCallback(({ item, index }) => {
+    const randomHeights = [100, 150, 200, 250];
+    const randomHeight = randomHeights[index % randomHeights.length];
     return (
       <View style={styles.item}>
-        <Text style={styles.itemText}>{item}. Scroll to see header animation</Text>
+        <Image
+          source={`https://picsum.photos/150/${randomHeight}`}
+          style={{ ...styles.image, height: randomHeight }}
+        />
+        <Text style={styles.itemText}>{item}</Text>
       </View>
     );
   }, []);
@@ -102,5 +109,6 @@ const styles = StyleSheet.create({
   title: { fontSize: 32, fontWeight: 'bold' },
   leftHeader: { gap: 2 },
   item: { minHeight: ITEM_HEIGHT, padding: 16, justifyContent: 'center', alignItems: 'center' },
+  image: { width: 150 },
   itemText: { textAlign: 'center' },
 });
