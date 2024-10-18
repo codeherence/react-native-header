@@ -8,16 +8,19 @@ import type { SharedScrollContainerProps } from '.';
 import FadingView from './FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
 
-type AnimatedFlashListType<ItemT> = React.ComponentProps<
+type AnimatedMasonryFlashListType<ItemT> = React.ComponentProps<
   React.ComponentClass<Animated.AnimateProps<MasonryFlashListProps<ItemT>>, any>
 > &
   SharedScrollContainerProps;
 
-const AnimatedFlashList = Animated.createAnimatedComponent(
+const AnimatedMasonryFlashList = Animated.createAnimatedComponent(
   MasonryFlashList
 ) as unknown as React.ComponentClass<Animated.AnimateProps<MasonryFlashListProps<any>>>;
 
-type MasonryFlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, 'onScroll'>;
+type MasonryFlashListWithHeadersProps<ItemT> = Omit<
+  AnimatedMasonryFlashListType<ItemT>,
+  'onScroll'
+>;
 
 const MasonryFlashListWithHeadersInputComp = <ItemT extends any = any>(
   {
@@ -90,7 +93,7 @@ const MasonryFlashListWithHeadersInputComp = <ItemT extends any = any>(
       ]}
     >
       {!absoluteHeader && HeaderComponent({ showNavBar, scrollY })}
-      <AnimatedFlashList
+      <AnimatedMasonryFlashList
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
