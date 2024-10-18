@@ -1,5 +1,12 @@
 
 
+## [0.14.0](https://github.com/codeherence/react-native-header/compare/v0.13.0...v0.14.0) (2024-10-18)
+
+
+### Features
+
+* add support for MasonryFlashlist ([#39](https://github.com/codeherence/react-native-header/issues/39)) ([52ba9a3](https://github.com/codeherence/react-native-header/commit/52ba9a33fb03104c2a96c8ad74d4e103f4ff47c6))
+
 ## [0.13.0](https://github.com/codeherence/react-native-header/compare/v0.12.2...v0.13.0) (2024-10-14)
 
 
