@@ -5,7 +5,7 @@ import type {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import type Animated from 'react-native-reanimated';
+import { SharedValue } from 'react-native-reanimated';
 
 /**
  * The props supplied to the large header component of this scroll container.
@@ -14,16 +14,16 @@ export interface ScrollLargeHeaderProps {
   /**
    * The scroll position of the scroll view.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  scrollY: Animated.SharedValue<number>;
+  scrollY: SharedValue<number>;
   /**
    * Animated value between 0 and 1 that indicates whether the small header's content should be
    * visible. This is used to animate the header's content in and out.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  showNavBar: Animated.SharedValue<number>;
+  showNavBar: SharedValue<number>;
 }
 
 /**
@@ -33,16 +33,16 @@ export interface ScrollLargeHeaderSubtitleProps {
   /**
    * The scroll position of the scroll view.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  scrollY: Animated.SharedValue<number>;
+  scrollY: SharedValue<number>;
   /**
    * Animated value between 0 and 1 that indicates whether the small header's content should be
    * visible. This is used to animate the header's content in and out.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  showNavBar: Animated.SharedValue<number>;
+  showNavBar: SharedValue<number>;
 }
 
 export interface ScrollHeaderProps {
@@ -50,15 +50,15 @@ export interface ScrollHeaderProps {
    * Animated value between 0 and 1 that indicates whether the small header's content should be
    * visible.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  showNavBar: Animated.SharedValue<number>;
+  showNavBar: SharedValue<number>;
   /**
    * The scroll position of the scroll view.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  scrollY: Animated.SharedValue<number>;
+  scrollY: SharedValue<number>;
 }
 
 /**
@@ -70,7 +70,7 @@ export type SharedScrollContainerProps = {
    * Whether or not the large header should be shown. This is used to animate the large header in
    * and out.
    */
-  largeHeaderShown?: Animated.SharedValue<number>;
+  largeHeaderShown?: SharedValue<number>;
   /**
    * The large header component. This is the component that is rendered under the navigation bar.
    *

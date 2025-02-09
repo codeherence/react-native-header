@@ -5,15 +5,16 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
+  SharedValue,
 } from 'react-native-reanimated';
 
 interface AnimatedScalingViewProps extends ViewProps {
   /**
    * The scroll position to use for scaling and translating the view.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  scrollY: Animated.SharedValue<number>;
+  scrollY: SharedValue<number>;
   /**
    * The start scroll position for scaling and translating the view. The view will
    * clamp to this value.
