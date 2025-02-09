@@ -50,8 +50,8 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     inverted,
     ...rest
   }: FlashListWithHeadersProps<ItemT>,
-  ref: React.Ref<FlashList<ItemT>>
-) => {
+  ref: React.ForwardedRef<FlashList<ItemT>>
+): ReturnType<ForwardedFlashListWithHeadersProps<ItemT>> => {
   if (_unusedOnScroll) {
     throw new Error(
       "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
@@ -119,7 +119,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
           // The reason why we do this is because FlashList does not support an array of
           // styles (will throw a warning when you supply one).
           ...scrollViewAdjustments.contentContainerStyle,
-          ...contentContainerStyle,
+          ...(contentContainerStyle as any),
         }}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined
@@ -167,10 +167,14 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
   );
 };
 
-// The typecast is needed to make the component generic.
+type ForwardedFlashListWithHeadersProps<ItemT> = React.ForwardRefRenderFunction<
+  FlashList<ItemT>,
+  FlashListWithHeadersProps<ItemT>
+>;
+
 const FlashListWithHeaders = React.forwardRef(FlashListWithHeadersInputComp) as <ItemT = any>(
   props: FlashListWithHeadersProps<ItemT> & {
-    ref?: React.RefObject<FlashList<ItemT>>;
+    ref?: React.RefObject<any>;
   }
 ) => React.ReactElement;
 

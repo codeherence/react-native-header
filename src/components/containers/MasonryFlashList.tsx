@@ -119,7 +119,7 @@ const MasonryFlashListWithHeadersInputComp = <ItemT extends any = any>(
           // The reason why we do this is because FlashList does not support an array of
           // styles (will throw a warning when you supply one).
           ...scrollViewAdjustments.contentContainerStyle,
-          ...contentContainerStyle,
+          ...(contentContainerStyle as any),
         }}
         automaticallyAdjustsScrollIndicatorInsets={
           automaticallyAdjustsScrollIndicatorInsets !== undefined

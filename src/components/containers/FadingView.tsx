@@ -1,6 +1,11 @@
 import React, { forwardRef } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import Animated, { useAnimatedProps, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  AnimatedStyle,
+  SharedValue,
+  useAnimatedProps,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 type AnimatedViewPointerEvents = React.ComponentProps<typeof Animated.View>['pointerEvents'];
 
@@ -11,14 +16,14 @@ type FadingViewProps = {
    * @default undefined
    * @type {Animated.AnimateStyle<StyleProp<ViewStyle>>}
    */
-  style?: StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>;
+  style?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
   /**
    * The opacity value to be used for the fade animation.
    *
    * @default undefined
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  opacity: Animated.SharedValue<number>;
+  opacity: SharedValue<number>;
   /**
    * The opacity threshold to enable pointer events. If the opacity value is greater
    * than or equal to this value, pointer events will be enabled. Otherwise, pointer

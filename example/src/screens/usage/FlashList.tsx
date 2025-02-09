@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +16,7 @@ import { RANDOM_IMAGE_NUM } from '../../constants';
 import type { FlashListUsageScreenNavigationProps } from '../../navigation';
 import type { ListRenderItem } from '@shopify/flash-list';
 import { FlashList } from '@shopify/flash-list';
+import { useAnimatedRef } from 'react-native-reanimated';
 
 const { width: dWidth, height: dHeight } = Dimensions.get('window');
 
@@ -68,7 +69,7 @@ const ITEM_HEIGHT = 60;
 
 const FlashListExample: React.FC<FlashListUsageScreenNavigationProps> = () => {
   const { bottom } = useSafeAreaInsets();
-  const ref = useRef<FlashList<number>>(null);
+  const ref = useAnimatedRef<FlashList<number>>();
 
   const data = useMemo(() => range({ end: 500 }), []);
 
@@ -81,7 +82,7 @@ const FlashListExample: React.FC<FlashListUsageScreenNavigationProps> = () => {
   }, []);
 
   return (
-    <FlashListWithHeaders
+    <FlashListWithHeaders<number>
       ref={ref}
       HeaderComponent={HeaderComponent}
       LargeHeaderComponent={LargeHeaderComponent}

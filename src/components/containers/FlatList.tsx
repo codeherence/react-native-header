@@ -1,14 +1,14 @@
 import React, { useImperativeHandle } from 'react';
 import { View, FlatListProps, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { useAnimatedRef, AnimateProps } from 'react-native-reanimated';
+import Animated, { useAnimatedRef, AnimatedProps } from 'react-native-reanimated';
 
 import FadingView from '../containers/FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
 import type { SharedScrollContainerProps } from './types';
 
 type AnimatedFlatListType<ItemT = any> = React.ComponentClass<
-  AnimateProps<FlatListProps<ItemT>>,
+  AnimatedProps<FlatListProps<ItemT>>,
   ItemT
 >;
 type AnimatedFlatListBaseProps<ItemT> = React.ComponentProps<AnimatedFlatListType<ItemT>>;
@@ -47,6 +47,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
     disableLargeHeaderFadeAnim = false,
     scrollIndicatorInsets = {},
     inverted,
+    CellRendererComponent,
     ...rest
   }: FlatListWithHeadersProps<ItemT>,
   ref: React.Ref<Animated.FlatList<ItemT> | null>
@@ -154,6 +155,7 @@ const FlatListWithHeadersInputComp = <ItemT extends unknown>(
           </>
         }
         inverted={inverted}
+        CellRendererComponent={CellRendererComponent as any}
         {...rest}
       />
 

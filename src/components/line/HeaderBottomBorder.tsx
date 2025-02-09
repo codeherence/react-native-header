@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import Animated, { interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { interpolateColor, SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 interface HeaderBottomBorderProps {
   /**
    * Animated value that controls the opacity of the bottom border.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  opacity: Animated.SharedValue<number>;
+  opacity: SharedValue<number>;
   /**
    * Style of the bottom border component.
    */

@@ -1,14 +1,14 @@
 import type { StyleProp, ViewStyle } from 'react-native';
-import type Animated from 'react-native-reanimated';
+import { SharedValue } from 'react-native-reanimated';
 
 export interface SurfaceComponentProps {
   /**
    * Animated value between 0 and 1 that indicates whether the small header's content should be
    * visible. This is used to animate the header's content in and out.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  showNavBar: Animated.SharedValue<number>;
+  showNavBar: SharedValue<number>;
 }
 
 /**
@@ -97,9 +97,9 @@ export interface HeaderProps {
    * Animated value between 0 and 1 that indicates whether the small header's content should be
    * visible. This is used to animate the header's content in and out.
    *
-   * @type {Animated.SharedValue<number>}
+   * @type {SharedValue<number>}
    */
-  showNavBar: Animated.SharedValue<number>;
+  showNavBar: SharedValue<number>;
   /**
    * Whether the header should have no bottom border.
    *

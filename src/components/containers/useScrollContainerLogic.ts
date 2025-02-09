@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { LayoutChangeEvent, NativeScrollEvent } from 'react-native';
-import Animated, {
+import {
   interpolate,
   runOnUI,
   scrollTo,
@@ -8,6 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
   useAnimatedScrollHandler,
+  AnimatedRef,
 } from 'react-native-reanimated';
 import { useDebouncedCallback } from 'use-debounce';
 import type { SharedScrollContainerProps } from './types';
@@ -19,9 +20,9 @@ interface UseScrollContainerLogicArgs {
   /**
    * The ScrollView or FlatList ref that is rendered in the scroll container.
    *
-   * @type {React.RefObject<Animated.ScrollView | Animated.FlatList<any>>}
+   * @type {AnimatedRef<Animated.ScrollView | Animated.FlatList<any>>}
    */
-  scrollRef: React.RefObject<Animated.ScrollView | Animated.FlatList<any>>;
+  scrollRef: AnimatedRef<any>;
   /**
    * This is a hack to ensure that the larger repositions itself correctly.
    *
@@ -109,7 +110,7 @@ export const useScrollContainerLogic = ({
     [onScrollWorklet]
   );
 
-  const showNavBar = useDerivedValue(() => {
+  const showNavBar = useDerivedValue<number>(() => {
     if (!largeHeaderExists) return withTiming(scrollY.value <= 0 ? 0 : 1, { duration: 250 });
 
     if (largeHeaderHeight.value < adjustmentOffset) return 0;
