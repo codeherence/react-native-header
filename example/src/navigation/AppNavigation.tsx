@@ -15,6 +15,7 @@ import {
   ArbitraryYTransitionHeaderUsageScreen,
   InvertedUsageScreen,
   CustomOnScrollWorkletUsageScreen,
+  TestScreen,
 } from '../screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -50,5 +51,6 @@ export default () => (
       name="CustomOnScrollWorkletUsageScreen"
       component={CustomOnScrollWorkletUsageScreen}
     />
+    <Stack.Screen name="TestScreen" component={TestScreen} />
   </Stack.Navigator>
 );
