@@ -1,5 +1,12 @@
 
 
+## [1.0.0-rc.0](https://github.com/codeherence/react-native-header/compare/v0.14.0...v1.0.0-rc.0) (2025-09-16)
+
+
+### Features
+
+* add new arch/Expo 54 support ([#48](https://github.com/codeherence/react-native-header/issues/48)) ([e7d0687](https://github.com/codeherence/react-native-header/commit/e7d068756a1b47d8e933aacea1a4572018708a58)), closes [#44](https://github.com/codeherence/react-native-header/issues/44) [#44](https://github.com/codeherence/react-native-header/issues/44)
+
 ## [0.14.0](https://github.com/codeherence/react-native-header/compare/v0.13.0...v0.14.0) (2024-10-18)
 
 
