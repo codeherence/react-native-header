@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -14,11 +14,8 @@ import { range } from '../../utils';
 import { Avatar, BackButton } from '../../components';
 import { RANDOM_IMAGE_NUM } from '../../constants';
 import type { FlashListUsageScreenNavigationProps } from '../../navigation';
-import type { ListRenderItem } from '@shopify/flash-list';
-import { FlashList } from '@shopify/flash-list';
+import type { FlashListRef, ListRenderItem } from '@shopify/flash-list';
 import { useAnimatedRef } from 'react-native-reanimated';
-
-const { width: dWidth, height: dHeight } = Dimensions.get('window');
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
   const navigation = useNavigation();
@@ -69,7 +66,7 @@ const ITEM_HEIGHT = 60;
 
 const FlashListExample: React.FC<FlashListUsageScreenNavigationProps> = () => {
   const { bottom } = useSafeAreaInsets();
-  const ref = useAnimatedRef<FlashList<number>>();
+  const ref = useAnimatedRef<FlashListRef<number>>();
 
   const data = useMemo(() => range({ end: 500 }), []);
 
@@ -82,15 +79,13 @@ const FlashListExample: React.FC<FlashListUsageScreenNavigationProps> = () => {
   }, []);
 
   return (
-    <FlashListWithHeaders<number>
+    <FlashListWithHeaders
       ref={ref}
       HeaderComponent={HeaderComponent}
       LargeHeaderComponent={LargeHeaderComponent}
       contentContainerStyle={{ paddingBottom: bottom }}
       data={data}
       renderItem={renderItem}
-      estimatedItemSize={ITEM_HEIGHT}
-      estimatedListSize={{ height: Math.min(ITEM_HEIGHT * data.length, dHeight), width: dWidth }}
       keyExtractor={(_, i) => `text-row-${i}`}
     />
   );

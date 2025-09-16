@@ -83,13 +83,16 @@ const ITEM_HEIGHT = 60;
 const SectionList: React.FC<SectionListUsageScreenNavigationProps> = () => {
   const { bottom } = useSafeAreaInsets();
 
-  const renderItem: SectionListRenderItem<string> = useCallback(({ item }) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.itemText}>{item}. Scroll to see header animation</Text>
-      </View>
-    );
-  }, []);
+  const renderItem: SectionListRenderItem<string, { title: string; data: string[] }> = useCallback(
+    ({ item }) => {
+      return (
+        <View style={styles.item}>
+          <Text style={styles.itemText}>{item}. Scroll to see header animation</Text>
+        </View>
+      );
+    },
+    []
+  );
 
   return (
     <SectionListWithHeaders
@@ -97,6 +100,7 @@ const SectionList: React.FC<SectionListUsageScreenNavigationProps> = () => {
       LargeHeaderComponent={LargeHeaderComponent}
       contentContainerStyle={{ paddingBottom: bottom }}
       sections={DATA}
+      keyExtractor={(item, index) => item + index}
       renderItem={renderItem}
       renderSectionHeader={({ section: { title } }) => (
         <Text style={styles.sectionTitle}>{title}</Text>
@@ -105,7 +109,6 @@ const SectionList: React.FC<SectionListUsageScreenNavigationProps> = () => {
       getItemLayout={(_, index) => ({ index, length: ITEM_HEIGHT, offset: index * ITEM_HEIGHT })}
       initialNumToRender={50}
       maxToRenderPerBatch={100}
-      keyExtractor={(_, i) => `text-row-${i}`}
     />
   );
 };

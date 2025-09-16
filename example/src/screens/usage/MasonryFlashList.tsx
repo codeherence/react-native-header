@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -8,16 +8,14 @@ import {
   ScalingView,
   ScrollHeaderProps,
   ScrollLargeHeaderProps,
-  MasonryFlashListWithHeaders,
+  FlashListWithHeaders,
 } from '@codeherence/react-native-header';
 import { range } from '../../utils';
 import { Avatar, BackButton } from '../../components';
 import { RANDOM_IMAGE_NUM } from '../../constants';
 import type { MasonryFlashListUsageScreenNavigationProps } from '../../navigation';
-import type { ListRenderItem, MasonryFlashListRef } from '@shopify/flash-list';
+import type { FlashListRef, ListRenderItem } from '@shopify/flash-list';
 import { Image } from 'expo-image';
-
-const { width: dWidth, height: dHeight } = Dimensions.get('window');
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {
   const navigation = useNavigation();
@@ -68,7 +66,7 @@ const ITEM_HEIGHT = 200;
 
 const MasonryFlashListExample: React.FC<MasonryFlashListUsageScreenNavigationProps> = () => {
   const { bottom } = useSafeAreaInsets();
-  const ref = useRef<MasonryFlashListRef<number>>(null);
+  const ref = useRef<FlashListRef<number> | null>(null);
 
   const data = useMemo(() => range({ end: 500 }), []);
 
@@ -87,16 +85,16 @@ const MasonryFlashListExample: React.FC<MasonryFlashListUsageScreenNavigationPro
   }, []);
 
   return (
-    <MasonryFlashListWithHeaders
+    <FlashListWithHeaders
       ref={ref}
+      masonry={true}
       HeaderComponent={HeaderComponent}
       LargeHeaderComponent={LargeHeaderComponent}
       contentContainerStyle={{ paddingBottom: bottom }}
       data={data}
-      numColumns={2}
+      numColumns={3}
       renderItem={renderItem}
-      estimatedItemSize={ITEM_HEIGHT}
-      estimatedListSize={{ height: Math.min(ITEM_HEIGHT * data.length, dHeight), width: dWidth }}
+      automaticallyAdjustsScrollIndicatorInsets={false}
       keyExtractor={(_, i) => `text-row-${i}`}
     />
   );

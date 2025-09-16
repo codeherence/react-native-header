@@ -1,7 +1,6 @@
 import React from 'react';
 import { ViewProps, Dimensions } from 'react-native';
 import Animated, {
-  Extrapolate,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
@@ -90,7 +89,7 @@ const AnimatedScalingView: React.FunctionComponent<AnimatedScalingViewProps> = (
       -scrollY.value,
       [startRange, endRange],
       [startScale, endScale],
-      Extrapolate.CLAMP
+      'clamp'
     );
 
     if (translationDirection === 'none') {
@@ -102,7 +101,7 @@ const AnimatedScalingView: React.FunctionComponent<AnimatedScalingViewProps> = (
         scaleInterpolation,
         [startScale, endScale],
         [0, (width.value * (endScale - startScale)) / 2],
-        Extrapolate.CLAMP
+        'clamp'
       );
 
       return {

@@ -1,22 +1,21 @@
 import React, { useImperativeHandle } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { useAnimatedRef } from 'react-native-reanimated';
-import { FlashList, FlashListProps } from '@shopify/flash-list';
+import Animated, { AnimatedProps, useAnimatedRef } from 'react-native-reanimated';
+import { FlashList, FlashListProps, FlashListRef } from '@shopify/flash-list';
 
 import type { SharedScrollContainerProps } from '.';
 import FadingView from './FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
 
 type AnimatedFlashListType<ItemT> = React.ComponentProps<
-  React.ComponentClass<Animated.AnimateProps<FlashListProps<ItemT>>, any>
+  React.ComponentClass<AnimatedProps<FlashListProps<ItemT>>, any>
 > &
   SharedScrollContainerProps;
 
-const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as React.ComponentClass<
-  Animated.AnimateProps<FlashListProps<any>>,
-  unknown
->;
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList) as <ItemT>(
+  props: AnimatedProps<FlashListProps<ItemT>> & { ref?: React.Ref<FlashListRef<ItemT>> }
+) => React.ReactElement;
 
 type FlashListWithHeadersProps<ItemT> = Omit<AnimatedFlashListType<ItemT>, 'onScroll'>;
 
@@ -47,10 +46,9 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     headerFadeInThreshold = 1,
     disableLargeHeaderFadeAnim = false,
     scrollIndicatorInsets = {},
-    inverted,
     ...rest
   }: FlashListWithHeadersProps<ItemT>,
-  ref: React.ForwardedRef<FlashList<ItemT>>
+  ref: React.ForwardedRef<FlashListRef<ItemT>>
 ): ReturnType<ForwardedFlashListWithHeadersProps<ItemT>> => {
   if (_unusedOnScroll) {
     throw new Error(
@@ -79,7 +77,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     absoluteHeader,
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
-    inverted: !!inverted,
+    inverted: false,
     onScrollWorklet,
   });
 
@@ -93,7 +91,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
       ]}
     >
       {!absoluteHeader && HeaderComponent({ showNavBar, scrollY })}
-      <AnimatedFlashList
+      <AnimatedFlashList<ItemT>
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
@@ -154,7 +152,6 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
             {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
           </>
         }
-        inverted={inverted}
         {...rest}
       />
 
@@ -168,7 +165,7 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
 };
 
 type ForwardedFlashListWithHeadersProps<ItemT> = React.ForwardRefRenderFunction<
-  FlashList<ItemT>,
+  FlashListRef<ItemT>,
   FlashListWithHeadersProps<ItemT>
 >;
 

@@ -1,20 +1,21 @@
-import React, { useImperativeHandle } from 'react';
+import React from 'react';
 import { View, SectionList, StyleSheet, SectionListProps } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { useAnimatedRef } from 'react-native-reanimated';
+import Animated, { AnimatedProps, useAnimatedRef } from 'react-native-reanimated';
 
 import FadingView from '../containers/FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
 import type { SharedScrollContainerProps } from './types';
 import type { DefaultSectionT } from 'react-native';
 
-type AnimatedSectionListType<ItemT, SectionT = DefaultSectionT> = React.ComponentProps<
-  React.ComponentClass<Animated.AnimateProps<SectionListProps<ItemT, SectionT>>, any>
+type AnimatedSectionListType<ItemT, SectionT = DefaultSectionT> = SectionListProps<
+  ItemT,
+  SectionT
 > &
   SharedScrollContainerProps;
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList) as React.ComponentClass<
-  Animated.AnimateProps<SectionListProps<any, any>>,
+  AnimatedProps<SectionListProps<any, any>>,
   any
 >;
 
@@ -23,38 +24,35 @@ type SectionListWithHeadersProps<ItemT, SectionT = DefaultSectionT> = Omit<
   'onScroll'
 >;
 
-const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = DefaultSectionT>(
-  {
-    largeHeaderShown,
-    containerStyle,
-    LargeHeaderSubtitleComponent,
-    LargeHeaderComponent,
-    largeHeaderContainerStyle,
-    HeaderComponent,
-    onLargeHeaderLayout,
-    onScrollBeginDrag,
-    onScrollEndDrag,
-    onScrollWorklet,
-    onMomentumScrollBegin,
-    onMomentumScrollEnd,
-    ignoreLeftSafeArea,
-    ignoreRightSafeArea,
-    disableAutoFixScroll = false,
-    // We use this to ensure that the onScroll property isn't accidentally used.
-    // @ts-ignore
-    onScroll: _unusedOnScroll,
-    absoluteHeader = false,
-    initialAbsoluteHeaderHeight = 0,
-    contentContainerStyle,
-    automaticallyAdjustsScrollIndicatorInsets,
-    headerFadeInThreshold = 1,
-    disableLargeHeaderFadeAnim = false,
-    scrollIndicatorInsets = {},
-    inverted,
-    ...rest
-  }: SectionListWithHeadersProps<ItemT, SectionT>,
-  ref: React.Ref<Animated.ScrollView>
-) => {
+const SectionListWithHeaders = <ItemT extends any = any, SectionT = DefaultSectionT>({
+  largeHeaderShown,
+  containerStyle,
+  LargeHeaderSubtitleComponent,
+  LargeHeaderComponent,
+  largeHeaderContainerStyle,
+  HeaderComponent,
+  onLargeHeaderLayout,
+  onScrollBeginDrag,
+  onScrollEndDrag,
+  onScrollWorklet,
+  onMomentumScrollBegin,
+  onMomentumScrollEnd,
+  ignoreLeftSafeArea,
+  ignoreRightSafeArea,
+  disableAutoFixScroll = false,
+  // We use this to ensure that the onScroll property isn't accidentally used.
+  // @ts-ignore
+  onScroll: _unusedOnScroll,
+  absoluteHeader = false,
+  initialAbsoluteHeaderHeight = 0,
+  contentContainerStyle,
+  automaticallyAdjustsScrollIndicatorInsets,
+  headerFadeInThreshold = 1,
+  disableLargeHeaderFadeAnim = false,
+  scrollIndicatorInsets = {},
+  inverted,
+  ...rest
+}: SectionListWithHeadersProps<ItemT, SectionT>) => {
   if (_unusedOnScroll) {
     throw new Error(
       "The 'onScroll' property is not supported. Please use onScrollWorklet to track the scroll container's state."
@@ -62,8 +60,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
   }
 
   const insets = useSafeAreaInsets();
-  const scrollRef = useAnimatedRef<any>();
-  useImperativeHandle(ref, () => scrollRef.current);
+  const scrollRef = useAnimatedRef<InstanceType<typeof AnimatedSectionList>>();
 
   const {
     scrollY,
@@ -97,7 +94,7 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
     >
       {!absoluteHeader && HeaderComponent({ showNavBar, scrollY })}
       <AnimatedSectionList
-        ref={scrollRef}
+        // ref={scrollRef} // TODO: Fix this since createAnimatedComponent is not working with SectionList
         scrollEventThrottle={16}
         overScrollMode="auto"
         onScroll={scrollHandler}
@@ -170,24 +167,9 @@ const SectionListWithHeadersInputComp = <ItemT extends any = any, SectionT = Def
   );
 };
 
-// The typecast is needed to make the component generic.
-const SectionListWithHeaders = React.forwardRef(SectionListWithHeadersInputComp) as <
-  ItemT = any,
-  SectionT = DefaultSectionT
->(
-  props: SectionListWithHeadersProps<ItemT, SectionT> & {
-    ref?: React.Ref<Animated.ScrollView>;
-  }
-) => React.ReactElement;
-
 export default SectionListWithHeaders;
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  absoluteHeader: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
-  },
+  absoluteHeader: { position: 'absolute', top: 0, right: 0, left: 0 },
 });

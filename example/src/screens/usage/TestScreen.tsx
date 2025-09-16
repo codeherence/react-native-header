@@ -1,14 +1,7 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { RefreshControl, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-  Header,
-  LargeHeader,
-  ScalingView,
-  ScrollViewWithHeaders,
-  ScrollHeaderProps,
-  ScrollLargeHeaderProps,
-} from '@codeherence/react-native-header';
+import { Header, ScrollViewWithHeaders, ScrollHeaderProps } from '@codeherence/react-native-header';
 
 import { range } from '../../utils';
 import { BackButton } from '../../components';
@@ -46,32 +39,9 @@ const Simple: React.FC<TestScreenNavigationProps> = () => {
     setRefreshing(false);
   };
 
-  const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = useCallback(({ scrollY }) => {
-    return (
-      <LargeHeader>
-        <ScalingView scrollY={scrollY}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingHorizontal: 24,
-            }}
-          >
-            <Text style={{ fontSize: 24 }}>List</Text>
-            <TouchableOpacity onPress={() => console.log('Pressed')}>
-              <Text>Icon</Text>
-            </TouchableOpacity>
-          </View>
-        </ScalingView>
-      </LargeHeader>
-    );
-  }, []);
-
   return (
     <ScrollViewWithHeaders
       HeaderComponent={HeaderComponent}
-      LargeHeaderComponent={LargeHeaderComponent}
       automaticallyAdjustsScrollIndicatorInsets={false}
       scrollIndicatorInsets={{ bottom }}
       contentContainerStyle={{ paddingBottom: bottom }}
@@ -99,10 +69,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   navBarTitle: { fontSize: 16, fontWeight: 'bold' },
-  largeHeaderStyle: { flexDirection: 'row-reverse' },
+  largeHeaderStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+  },
   largeHeaderSubtitleStyle: {
     fontSize: 16,
     fontWeight: 'bold',
     paddingHorizontal: 16,
   },
+  largeHeaderTitle: { fontSize: 24 },
 });

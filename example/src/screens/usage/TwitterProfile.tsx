@@ -21,7 +21,6 @@ import type { ScrollHeaderProps, ScrollLargeHeaderProps } from '@codeherence/rea
 import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import Animated, {
-  Extrapolate,
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
@@ -29,9 +28,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 import { Avatar, AVATAR_SIZE_MAP } from '../../components';
-// import TwitterVerifiedSvg from '../../../assets/twitter-verified.svg';
 import type { TwitterProfileScreenNavigationProps } from '../../navigation';
-import { Image } from 'expo-image';
+import { Image, useImage } from 'expo-image';
 
 // From reading comments online, the BlurView does not work properly for Android <= 11.
 // We will have a boolean to check if we can use the BlurView.
@@ -56,7 +54,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
   const bannerHeight = useSharedValue(48 + BANNER_BOTTOM_HEIGHT_ADDITION);
 
   const blurStyle = useAnimatedStyle(() => {
-    const blurOpacity = interpolate(Math.abs(scrollY.value), [0, 40], [0, 1], Extrapolate.CLAMP);
+    const blurOpacity = interpolate(Math.abs(scrollY.value), [0, 40], [0, 1], 'clamp');
 
     return { opacity: blurOpacity };
   });
@@ -66,7 +64,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
       scrollY.value,
       [0, BANNER_BOTTOM_HEIGHT_ADDITION],
       [AVATAR_START_SCALE, AVATAR_END_SCALE],
-      Extrapolate.CLAMP
+      'clamp'
     );
   });
 
@@ -75,7 +73,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
       scrollY.value,
       [0, BANNER_BOTTOM_HEIGHT_ADDITION],
       [0, -BANNER_BOTTOM_HEIGHT_ADDITION],
-      Extrapolate.CLAMP
+      'clamp'
     );
 
     return { transform: [{ translateY: bannerTranslation }] };
@@ -101,7 +99,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
       profileImageScale.value,
       [AVATAR_START_SCALE, AVATAR_END_SCALE],
       [0, AVATAR_SIZE_VALUE / 2],
-      Extrapolate.CLAMP
+      'clamp'
     );
 
     return {
@@ -116,7 +114,7 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
       scrollY.value,
       [0, -(height + bannerHeight.value)],
       [1, bannerHeightRatio],
-      Extrapolate.CLAMP
+      'clamp'
     );
 
     return {
@@ -234,6 +232,11 @@ const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar, scrollY }) =
 
 const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
   const { left, right } = useSafeAreaInsets();
+  const image = useImage(
+    require('../../../assets/twitter-verified.png'),
+    { maxWidth: 18, maxHeight: 18 },
+    []
+  );
 
   const onPressLink = useCallback(async () => {
     try {
@@ -261,7 +264,7 @@ const LargeHeaderComponent: React.FC<ScrollLargeHeaderProps> = () => {
         <View style={styles.profileHeaderRow}>
           <Text style={styles.title}>Evan Younan</Text>
           <Image
-            source={require('../../../assets/twitter-verified.svg')}
+            source={image}
             contentFit="contain"
             contentPosition="center"
             style={styles.twitterVerifiedIcon}
