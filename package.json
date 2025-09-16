@@ -88,8 +88,9 @@
     "@shopify/flash-list": "*",
     "react": "*",
     "react-native": "*",
-    "react-native-reanimated": ">=2.0.0",
-    "react-native-safe-area-context": "*"
+    "react-native-reanimated": ">=4.0.0",
+    "react-native-safe-area-context": "*",
+    "react-native-worklets": "*"
   },
   "engines": {
     "node": ">= 16.0.0"
