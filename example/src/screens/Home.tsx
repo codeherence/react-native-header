@@ -76,6 +76,11 @@ const SCREEN_LIST_CONFIG: ScreenConfigItem[] = [
     description:
       "A simple example with a custom worklet that tracks the scroll container's offset.",
   },
+  {
+    name: 'Test Screen',
+    route: 'TestScreen',
+    description: 'A simple example of the library using the ScrollView.',
+  },
 ];
 
 const HeaderComponent: React.FC<ScrollHeaderProps> = ({ showNavBar }) => {

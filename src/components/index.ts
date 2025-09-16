@@ -5,7 +5,6 @@ export {
   FlatListWithHeaders,
   SectionListWithHeaders,
   FlashListWithHeaders,
-  MasonryFlashListWithHeaders,
 } from './containers';
 export type {
   ScrollHeaderProps,
