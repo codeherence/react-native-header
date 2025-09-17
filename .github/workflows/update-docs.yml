@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-    - 'docs/**'
+      - 'docs/**'
 jobs:
   deploy-web-gcp:
     name: Deploy web app to GCP
@@ -13,33 +13,33 @@ jobs:
       run:
         working-directory: docs
     permissions:
-      contents: "read"
-      id-token: "write"
+      contents: 'read'
+      id-token: 'write'
     steps:
       - id: Checkout
         uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: 16.x
+          node-version: 22.x
           cache: yarn
           cache-dependency-path: ./docs/yarn.lock
 
-      - id: "auth"
-        uses: "google-github-actions/auth@v1"
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
 
-      - name: "Install dependencies"
+      - name: 'Install dependencies'
         run: yarn install --frozen-lockfile
 
-      - name: "Build application"
-        run: "yarn build"
+      - name: 'Build application'
+        run: 'yarn build'
 
-      - name: "Set project ID"
-        run: "gcloud config set project react-native-header"
+      - name: 'Set project ID'
+        run: 'gcloud config set project react-native-header'
 
-      - name: "Deploy"
-        run: "yarn deploy --service-account ${{ vars.GCP_SA_EMAIL }}"
+      - name: 'Deploy'
+        run: 'yarn deploy --service-account ${{ vars.GCP_SA_EMAIL }}'
