@@ -1,7 +1,7 @@
-import React, { useImperativeHandle } from 'react';
+import React, { useImperativeHandle, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { AnimatedProps, useAnimatedRef } from 'react-native-reanimated';
+import Animated, { AnimatedProps, isSharedValue, useAnimatedRef } from 'react-native-reanimated';
 import { FlashList, FlashListProps, FlashListRef } from '@shopify/flash-list';
 
 import type { SharedScrollContainerProps } from '.';
@@ -60,6 +60,17 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
   const scrollRef = useAnimatedRef<any>();
   useImperativeHandle(ref, () => scrollRef.current);
 
+  const { maintainVisibleContentPosition } = rest;
+  const inverted = useMemo(() => {
+    if (maintainVisibleContentPosition === undefined) return false;
+    if (isSharedValue(maintainVisibleContentPosition)) return false;
+
+    return (
+      (maintainVisibleContentPosition as FlashListProps<ItemT>['maintainVisibleContentPosition'])
+        ?.startRenderingFromBottom ?? false
+    );
+  }, [maintainVisibleContentPosition]);
+
   const {
     scrollY,
     showNavBar,
@@ -77,8 +88,9 @@ const FlashListWithHeadersInputComp = <ItemT extends any = any>(
     absoluteHeader,
     initialAbsoluteHeaderHeight,
     headerFadeInThreshold,
-    inverted: false,
+    inverted,
     onScrollWorklet,
+    isFlashList: true,
   });
 
   return (

@@ -3,13 +3,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { randParagraph, randUuid } from '@ngneat/falso';
 import { BlurView } from 'expo-blur';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import {
   Header,
   ScrollHeaderProps,
-  FlatListWithHeaders,
   SurfaceComponentProps,
+  FlashListWithHeaders,
 } from '@codeherence/react-native-header';
 import { Avatar, BackButton } from '../../components';
 import { RANDOM_IMAGE_NUM } from '../../constants';
@@ -68,20 +67,23 @@ const ChatMessage: React.FC<ChatMessage> = ({ message, type }) => {
 };
 
 const Inverted: React.FC<InvertedUsageScreenNavigationProps> = () => {
-  const { bottom } = useSafeAreaInsets();
-
   return (
     <>
       <StatusBar style="light" />
-      <FlatListWithHeaders
+      <FlashListWithHeaders
         data={data}
         renderItem={({ item }) => <ChatMessage {...item} />}
         HeaderComponent={HeaderComponent}
         keyExtractor={(item) => item.id}
-        inverted
+        // inverted
         absoluteHeader
         containerStyle={styles.container}
-        contentContainerStyle={[styles.contentContainer, { paddingTop: bottom }]}
+        maintainVisibleContentPosition={{
+          startRenderingFromBottom: true,
+        }}
+        automaticallyAdjustsScrollIndicatorInsets={false}
+        // eslint-disable-next-line react-native/no-inline-styles
+        contentContainerStyle={{ paddingHorizontal: 12 }}
         showsVerticalScrollIndicator
         indicatorStyle={'white'}
       />
@@ -93,6 +95,7 @@ export default Inverted;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: 'black',
   },
   contentContainer: {
