@@ -1,5 +1,13 @@
 
 
+## [1.0.0-rc.1](https://github.com/codeherence/react-native-header/compare/v1.0.0-rc.0...v1.0.0-rc.1) (2025-09-17)
+
+
+### Bug Fixes
+
+* failing CI deployment ([e7cb7c9](https://github.com/codeherence/react-native-header/commit/e7cb7c9a1935809b148a00630534e12e72dd83e9))
+* flashlist inverted handling ([#49](https://github.com/codeherence/react-native-header/issues/49)) ([58cf837](https://github.com/codeherence/react-native-header/commit/58cf837d01ba6a66fbeb3b67007a23ff3b29550b))
+
 ## [1.0.0-rc.0](https://github.com/codeherence/react-native-header/compare/v0.14.0...v1.0.0-rc.0) (2025-09-16)
 
 

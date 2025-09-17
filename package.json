@@ -1,6 +1,6 @@
 {
   "name": "@codeherence/react-native-header",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "A high-performance, cross-platform animated header component for React Native applications",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
