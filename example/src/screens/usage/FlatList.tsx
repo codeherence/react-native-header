@@ -83,6 +83,7 @@ const FlatList: React.FC<FlatListUsageScreenNavigationProps> = () => {
       data={data}
       renderItem={renderItem}
       windowSize={10}
+      automaticallyAdjustsScrollIndicatorInsets={false}
       getItemLayout={(_, index) => ({ index, length: ITEM_HEIGHT, offset: index * ITEM_HEIGHT })}
       initialNumToRender={50}
       maxToRenderPerBatch={100}

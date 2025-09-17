@@ -12,6 +12,7 @@ import {
 } from 'react-native-reanimated';
 import { useDebouncedCallback } from 'use-debounce';
 import type { SharedScrollContainerProps } from './types';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 /**
  * The arguments for the useScrollContainerLogic hook.
@@ -77,6 +78,12 @@ interface UseScrollContainerLogicArgs {
    * ensure that this function is a [worklet](https://docs.swmansion.com/react-native-reanimated/docs/2.x/fundamentals/worklets/).
    */
   onScrollWorklet?: (evt: NativeScrollEvent) => void;
+  /**
+   * Whether or not the scroll container is a FlashList. This is used because FlashList actually
+   * implements the inverted property differently and requires a different approach to compute the
+   * scroll indicator insets and content container style.
+   */
+  isFlashList?: boolean;
 }
 
 /**
@@ -96,7 +103,9 @@ export const useScrollContainerLogic = ({
   headerFadeInThreshold = 1,
   inverted,
   onScrollWorklet,
+  isFlashList = false,
 }: UseScrollContainerLogicArgs) => {
+  const insets = useSafeAreaInsets();
   const [absoluteHeaderHeight, setAbsoluteHeaderHeight] = useState(initialAbsoluteHeaderHeight);
   const scrollY = useSharedValue(0);
   const largeHeaderHeight = useSharedValue(0);
@@ -162,6 +171,19 @@ export const useScrollContainerLogic = ({
   );
 
   const scrollViewAdjustments = useMemo(() => {
+    if (isFlashList) {
+      return {
+        scrollIndicatorInsets: {
+          top: absoluteHeader && inverted ? absoluteHeaderHeight : 0,
+          bottom: insets.bottom,
+        },
+        contentContainerStyle: {
+          paddingTop: absoluteHeader && inverted ? absoluteHeaderHeight : 0,
+          paddingBottom: insets.bottom,
+        },
+      };
+    }
+
     return {
       scrollIndicatorInsets: {
         top: absoluteHeader && !inverted ? absoluteHeaderHeight : 0,
@@ -172,7 +194,7 @@ export const useScrollContainerLogic = ({
         paddingBottom: absoluteHeader && inverted ? absoluteHeaderHeight : 0,
       },
     };
-  }, [inverted, absoluteHeaderHeight, absoluteHeader]);
+  }, [inverted, absoluteHeaderHeight, absoluteHeader, isFlashList, insets]);
 
   return {
     scrollY,
