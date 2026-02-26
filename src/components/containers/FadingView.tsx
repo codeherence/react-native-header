@@ -45,13 +45,14 @@ const FadingView = forwardRef<Animated.View, FadingViewProps>(
       children,
       style,
       opacity,
-      animatedProps = {},
+      // Remove animatedProps from rest to avoid passing stale/spread values
+      animatedProps: _externalAnimatedProps,
       opacityThresholdToEnablePointerEvents = 1,
       ...rest
     },
     ref
   ) => {
-    const _animatedProps = useAnimatedProps(() => {
+    const animatedProps = useAnimatedProps(() => {
       const _pointerEvents: AnimatedViewPointerEvents =
         opacity.value >= opacityThresholdToEnablePointerEvents ? 'auto' : 'none';
       return { pointerEvents: _pointerEvents };
@@ -62,7 +63,7 @@ const FadingView = forwardRef<Animated.View, FadingViewProps>(
       <Animated.View
         ref={ref}
         style={[styles.container, style, fadeStyle]}
-        animatedProps={{ ..._animatedProps, ...animatedProps }}
+        animatedProps={animatedProps}
         {...rest}
       >
         {children}
