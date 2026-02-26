@@ -8,7 +8,7 @@ pre-commit:
     types:
       files: git diff --name-only --cached
       glob: "*.{js,ts,jsx,tsx}"
-      run: npx tsc --noEmit
+      run: npx tsc --noEmit --project tsconfig.build.json
 commit-msg:
   parallel: true
   commands:
