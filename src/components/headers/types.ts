@@ -1,5 +1,5 @@
 import type { StyleProp, ViewStyle } from 'react-native';
-import { SharedValue } from 'react-native-reanimated';
+import { AnimatedStyle, SharedValue } from 'react-native-reanimated';
 
 export interface SurfaceComponentProps {
   /**
@@ -16,12 +16,12 @@ export interface SurfaceComponentProps {
  */
 export interface HeaderProps {
   /**
-   * The style of the root container of the header.
+   * The style of the root container of the header. Supports animated styles.
    *
    * @default undefined
-   * @type {StyleProp<ViewStyle>}
+   * @type {StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>}
    */
-  headerStyle?: StyleProp<ViewStyle>;
+  headerStyle?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
   /**
    * The component to be rendered on the left side of the header. This is usually a back button.
    *
@@ -143,10 +143,10 @@ export interface HeaderProps {
  */
 export interface LargeHeaderProps {
   /**
-   * The style of the root container of the header.
+   * The style of the root container of the header. Supports animated styles.
    *
    * @default undefined
-   * @type {StyleProp<ViewStyle>}
+   * @type {StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>}
    */
-  headerStyle?: StyleProp<ViewStyle>;
+  headerStyle?: StyleProp<AnimatedStyle<StyleProp<ViewStyle>>>;
 }

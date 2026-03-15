@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useWindowDimensions } from 'react-native';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FadingView } from '../containers';
@@ -42,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({
   const noHeaderLeftRight = !headerLeft && !headerRight;
 
   return (
-    <Animated.View>
+    <View>
       {SurfaceComponent && SurfaceComponent({ showNavBar })}
 
       <Animated.View
@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({
             {headerLeft}
           </FadingView>
         ) : (
-          <Animated.View
+          <View
             style={[
               styles.leftContainer,
               noHeaderLeftRight && styles.noFlex,
@@ -70,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({
             ]}
           >
             {headerLeft}
-          </Animated.View>
+          </View>
         )}
 
         {headerCenter &&
@@ -82,11 +82,9 @@ const Header: React.FC<HeaderProps> = ({
               {headerCenter}
             </FadingView>
           ) : (
-            <Animated.View
-              style={[styles.centerContainer, { width: centerWidth }, headerCenterStyle]}
-            >
+            <View style={[styles.centerContainer, { width: centerWidth }, headerCenterStyle]}>
               {headerCenter}
-            </Animated.View>
+            </View>
           ))}
 
         {headerRightFadesIn ? (
@@ -102,7 +100,7 @@ const Header: React.FC<HeaderProps> = ({
             {headerRight}
           </FadingView>
         ) : (
-          <Animated.View
+          <View
             style={[
               styles.rightContainer,
               noHeaderLeftRight && styles.noFlex,
@@ -111,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({
             ]}
           >
             {headerRight}
-          </Animated.View>
+          </View>
         )}
       </Animated.View>
 
@@ -123,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({
           borderWidth={borderWidth}
         />
       )}
-    </Animated.View>
+    </View>
   );
 };
 
