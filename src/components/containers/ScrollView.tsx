@@ -1,5 +1,5 @@
 import React, { useImperativeHandle } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
@@ -7,9 +7,7 @@ import FadingView from './FadingView';
 import { useScrollContainerLogic } from './useScrollContainerLogic';
 import type { SharedScrollContainerProps } from './types';
 
-const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
-
-type AnimatedScrollViewProps = React.ComponentProps<typeof AnimatedScrollView> & {
+type AnimatedScrollViewProps = React.ComponentProps<typeof Animated.ScrollView> & {
   children?: React.ReactNode;
 };
 
@@ -91,7 +89,7 @@ const ScrollViewWithHeadersInputComp = (
       ]}
     >
       {!absoluteHeader && HeaderComponent({ showNavBar, scrollY })}
-      <AnimatedScrollView
+      <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
         overScrollMode="auto"
@@ -152,7 +150,7 @@ const ScrollViewWithHeadersInputComp = (
         {LargeHeaderSubtitleComponent && LargeHeaderSubtitleComponent({ showNavBar, scrollY })}
 
         {children}
-      </AnimatedScrollView>
+      </Animated.ScrollView>
 
       {absoluteHeader && (
         <View style={styles.absoluteHeader} onLayout={onAbsoluteHeaderLayout}>

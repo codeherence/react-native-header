@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import Animated from 'react-native-reanimated';
 import type { LargeHeaderProps } from './types';
 
 const LH_VERTICAL_PADDING = 6;
@@ -13,7 +14,7 @@ const LH_HORIZONTAL_PADDING = 12;
 const LargeHeader: React.FC<React.PropsWithChildren<LargeHeaderProps>> = ({
   headerStyle,
   children,
-}) => <View style={[styles.headerContainer, headerStyle]}>{children}</View>;
+}) => <Animated.View style={[styles.headerContainer, headerStyle]}>{children}</Animated.View>;
 
 export default LargeHeader;
 
