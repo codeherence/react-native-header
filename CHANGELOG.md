@@ -1,5 +1,13 @@
 
 
+## [1.0.1](https://github.com/codeherence/react-native-header/compare/v1.0.0...v1.0.1) (2026-03-15)
+
+
+### Bug Fixes
+
+* improve reanimated 4 compatibility changes ([d1190df](https://github.com/codeherence/react-native-header/commit/d1190df43a073d91caf0241e6ca76ba7390602d6))
+* update components for react-native-reanimated 4 compatibility ([#52](https://github.com/codeherence/react-native-header/issues/52)) ([b52deae](https://github.com/codeherence/react-native-header/commit/b52deaec437ea319195c087338a5fcf2ca781fe1))
+
 ## [1.0.0](https://github.com/codeherence/react-native-header/compare/v1.0.0-rc.1...v1.0.0) (2025-09-29)
 
 ## [1.0.0-rc.1](https://github.com/codeherence/react-native-header/compare/v1.0.0-rc.0...v1.0.0-rc.1) (2025-09-17)
